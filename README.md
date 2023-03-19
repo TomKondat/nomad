@@ -1,27 +1,24 @@
-# Bag World
-
-### Bag world is an online bag store.
-
-> [Bag World Project](https://y1t9fk-3000.sse.codesandbox.io/home)
-
----
+# Nomad
 
 ## Description
 
-Bag world is a project for my web development course in Sapir Academic College. You can search and filter different types of bags and make yourself an order.
+The professional convention scene is very large and constantly growing - with 90 million participants and 284,000 conventions every year in the US alone.
+
+The participants usually look for networking opportunities with other colleagues from their field of work.
+
+The goal for the Nomad project is to assist those participants with finding the people they’re looking for - quickly and easily. It allows convention organizers to publish and manage conventions, and potential participants to search conventions (by name or location), register and build their network for the conventions.
+
+Participants can then look at the list of other convention participants, message them, and even see their live location at the event (if enabled).
 
 ### Technologies
 
 - Visual Studio Code
-- Java Script
+- JavaScript
 - React
 - React-Bootstrap
-- CSS
-- HTML
+- Django
+- MySQL
 
 ---
 
-## My Info
-
-- [LinkedIn](https://www.linkedin.com/in/tom-kondat-3b72201b0/)
-- [GitHub](https://github.com/TomKondat)
+Made with ❤️ by Tom Kondat and Eden Yemini
