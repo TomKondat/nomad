@@ -1,0 +1,141 @@
+# ==================== Frontend ====================
+
+# dependencies
+/code/client/node_modules
+/code/client/.pnp
+/code/client/**/.pnp.js
+
+# testing
+/code/client/coverage
+
+# production
+/code/client/build
+
+# misc
+/code/client/**/.DS_Store
+/code/client/**/.env.local
+/code/client/**/.env.development.local
+/code/client/**/.env.test.local
+/code/client/**/.env.production.local
+
+/code/client/**/npm-debug.log*
+/code/client/**/yarn-debug.log*
+/code/client/**/yarn-error.log*
+
+# ==================== Backend ====================
+
+# Byte-compiled / optimized / DLL files
+/code/server/**/__pycache__/
+/code/server/**/*.py[cod]
+/code/server/**/*$py.class
+
+# C extensions
+/code/server/**/*.so
+
+# Distribution / packaging
+/code/server/**/.Python
+/code/server/**/build/
+/code/server/**/develop-eggs/
+/code/server/**/dist/
+/code/server/**/downloads/
+/code/server/**/eggs/
+/code/server/**/.eggs/
+/code/server/**/lib/
+/code/server/**/lib64/
+/code/server/**/parts/
+/code/server/**/sdist/
+/code/server/**/var/
+/code/server/**/wheels/
+/code/server/**/share/python-wheels/
+/code/server/**/*.egg-info/
+/code/server/**/.installed.cfg
+/code/server/**/*.egg
+/code/server/**/MANIFEST
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+/code/server/**/*.manifest
+/code/server/**/*.spec
+
+# Installer logs
+/code/server/**/pip-log.txt
+/code/server/**/pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+/code/server/**/htmlcov/
+/code/server/**/.tox/
+/code/server/**/.nox/
+/code/server/**/.coverage
+/code/server/**/.coverage.*
+/code/server/**/.cache
+/code/server/**/nosetests.xml
+/code/server/**/coverage.xml
+/code/server/**/*.cover
+/code/server/**/.hypothesis/
+/code/server/**/.pytest_cache/
+
+# Translations
+/code/server/**/*.mo
+/code/server/**/*.pot
+
+# Django stuff:
+/code/server/**/*.log
+/code/server/**/local_settings.py
+/code/server/**/db.sqlite3
+
+# Flask stuff:
+/code/server/**/instance/
+/code/server/**/.webassets-cache
+
+# Scrapy stuff:
+/code/server/**/.scrapy
+
+# Sphinx documentation
+/code/server/**/docs/_build/
+
+# PyBuilder
+/code/server/**/target/
+
+# Jupyter Notebook
+/code/server/**/.ipynb_checkpoints
+
+# IPython
+/code/server/**/profile_default/
+/code/server/**/ipython_config.py
+
+# pyenv
+/code/server/**/.python-version
+
+# celery beat schedule file
+/code/server/**/celerybeat-schedule
+
+# SageMath parsed files
+/code/server/**/*.sage.py
+
+# Environments
+/code/server/**/.env
+/code/server/**/.venv
+/code/server/**/env/
+/code/server/**/venv/
+/code/server/**/ENV/
+/code/server/**/env.bak/
+/code/server/**/venv.bak/
+
+# Spyder project settings
+/code/server/**/.spyderproject
+/code/server/**/.spyproject
+
+# Rope project settings
+/code/server/**/.ropeproject
+
+# mkdocs documentation
+/code/server/site
+
+# mypy
+/code/server/**/.mypy_cache/
+/code/server/**/.dmypy.json
+/code/server/**/dmypy.json
+
+# Pyre type checker
+/code/server/**/.pyre/
