@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Nomad",
+  "name": "Nomad Frontend",
   "icons": [
     {
       "src": "favicon.ico",
@@ -10,12 +10,12 @@
     {
       "src": "logo192.png",
       "type": "image/png",
-      "sizes": "125x192"
+      "sizes": "192x192"
     },
     {
       "src": "logo255.png",
       "type": "image/png",
-      "sizes": "166x255"
+      "sizes": "255x255"
     }
   ],
   "start_url": ".",
