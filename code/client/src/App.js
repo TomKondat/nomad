@@ -1,24 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import Container from "react-bootstrap/esm/Container";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import Header from "./Header";
+
+// Routes
+import Home from "./routes/Home";
+import Friends from "./routes/Friends";
+import Profile from "./routes/Profile";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <React.Fragment>
+      <BrowserRouter>
+        <Header></Header>
+        <Container className="pt-2">
+          <Routes>
+            <Route index element={<Home />} />
+            <Route path="friends" element={<Friends />} />
+            <Route path="profile" element={<Profile />} />
+          </Routes>
+        </Container>
+      </BrowserRouter>
+    </React.Fragment>
   );
 }
 
