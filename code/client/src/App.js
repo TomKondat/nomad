@@ -8,6 +8,7 @@ import Header from "./Header";
 import Home from "./routes/Home";
 import Friends from "./routes/Friends";
 import Profile from "./routes/Profile";
+import Login from "./routes/Login";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route index element={<Home />} />
             <Route path="friends" element={<Friends />} />
             <Route path="profile" element={<Profile />} />
+            <Route path="login" element={<Login />} />
           </Routes>
         </Container>
       </BrowserRouter>
