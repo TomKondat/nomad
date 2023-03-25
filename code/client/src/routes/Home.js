@@ -11,8 +11,10 @@ import { GiPathDistance } from "react-icons/gi";
 function Home() {
   return (
     <React.Fragment>
+      <br />
+      {/* todo: search bar here */}
       {conventions.map((conv) => (
-        <Card key={conv.id} style={{ width: "18rem" }}>
+        <Card key={conv.id} className=" mt-3" style={{ width: "22rem" }}>
           <Card.Img variant="top" src={conv.img} />
           <Card.Body>
             <Card.Title>{conv.title}</Card.Title>
