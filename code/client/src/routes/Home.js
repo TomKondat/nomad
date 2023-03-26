@@ -7,12 +7,12 @@ import { FcOvertime } from "react-icons/fc";
 import { FaSearchLocation } from "react-icons/fa";
 import { GiNightSleep } from "react-icons/gi";
 import { GiPathDistance } from "react-icons/gi";
-
+import SizesExample from "./searchBar";
 function Home() {
   return (
     <React.Fragment>
       <br />
-      {/* todo: search bar here */}
+      <SizesExample></SizesExample>
       {conventions.map((conv) => (
         <Card key={conv.id} className=" mt-3" style={{ width: "22rem" }}>
           <Card.Img variant="top" src={conv.img} />
