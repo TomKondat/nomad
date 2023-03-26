@@ -1,13 +1,18 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-import conventions from "../conventionList";
 import ListGroup from "react-bootstrap/ListGroup";
-import { FcOvertime } from "react-icons/fc";
-import { FaSearchLocation } from "react-icons/fa";
-import { GiNightSleep } from "react-icons/gi";
-import { GiPathDistance } from "react-icons/gi";
+
+import conventions from "../conventionList";
 import SizesExample from "./searchBar";
+
+import {
+  BsPinMapFill,
+  BsClockFill,
+  BsClockHistory,
+  BsSignTurnRightFill,
+} from "react-icons/bs";
+
 function Home() {
   return (
     <React.Fragment>
@@ -20,20 +25,20 @@ function Home() {
             <Card.Title>{conv.title}</Card.Title>
             <ListGroup className="list-group-flush">
               <ListGroup.Item>
-                <GiPathDistance />
-                {conv.km} KM away from me!
+                <BsSignTurnRightFill />
+                &nbsp;{conv.km}km away from you
               </ListGroup.Item>
               <ListGroup.Item>
-                <FaSearchLocation />
-                {conv.city}, {conv.location}
+                <BsPinMapFill />
+                &nbsp;{conv.city}, {conv.location}
               </ListGroup.Item>
               <ListGroup.Item>
-                <FcOvertime />
-                {conv.starting_time}{" "}
+                <BsClockFill />
+                &nbsp;{conv.starting_time}
               </ListGroup.Item>
               <ListGroup.Item>
-                <GiNightSleep />
-                {conv.ending_time}
+                <BsClockHistory />
+                &nbsp;{conv.ending_time}
               </ListGroup.Item>
             </ListGroup>
             <Button variant="outline-dark">More details</Button>
