@@ -8,7 +8,7 @@ import Offcanvas from "react-bootstrap/Offcanvas";
 function Header() {
   return (
     <React.Fragment>
-      <Navbar bg="light" expand="lg" collapseOnSelect>
+      <Navbar bg="light" expand="lg" sticky="top" collapseOnSelect>
         <Container>
           <LinkContainer to={`/`}>
             <Navbar.Brand>
