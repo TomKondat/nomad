@@ -28,15 +28,12 @@ function Home() {
         </InputGroup.Text>
         <Form.Control placeholder="Search Convention" />
       </InputGroup>
-      <Row
-        xs={1}
-        sm={2}
-        md={3}
-        lg={4}
-        className="g-4 d-flex justify-content-center"
-      >
+      <Row xs={1} sm={2} md={3} lg={4} className="mx-4 mb-4 g-4 d-flex">
         {conventions.map((conv) => (
-          <Col key={conv.id} className="d-flex align-items-stretch">
+          <Col
+            key={conv.id}
+            className="d-flex align-items-stretch justify-content-center"
+          >
             <Card
               className="p-0 pb-0 shadow convcard"
               style={{ width: "22rem" }}
