@@ -1,13 +1,13 @@
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
-import { BiSearch } from "react-icons/bi";
+import { BsSearch } from "react-icons/bs";
 function SizesExample() {
   return (
     <>
       <InputGroup size="sm" className="mb-3">
         <InputGroup.Text id="inputGroup-sizing-sm">
           {" "}
-          <BiSearch />
+          <BsSearch />
         </InputGroup.Text>
         <Form.Control
           placeholder="Search Convention"
