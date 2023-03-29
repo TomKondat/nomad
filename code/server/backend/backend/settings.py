@@ -32,6 +32,8 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'profiles.apps.ProfilesConfig',
+    'organizations.apps.OrganizationsConfig',
+    'conventions.apps.ConventionsConfig',
     'chat_messages.apps.ChatMessagesConfig',
     'django.contrib.admin',
     'django.contrib.auth',
