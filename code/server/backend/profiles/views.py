@@ -1,10 +1,11 @@
 from django.contrib.auth import authenticate
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 
-from .serializers import UserSignupSerializer, UserLoginSerializer
+from .serializers import UserSignupSerializer
 
 # Create your views here.
 
@@ -26,3 +27,9 @@ class LoginView(APIView):
             return Response({'key': Token.objects.get_or_create(user=user)[0].key})
         else:
             return Response({'error': 'Invalid Login Credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+
+class WhoamiView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        return Response({'auth': str(request.user)})
