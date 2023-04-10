@@ -24,8 +24,3 @@ class UserSignupSerializer(serializers.ModelSerializer):
         user.save()
         UserProfile.objects.create(user=user, **profile_data)
         return user
-
-class UserLoginSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        exclude = ['password']
