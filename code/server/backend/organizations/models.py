@@ -4,7 +4,7 @@ from profiles.models import User
 
 class Organization(models.Model):
 
-    name = models.CharField(max_length=64)
+    name = models.CharField(max_length=64, default="none")
 
     # TODO: Find a way to add logo picture to this model
 
