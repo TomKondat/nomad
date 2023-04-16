@@ -43,14 +43,19 @@ function Home() {
               className="p-0 pb-0 shadow convcard"
               style={{ width: "22rem" }}
             >
-              {/* <Card.Img variant="top" src={conv.img} className="convcardimg" /> */}
+              <Card.Img
+                variant="top"
+                src="https://stratablue.com/wp-content/uploads/Advantage-Google-IO.jpg"
+                className="convcardimg"
+              />
               <Card.Body>
                 <Card.Title>{conv.name}</Card.Title>
               </Card.Body>
               <ListGroup variant="flush">
                 <ListGroup.Item>
+                  {/* placeHolder here untill we have maps */}
                   <BsSignTurnRightFill />
-                  &nbsp;{conv.description}
+                  &nbsp;50 KM away from me!
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <BsPinMapFill />
