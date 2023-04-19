@@ -9,7 +9,7 @@ import Home from "./routes/Home";
 import Friends from "./routes/Friends";
 import Profile from "./routes/Profile";
 import Login from "./routes/Login";
-
+import EditProfile from "./routes/EditProfile";
 function App() {
   return (
     <React.Fragment>
@@ -21,6 +21,7 @@ function App() {
             <Route path="friends" element={<Friends />} />
             <Route path="profile" element={<Profile />} />
             <Route path="login" element={<Login />} />
+            <Route path="editprofile" element={<EditProfile />} />
           </Routes>
         </Container>
       </BrowserRouter>
