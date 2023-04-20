@@ -17,8 +17,6 @@ import {
 
 function Home() {
   const [search, setSearch] = useState("");
-
-  // get convention from DB
   const [conventions, setConventions] = useState([]);
   const [conventionsInit, setConventionsInit] = useState([]);
   useEffect(() => {
