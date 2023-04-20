@@ -29,6 +29,7 @@ function Home() {
         setConventions(res.data);
       })
       .catch((error) => console.log(error));
+    console.log(conventions);
   }, []);
 
   useEffect(() => {
@@ -72,7 +73,7 @@ function Home() {
             >
               <Card.Img
                 variant="top"
-                src="https://stratablue.com/wp-content/uploads/Advantage-Google-IO.jpg"
+                src={`http://localhost:8000/media/${conv.convention_img}`}
                 className="convcardimg"
               />
               <Card.Body>
