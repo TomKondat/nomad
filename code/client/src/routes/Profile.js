@@ -30,7 +30,9 @@ const UserProfile = () => {
             onClick={() => {
               handleClick();
             }}
-            variant="primary"
+            size="lg"
+            variant="outline-primary"
+            className="rounded-pill"
           >
             Edit Profile
           </Button>

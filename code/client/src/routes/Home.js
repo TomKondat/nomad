@@ -47,7 +47,7 @@ function Home() {
 
   return (
     <React.Fragment>
-      <InputGroup size="sm" className="mb-3 mt-1">
+      <InputGroup size="sm" className="mb-3 mt-1 w-50">
         <InputGroup.Text id="inputGroup-sizing-sm">
           {" "}
           <BsSearch />
