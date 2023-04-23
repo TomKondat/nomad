@@ -6,5 +6,6 @@ from rest_framework.response import Response
 
 @api_view(['GET'])
 def getProfiles(request):
-    profile = UserProfile.objects.all().values()
+    profile = UserProfile.objects.all().values()[0]
+    print(profile['user_id'])
     return Response(profile)

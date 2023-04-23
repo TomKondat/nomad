@@ -12,7 +12,7 @@ class Conventions(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
     convention_img = models.ImageField(
-        upload_to='conventions', default="conventions/560TzipiVimages_0504040602.jpg")
+        upload_to='conventions', default="conventions/no-image-icon-21.png")
 
     # TODO: Find a way to add logo picture to this model
 

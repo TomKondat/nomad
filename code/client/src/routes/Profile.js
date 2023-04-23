@@ -1,9 +1,20 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Row, Col, Image, Button } from "react-bootstrap";
-import EditProfile from "./EditProfile";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 const UserProfile = () => {
+  const [profile, setProfile] = useState({});
+  useEffect(() => {
+    axios
+      .get("http://127.0.0.1:8000/api/get-profiles/")
+      .then((res) => setProfile(res.data))
+      .catch((error) => console.log(error));
+
+    console.log(profile);
+  }, []);
+
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -23,7 +34,7 @@ const UserProfile = () => {
 
           <hr />
           <p className="text-muted">Address:</p>
-          <p>Harama 52, Dimona</p>
+          <p>{profile[0]?.address}</p>
           <p className="text-muted">Birthday:</p>
           <p>14/01/1997</p>
           <Button
