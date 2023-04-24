@@ -10,6 +10,7 @@ import Friends from "./routes/Friends";
 import Profile from "./routes/Profile";
 import Login from "./routes/Login";
 import EditProfile from "./routes/EditProfile";
+import SignUp from "./routes/SignUp";
 function App() {
   return (
     <React.Fragment>
@@ -22,6 +23,7 @@ function App() {
             <Route path="profile" element={<Profile />} />
             <Route path="login" element={<Login />} />
             <Route path="editprofile" element={<EditProfile />} />
+            <Route path="signup" element={<SignUp />} />
           </Routes>
         </Container>
       </BrowserRouter>
