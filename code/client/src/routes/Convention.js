@@ -9,6 +9,7 @@ import {
   Card,
   Modal,
 } from "react-bootstrap";
+import { FiEdit } from "react-icons/fi";
 
 function ConventionPage() {
   const [showModal, setShowModal] = useState(false);
@@ -19,6 +20,9 @@ function ConventionPage() {
     <Container>
       <Row>
         <Col>
+          <Button className="rounded-pill" variant="light">
+            <FiEdit />
+          </Button>
           <h1 className="display-4 text-center my-4">Convention Name</h1>
           <div
             style={{
