@@ -10,17 +10,28 @@ import {
   Modal,
 } from "react-bootstrap";
 import { FiEdit } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 function ConventionPage() {
   const [showModal, setShowModal] = useState(false);
   const handleCloseModal = () => setShowModal(false);
   const handleShowModal = () => setShowModal(true);
+  const navigate = useNavigate();
 
+  const handleClick = () => {
+    navigate("/EditConvention");
+  };
   return (
     <Container>
       <Row>
         <Col>
-          <Button className="rounded-pill" variant="light">
+          <Button
+            onClick={() => {
+              handleClick();
+            }}
+            className="rounded-pill"
+            variant="light"
+          >
             <FiEdit />
           </Button>
           <h1 className="display-4 text-center my-4">Convention Name</h1>
