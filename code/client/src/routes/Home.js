@@ -27,7 +27,6 @@ function Home() {
         setConventions(res.data);
       })
       .catch((error) => console.log(error));
-    console.log(conventions);
   }, []);
 
   useEffect(() => {

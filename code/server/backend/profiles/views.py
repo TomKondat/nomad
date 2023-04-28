@@ -2,8 +2,10 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from django.contrib.auth.models import User
 
 from .serializers import UserSignupSerializer
+from .models import UserProfile
 
 # Create your views here.
 
@@ -21,3 +23,14 @@ class WhoamiView(APIView):
 
     def get(self, request):
         return Response({'auth': str(request.user)})
+
+class getProfiles(APIView):
+    def get(self, request):
+        reqUser = request.GET.get('q', None)
+
+        profile = UserProfile.objects.all().values()
+        if profile is not None:
+            user = User.objects.all().values().filter(id=reqUser)[0]
+            profile = profile.filter(user_id=reqUser)[0]
+            profile['user'] = user
+        return Response(profile)
