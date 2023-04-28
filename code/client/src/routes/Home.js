@@ -6,6 +6,7 @@ import Col from "react-bootstrap/Col";
 import ListGroup from "react-bootstrap/ListGroup";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
+import { useNavigate } from "react-router-dom";
 import "./Home.css";
 import {
   BsSearch,
@@ -19,6 +20,7 @@ function Home() {
   const [search, setSearch] = useState("");
   const [conventions, setConventions] = useState([]);
   const [conventionsInit, setConventionsInit] = useState([]);
+  const navigate = useNavigate();
   useEffect(() => {
     axios
       .get("http://127.0.0.1:8000/api/get-conventions/")
@@ -67,6 +69,9 @@ function Home() {
             <Card
               className="p-0 pb-0 shadow convcard"
               style={{ width: "22rem" }}
+              onClick={() => {
+                navigate(`conventionpage/${conv.id}`);
+              }}
             >
               <Card.Img
                 variant="top"
