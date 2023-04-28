@@ -4,7 +4,7 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Offcanvas from "react-bootstrap/Offcanvas";
-
+import "./NomadLogo.css";
 function Header() {
   return (
     <React.Fragment>
@@ -19,7 +19,9 @@ function Header() {
                 height="30"
                 className="d-inline-block align-top"
               />
-              &nbsp;Nomad
+              <div className="logo">
+                N<span className="orange">o</span>mad
+              </div>
             </Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle />

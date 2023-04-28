@@ -3,25 +3,29 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-
+import "./BigLogo.css";
 function Login() {
   return (
     <React.Fragment>
       <Form>
-        <Row className="justify-content-center">
+        <Row className="justify-content-center mt-2">
           <Col lg={8} xl={6} xxl={5}>
             <h1 className="mt-2 text-center">
               <img
                 alt="Logo"
                 src="/logo192.png"
-                width="128"
-                height="128"
+                width="100"
+                height="100"
                 className="d-inline-block mx-auto"
               />
-              Nomad
+
+              <div className="biglogo">
+                N<span className="orange">o</span>mad
+              </div>
             </h1>
           </Col>
         </Row>
+        <br></br>
         <Row className="justify-content-center">
           <Col lg={8} xl={6} xxl={5}>
             <Form.Group
