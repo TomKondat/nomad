@@ -21,14 +21,19 @@ function Home() {
   const [conventions, setConventions] = useState([]);
   const [conventionsInit, setConventionsInit] = useState([]);
   const navigate = useNavigate();
-  useEffect(() => {
-    axios
+
+  async function getConvention() {
+    await axios
       .get("http://127.0.0.1:8000/api/get-conventions/")
       .then((res) => {
         setConventionsInit(res.data);
         setConventions(res.data);
       })
       .catch((error) => console.log(error));
+  }
+
+  useEffect(() => {
+    getConvention();
   }, []);
 
   useEffect(() => {

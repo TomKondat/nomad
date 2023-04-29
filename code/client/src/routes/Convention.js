@@ -1,17 +1,5 @@
-import { useState } from "react";
-import {
-  Container,
-  Row,
-  Col,
-  Image,
-  Button,
-  Form,
-  Card,
-  Modal,
-} from "react-bootstrap";
-import { FiEdit } from "react-icons/fi";
-import { useNavigate, Outlet } from "react-router-dom";
-
+import { Outlet } from "react-router-dom";
+//the dad route for "NewConvention"
 function ConventionPage() {
   return <Outlet />;
 }
