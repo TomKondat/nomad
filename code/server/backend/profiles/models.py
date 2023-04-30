@@ -9,9 +9,9 @@ class UserProfile(models.Model):
     birthdate = models.DateField()
     address = models.CharField(max_length=64)
     lat = models.DecimalField('last known latitude',
-                              max_digits=9, decimal_places=6)
+                              max_digits=9, decimal_places=6, null=True)
     lon = models.DecimalField('last known longitude',
-                              max_digits=9, decimal_places=6)
+                              max_digits=9, decimal_places=6, null=True)
     profile_img = models.ImageField(upload_to='profiles')
 
     # TODO: Find a way to add profile picture to this model
