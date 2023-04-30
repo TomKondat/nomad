@@ -19,7 +19,7 @@ function Header() {
     navigate("/profile");
   };
   const handleClickFriends = () => {
-    navigate("/friends");
+    navigate("/friendspage");
   };
   return (
     <React.Fragment>

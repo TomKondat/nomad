@@ -6,7 +6,7 @@ import Header from "./Header";
 
 // Routes
 import Home from "./routes/Home";
-import Friends from "./routes/Friends";
+import FriendsPage from "./routes/Friends";
 import Profile from "./routes/Profile";
 import Login from "./routes/Login";
 import EditProfile from "./routes/EditProfile";
@@ -23,7 +23,7 @@ function App() {
         <Container className="pt-2">
           <Routes>
             <Route index element={<Home />} />
-            <Route path="friends" element={<Friends />} />
+            <Route path="friendspage" element={<FriendsPage />} />
             <Route path="profile" element={<Profile />} />
             <Route path="login" element={<Login />} />
             <Route path="editprofile" element={<EditProfile />} />
