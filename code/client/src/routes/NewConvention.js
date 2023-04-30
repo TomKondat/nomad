@@ -44,15 +44,6 @@ export default function NewConvention() {
         <>
           <Row>
             <Col>
-              <Button
-                onClick={() => {
-                  handleClick();
-                }}
-                className="rounded-pill"
-                variant="light"
-              >
-                <FiEdit />
-              </Button>
               <h1 className="display-4 text-center my-4">{convention?.name}</h1>
               <div
                 style={{
@@ -89,7 +80,21 @@ export default function NewConvention() {
             <Col lg={4} className="my-4">
               <div className="card border-0 shadow-sm rounded">
                 <div className="card-body">
-                  <h3 className="card-title mb-3">Details</h3>
+                  <Row>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "flex-end",
+                      }}
+                    >
+                      <FiEdit
+                        onClick={() => {
+                          handleClick();
+                        }}
+                      ></FiEdit>
+                    </div>
+                    <h3 className="card-title mb-3">Details</h3>
+                  </Row>
                   <ul className="list-unstyled">
                     <li>
                       <strong>Address:</strong> {convention?.address}
