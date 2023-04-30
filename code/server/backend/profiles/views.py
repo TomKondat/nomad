@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.models import User
 
-from .serializers import UserSignupSerializer
+from .serializers import UserSignupSerializer, UserInfoSerializer, UserProfileInfoSerializer
 from .models import UserProfile
 
 # Create your views here.
@@ -22,7 +22,11 @@ class WhoamiView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        return Response({'auth': str(request.user)})
+        user = User.objects.get(username=request.user)
+        user_data = UserInfoSerializer(user).data
+        user_profile_data = UserProfileInfoSerializer(UserProfile.objects.get(user=user)).data
+
+        return Response({'auth': str(request.user), 'user_data': user_data, 'user_profile_data': user_profile_data})
 
 class getProfiles(APIView):
     def get(self, request):

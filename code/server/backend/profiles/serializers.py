@@ -2,10 +2,20 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 from .models import UserProfile
 
+class UserProfileInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = '__all__'
+
 class UserProfileSignupSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
         fields = ('birthdate', 'address')
+
+class UserInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        exclude = ('password',)
 
 class UserSignupSerializer(serializers.ModelSerializer):
     profile = UserProfileSignupSerializer(required=True)
