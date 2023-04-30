@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { LinkContainer } from "react-router-bootstrap";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Offcanvas from "react-bootstrap/Offcanvas";
+import AuthContext from "./AuthContext";
 
 function Header() {
+  const { user } = useContext(AuthContext);
+
   return (
     <React.Fragment>
       <Navbar bg="light" expand="lg" sticky="top" collapseOnSelect>
@@ -42,25 +45,33 @@ function Header() {
                 </Nav>
               </Navbar.Collapse>
               <Navbar.Collapse className="justify-content-end">
-                <Navbar.Text>
-                  Signed in as:{" "}
-                  <LinkContainer to={`profile`}>
-                    <a href="/#">Noam Ezra</a>
-                  </LinkContainer>
-                </Navbar.Text>
-                &nbsp;&nbsp;
-                <LinkContainer to={`profile`}>
-                  <Nav.Link>
-                    <img
-                      alt="Profile"
-                      src="https://www.rd.com/wp-content/uploads/2022/04/GettyImages-1331768807.jpg"
-                      width="30"
-                      height="30"
-                      className="d-inline-block align-top"
-                      style={{ borderRadius: "50%", border: "2px solid gray" }}
-                    />
-                  </Nav.Link>
-                </LinkContainer>
+                {user ? (
+                  <React.Fragment>
+                    <Navbar.Text>
+                      Signed in as:{" "}
+                      <LinkContainer to={`profile`}>
+                        <a href="/#">Noam Ezra</a>
+                      </LinkContainer>
+                    </Navbar.Text>
+                    <LinkContainer to={`profile`}>
+                      <Nav.Link>
+                        <img
+                          alt="Profile"
+                          src="https://www.rd.com/wp-content/uploads/2022/04/GettyImages-1331768807.jpg"
+                          width="30"
+                          height="30"
+                          className="d-inline-block align-top"
+                          style={{
+                            borderRadius: "50%",
+                            border: "2px solid gray",
+                          }}
+                        />
+                      </Nav.Link>
+                    </LinkContainer>
+                  </React.Fragment>
+                ) : (
+                  <Navbar.Text>Not signed in</Navbar.Text>
+                )}
               </Navbar.Collapse>
             </Offcanvas.Body>
           </Navbar.Offcanvas>
