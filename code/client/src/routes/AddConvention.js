@@ -9,17 +9,11 @@ import {
   Alert,
 } from "react-bootstrap";
 import { FaCamera } from "react-icons/fa";
-import { TfiFaceSad } from "react-icons/tfi";
 
-const EditProfile = () => {
+const AddConvention = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const [profileImage, setProfileImage] = useState("");
-
-  const handleDeleteAccount = () => {
-    // Handle delete account logic here
-    setShowDeleteModal(false);
-  };
 
   const handleSaveChanges = () => {
     // Handle save changes logic here
@@ -48,14 +42,18 @@ const EditProfile = () => {
           <div className="d-flex justify-content-center mb-4">
             <div className="position-relative">
               <img
-                src={profileImage || "https://via.placeholder.com/200x200"}
+                src={profileImage || "https://via.placeholder.com/250x200"}
                 alt="Profile"
-                className="rounded-circle border border-4 border-white shadow-sm"
-                style={{ width: "200px", height: "200px" }}
+                className=" border border-4 border-white shadow-sm"
+                style={{
+                  width: "250px",
+                  height: "200px",
+                  borderRadius: "10px",
+                }}
               />
               <div
                 className="position-absolute top-0 end-0"
-                style={{ transform: "translate(50%, -50%)" }}
+                style={{ transform: "translate(100%, -100%)" }}
               >
                 <label htmlFor="profile-image" className="btn btn-light">
                   <FaCamera size={18} />
@@ -71,25 +69,40 @@ const EditProfile = () => {
             </div>
           </div>
           <Form>
-            <Form.Group controlId="formName">
-              <Form.Label>Name</Form.Label>
-              <Form.Control type="text" placeholder="Enter your name" />
+            <Form.Group controlId="formTitle">
+              <Form.Label>Convention name</Form.Label>
+              <Form.Control type="text" placeholder="Enter convention name" />
             </Form.Group>
             <Form.Group controlId="formLastName">
-              <Form.Label>Last Name</Form.Label>
-              <Form.Control type="text" placeholder="Enter your last name" />
+              <Form.Label>Description</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows={2}
+                type="text"
+                placeholder="Enter convention description"
+              />
             </Form.Group>
             <Form.Group controlId="formEmail">
-              <Form.Label>Email</Form.Label>
-              <Form.Control type="email" placeholder="Enter your email" />
-            </Form.Group>
-            <Form.Group controlId="formPassword">
-              <Form.Label>Password</Form.Label>
-              <Form.Control type="password" placeholder="Enter your password" />
+              <Form.Label>Capacity</Form.Label>
+              <Form.Control
+                type="number"
+                placeholder="Enter convention capacity"
+              />
             </Form.Group>
             <Form.Group controlId="formAddress">
               <Form.Label>Address</Form.Label>
-              <Form.Control type="text" placeholder="Enter your address" />
+              <Form.Control
+                type="text"
+                placeholder="Enter convention address"
+              />
+            </Form.Group>
+            <Form.Group controlId="formBirthday">
+              <Form.Label>Starting date</Form.Label>
+              <Form.Control type="date" name="birthday" />
+            </Form.Group>
+            <Form.Group controlId="formBirthday">
+              <Form.Label>Ending date</Form.Label>
+              <Form.Control type="date" name="birthday" />
             </Form.Group>
             <br></br>
             <Button
@@ -97,7 +110,7 @@ const EditProfile = () => {
               className="mb-1 rounded-pill"
               onClick={handleSaveChanges}
             >
-              Save Changes
+              Create Convention
             </Button>
             <Alert
               variant="success"
@@ -105,38 +118,13 @@ const EditProfile = () => {
               onClose={() => setShowSuccessAlert(false)}
               dismissible
             >
-              Your changes have been saved.
+              Your convention has created.
             </Alert>
-            <hr />
-            <Button variant="danger" onClick={() => setShowDeleteModal(true)}>
-              Delete Account
-            </Button>
           </Form>
         </Col>
       </Row>
-
-      <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>
-            Confirm Delete Account&nbsp;
-            <TfiFaceSad color="red" />
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          Are you sure you want to delete your account? This action cannot be
-          undone.
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>
-            Cancel
-          </Button>
-          <Button variant="danger" onClick={handleDeleteAccount}>
-            Delete Account
-          </Button>
-        </Modal.Footer>
-      </Modal>
     </Container>
   );
 };
 
-export default EditProfile;
+export default AddConvention;

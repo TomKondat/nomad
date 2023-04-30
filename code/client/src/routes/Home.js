@@ -15,6 +15,8 @@ import {
   BsClockHistory,
   BsSignTurnRightFill,
 } from "react-icons/bs";
+import { MdAddToPhotos } from "react-icons/md";
+import { Button, Container } from "react-bootstrap";
 
 function Home() {
   const [search, setSearch] = useState("");
@@ -50,21 +52,38 @@ function Home() {
     });
     setConventions(conventionList);
   }
-
+  const handleClickAdd = () => {
+    navigate("/AddConvention");
+  };
   return (
     <React.Fragment>
-      <InputGroup size="sm" className="mb-3 mt-1 w-50">
-        <InputGroup.Text id="inputGroup-sizing-sm">
-          {" "}
-          <BsSearch />
-        </InputGroup.Text>
-        <Form.Control
-          onChange={(e) => {
-            setSearch(e.target.value);
-          }}
-          placeholder="Search Convention"
-        />
-      </InputGroup>
+      <Container>
+        <Row>
+          <Col xs={10}>
+            <InputGroup size="sm" className="mb-3 mt-1">
+              <InputGroup.Text id="inputGroup-sizing-sm">
+                {" "}
+                <BsSearch />
+              </InputGroup.Text>
+              <Form.Control
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                }}
+                placeholder="Search Convention"
+              />
+            </InputGroup>
+          </Col>
+          <Col xs={1}>
+            <Button variant="light">
+              <MdAddToPhotos
+                onClick={() => {
+                  handleClickAdd();
+                }}
+              ></MdAddToPhotos>
+            </Button>
+          </Col>
+        </Row>
+      </Container>
       <Row xs={1} sm={2} md={3} lg={4} className="mx-4 mb-4 g-4 d-flex">
         {conventions.map((conv) => (
           <Col
