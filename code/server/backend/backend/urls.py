@@ -15,13 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from rest_framework import routers
-from . import rest_framework
 from django.conf.urls.static import static
 from django.conf import settings
-# restframework router
-router = routers.DefaultRouter()
-router.register('users', rest_framework.UserViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

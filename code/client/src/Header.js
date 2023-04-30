@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { LinkContainer } from "react-router-bootstrap";
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
@@ -9,7 +9,18 @@ import { CgProfile } from "react-icons/cg";
 import { AiFillHome } from "react-icons/ai";
 import { BsFillPersonFill } from "react-icons/bs";
 import { Button } from "react-bootstrap";
+import AuthContext from "./AuthContext";
+
 function Header() {
+  const { user } = useContext(AuthContext);
+  const [userData, setUserData] = useState({});
+
+  useEffect(() => {
+    if (localStorage.getItem("userData")) {
+      setUserData(JSON.parse(localStorage.getItem("userData")));
+    }
+  }, [localStorage.getItem("userData")]);
+
   const navigate = useNavigate();
 
   const handleClickHome = () => {
@@ -21,6 +32,7 @@ function Header() {
   const handleClickFriends = () => {
     navigate("/friendspage");
   };
+
   return (
     <React.Fragment>
       <Navbar bg="light" expand="lg" sticky="top" collapseOnSelect>
