@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 const UserProfile = () => {
-  const [profile, setProfile] = useState({});
+  const [profile, setProfile] = useState();
 
   async function getProfile() {
     await axios
@@ -26,40 +26,46 @@ const UserProfile = () => {
   };
   return (
     <Container className="py-5">
-      <Row className="justify-content-center">
-        <Col md={8} lg={6} className="text-center">
-          {profile ? (
-            <Image
-              src={`http://localhost:8000/media/${profile?.profile_img}`}
-              alt="user profile picture"
-              roundedCircle
-              className="mb-3"
-            />
-          ) : (
-            ""
-          )}
+      {profile ? (
+        <>
+          <Row className="justify-content-center">
+            <Col md={8} lg={6} className="text-center">
+              {profile ? (
+                <Image
+                  src={`http://localhost:8000/media/${profile?.profile_img}`}
+                  alt="user profile picture"
+                  roundedCircle
+                  className="mb-3"
+                />
+              ) : (
+                ""
+              )}
 
-          <h1 className="mb-0">
-            {profile?.user?.first_name} {profile?.user?.last_name}
-          </h1>
+              <h1 className="mb-0">
+                {profile?.user?.first_name} {profile?.user?.last_name}
+              </h1>
 
-          <hr />
-          <p className="text-muted">Address:</p>
-          <p> {profile?.address}</p>
-          <p className="text-muted">Birthday:</p>
-          <p>{profile?.birthdate}</p>
-          <Button
-            onClick={() => {
-              handleClick();
-            }}
-            size="lg"
-            variant="outline-primary"
-            className="rounded-pill"
-          >
-            Edit Profile
-          </Button>
-        </Col>
-      </Row>
+              <hr />
+              <p className="text-muted">Address:</p>
+              <p> {profile?.address}</p>
+              <p className="text-muted">Birthday:</p>
+              <p>{profile?.birthdate}</p>
+              <Button
+                onClick={() => {
+                  handleClick();
+                }}
+                size="lg"
+                variant="outline-primary"
+                className="rounded-pill"
+              >
+                Edit Profile
+              </Button>
+            </Col>
+          </Row>
+        </>
+      ) : (
+        ""
+      )}
     </Container>
   );
 };

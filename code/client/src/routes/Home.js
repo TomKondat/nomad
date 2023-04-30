@@ -6,6 +6,7 @@ import Col from "react-bootstrap/Col";
 import ListGroup from "react-bootstrap/ListGroup";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
+import { useNavigate } from "react-router-dom";
 import "./Home.css";
 import {
   BsSearch,
@@ -14,19 +15,27 @@ import {
   BsClockHistory,
   BsSignTurnRightFill,
 } from "react-icons/bs";
+import { MdAddToPhotos } from "react-icons/md";
+import { Button, Container } from "react-bootstrap";
 
 function Home() {
   const [search, setSearch] = useState("");
   const [conventions, setConventions] = useState([]);
   const [conventionsInit, setConventionsInit] = useState([]);
-  useEffect(() => {
-    axios
+  const navigate = useNavigate();
+
+  async function getConvention() {
+    await axios
       .get("http://127.0.0.1:8000/api/get-conventions/")
       .then((res) => {
         setConventionsInit(res.data);
         setConventions(res.data);
       })
       .catch((error) => console.log(error));
+  }
+
+  useEffect(() => {
+    getConvention();
   }, []);
 
   useEffect(() => {
@@ -43,21 +52,38 @@ function Home() {
     });
     setConventions(conventionList);
   }
-
+  const handleClickAdd = () => {
+    navigate("/AddConvention");
+  };
   return (
     <React.Fragment>
-      <InputGroup size="sm" className="mb-3 mt-1 w-50">
-        <InputGroup.Text id="inputGroup-sizing-sm">
-          {" "}
-          <BsSearch />
-        </InputGroup.Text>
-        <Form.Control
-          onChange={(e) => {
-            setSearch(e.target.value);
-          }}
-          placeholder="Search Convention"
-        />
-      </InputGroup>
+      <Container>
+        <Row>
+          <Col xs={10}>
+            <InputGroup size="sm" className="mb-3 mt-1">
+              <InputGroup.Text id="inputGroup-sizing-sm">
+                {" "}
+                <BsSearch />
+              </InputGroup.Text>
+              <Form.Control
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                }}
+                placeholder="Search Convention"
+              />
+            </InputGroup>
+          </Col>
+          <Col xs={1}>
+            <Button variant="light">
+              <MdAddToPhotos
+                onClick={() => {
+                  handleClickAdd();
+                }}
+              ></MdAddToPhotos>
+            </Button>
+          </Col>
+        </Row>
+      </Container>
       <Row xs={1} sm={2} md={3} lg={4} className="mx-4 mb-4 g-4 d-flex">
         {conventions.map((conv) => (
           <Col
@@ -67,6 +93,9 @@ function Home() {
             <Card
               className="p-0 pb-0 shadow convcard"
               style={{ width: "22rem" }}
+              onClick={() => {
+                navigate(`conventionpage/${conv.id}`);
+              }}
             >
               <Card.Img
                 variant="top"
