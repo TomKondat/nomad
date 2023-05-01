@@ -79,6 +79,18 @@ const EditProfile = () => {
               <Form.Label>Last Name</Form.Label>
               <Form.Control type="text" placeholder="Enter your last name" />
             </Form.Group>
+            <Form.Group controlId="formAddress">
+              <Form.Label>Address</Form.Label>
+              <Form.Control type="text" placeholder="Enter your address" />
+            </Form.Group>
+            <Form.Group controlId="formAddress">
+              <Form.Label>Company</Form.Label>
+              <Form.Control type="text" placeholder="Enter your company" />
+            </Form.Group>
+            <Form.Group controlId="formAddress">
+              <Form.Label>Position</Form.Label>
+              <Form.Control type="text" placeholder="Enter your position" />
+            </Form.Group>
             <Form.Group controlId="formEmail">
               <Form.Label>Email</Form.Label>
               <Form.Control type="email" placeholder="Enter your email" />
@@ -87,10 +99,7 @@ const EditProfile = () => {
               <Form.Label>Password</Form.Label>
               <Form.Control type="password" placeholder="Enter your password" />
             </Form.Group>
-            <Form.Group controlId="formAddress">
-              <Form.Label>Address</Form.Label>
-              <Form.Control type="text" placeholder="Enter your address" />
-            </Form.Group>
+
             <br></br>
             <Button
               variant="primary"

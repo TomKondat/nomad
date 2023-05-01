@@ -44,11 +44,14 @@ const UserProfile = () => {
               <h1 className="mb-0">
                 {profile?.user?.first_name} {profile?.user?.last_name}
               </h1>
+              <p className="text-muted mt-2">{profile?.position}</p>
 
               <hr />
+              <p className="text-muted">Company:</p>
+              <p> {profile?.company}</p>
               <p className="text-muted">Address:</p>
               <p> {profile?.address}</p>
-              <p className="text-muted">Birthday:</p>
+              <p className="text-muted">Birthdate:</p>
               <p>{profile?.birthdate}</p>
               <Button
                 onClick={() => {
