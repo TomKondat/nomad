@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { LinkContainer } from "react-router-bootstrap";
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
-import { useNavigate } from "react-router-dom";
 import "./NomadLogo.css";
 import { FaUserFriends } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
@@ -20,8 +19,6 @@ function Header() {
       setUserData(JSON.parse(localStorage.getItem("userData")));
     }
   }, [localStorage.getItem("userData")]);
-
-  const navigate = useNavigate();
 
   return (
     <React.Fragment>
