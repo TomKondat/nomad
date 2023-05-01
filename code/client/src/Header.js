@@ -23,16 +23,6 @@ function Header() {
 
   const navigate = useNavigate();
 
-  const handleClickHome = () => {
-    navigate("/");
-  };
-  const handleClickProfile = () => {
-    navigate("/profile");
-  };
-  const handleClickFriends = () => {
-    navigate("/friendspage");
-  };
-
   return (
     <React.Fragment>
       <Navbar bg="light" expand="lg" sticky="top" collapseOnSelect>
@@ -57,30 +47,21 @@ function Header() {
               justifyContent: "flex-end",
             }}
           >
-            <Button
-              variant="light"
-              onClick={() => {
-                handleClickHome();
-              }}
-            >
-              <AiFillHome className="orange" />
-            </Button>
-            <Button
-              variant="light"
-              onClick={() => {
-                handleClickProfile();
-              }}
-            >
-              <BsFillPersonFill className="orange" />
-            </Button>
-            <Button
-              variant="light"
-              onClick={() => {
-                handleClickFriends();
-              }}
-            >
-              <FaUserFriends className="orange" />
-            </Button>
+            <LinkContainer to="/">
+              <Button variant="light">
+                <AiFillHome className="orange" />
+              </Button>
+            </LinkContainer>
+            <LinkContainer to="/profile">
+              <Button variant="light">
+                <BsFillPersonFill className="orange" />
+              </Button>
+            </LinkContainer>
+            <LinkContainer to="/friendspage">
+              <Button variant="light">
+                <FaUserFriends className="orange" />
+              </Button>
+            </LinkContainer>
           </div>
         </Container>
       </Navbar>

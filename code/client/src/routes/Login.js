@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import { LinkContainer } from "react-router-bootstrap";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
@@ -86,7 +87,9 @@ function Login() {
               Submit
             </Button>
             &nbsp;&nbsp;
-            <Button variant="outline-primary">Forgot password?</Button>
+            <LinkContainer to={"/signup"}>
+              <Button variant="outline-primary">Forgot password?</Button>
+            </LinkContainer>
           </Col>
         </Row>
       </Form>

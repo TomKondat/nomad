@@ -12,6 +12,6 @@ class UserProfile(models.Model):
                               max_digits=9, decimal_places=6, null=True)
     lon = models.DecimalField('last known longitude',
                               max_digits=9, decimal_places=6, null=True)
-    profile_img = models.ImageField(upload_to='profiles')
+    profile_img = models.ImageField(upload_to='profiles', default='profiles/no-profile-picture.svg')
 
     # TODO: Find a way to add profile picture to this model

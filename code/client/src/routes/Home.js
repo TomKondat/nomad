@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Alert from "react-bootstrap/Alert";
 import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -84,50 +85,60 @@ function Home() {
           </Col>
         </Row>
       </Container>
-      <Row xs={1} sm={2} md={3} lg={4} className="mx-4 mb-4 g-4 d-flex">
-        {conventions.map((conv) => (
-          <Col
-            key={conv.id}
-            className="d-flex align-items-stretch justify-content-center"
-          >
-            <Card
-              className="p-0 pb-0 shadow convcard"
-              style={{ width: "22rem" }}
-              onClick={() => {
-                navigate(`conventionpage/${conv.id}`);
-              }}
+      {conventions.length === 0 ? (
+        <Container>
+          <Alert variant="danger">
+            <Alert.Heading>Oh no!</Alert.Heading>
+            <p>It seems that there are no conventions here.</p>
+            <p>Maybe check back later?</p>
+          </Alert>
+        </Container>
+      ) : (
+        <Row xs={1} sm={2} md={3} lg={4} className="mx-4 mb-4 g-4 d-flex">
+          {conventions.map((conv) => (
+            <Col
+              key={conv.id}
+              className="d-flex align-items-stretch justify-content-center"
             >
-              <Card.Img
-                variant="top"
-                src={`http://localhost:8000/media/${conv.convention_img}`}
-                className="convcardimg"
-              />
-              <Card.Body>
-                <Card.Title>{conv.name}</Card.Title>
-              </Card.Body>
-              <ListGroup variant="flush">
-                <ListGroup.Item>
-                  {/* placeHolder here untill we have maps */}
-                  <BsSignTurnRightFill />
-                  &nbsp;50 KM away from me!
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <BsPinMapFill />
-                  &nbsp;{conv.address}
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <BsClockFill />
-                  &nbsp;{conv.start_date}
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <BsClockHistory />
-                  &nbsp;{conv.end_date}
-                </ListGroup.Item>
-              </ListGroup>
-            </Card>
-          </Col>
-        ))}
-      </Row>
+              <Card
+                className="p-0 pb-0 shadow convcard"
+                style={{ width: "22rem" }}
+                onClick={() => {
+                  navigate(`conventionpage/${conv.id}`);
+                }}
+              >
+                <Card.Img
+                  variant="top"
+                  src={`http://localhost:8000/media/${conv.convention_img}`}
+                  className="convcardimg"
+                />
+                <Card.Body>
+                  <Card.Title>{conv.name}</Card.Title>
+                </Card.Body>
+                <ListGroup variant="flush">
+                  <ListGroup.Item>
+                    {/* placeHolder here untill we have maps */}
+                    <BsSignTurnRightFill />
+                    &nbsp;50 KM away from me!
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    <BsPinMapFill />
+                    &nbsp;{conv.address}
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    <BsClockFill />
+                    &nbsp;{conv.start_date}
+                  </ListGroup.Item>
+                  <ListGroup.Item>
+                    <BsClockHistory />
+                    &nbsp;{conv.end_date}
+                  </ListGroup.Item>
+                </ListGroup>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      )}
     </React.Fragment>
   );
 }
