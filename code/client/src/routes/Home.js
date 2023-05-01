@@ -7,7 +7,6 @@ import Col from "react-bootstrap/Col";
 import ListGroup from "react-bootstrap/ListGroup";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
-import { useNavigate } from "react-router-dom";
 import "./Home.css";
 import {
   BsSearch,
@@ -18,12 +17,12 @@ import {
 } from "react-icons/bs";
 import { MdAddToPhotos } from "react-icons/md";
 import { Button, Container } from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
 
 function Home() {
   const [search, setSearch] = useState("");
   const [conventions, setConventions] = useState([]);
   const [conventionsInit, setConventionsInit] = useState([]);
-  const navigate = useNavigate();
 
   async function getConvention() {
     await axios
@@ -53,9 +52,7 @@ function Home() {
     });
     setConventions(conventionList);
   }
-  const handleClickAdd = () => {
-    navigate("/AddConvention");
-  };
+
   return (
     <React.Fragment>
       <Container>
@@ -76,11 +73,9 @@ function Home() {
           </Col>
           <Col xs={1}>
             <Button variant="light">
-              <MdAddToPhotos
-                onClick={() => {
-                  handleClickAdd();
-                }}
-              ></MdAddToPhotos>
+              <LinkContainer to="/AddConvention">
+                <MdAddToPhotos />
+              </LinkContainer>
             </Button>
           </Col>
         </Row>
@@ -100,41 +95,40 @@ function Home() {
               key={conv.id}
               className="d-flex align-items-stretch justify-content-center"
             >
-              <Card
-                className="p-0 pb-0 shadow convcard"
-                style={{ width: "22rem" }}
-                onClick={() => {
-                  navigate(`conventionpage/${conv.id}`);
-                }}
-              >
-                <Card.Img
-                  variant="top"
-                  src={`http://localhost:8000/media/${conv.convention_img}`}
-                  className="convcardimg"
-                />
-                <Card.Body>
-                  <Card.Title>{conv.name}</Card.Title>
-                </Card.Body>
-                <ListGroup variant="flush">
-                  <ListGroup.Item>
-                    {/* placeHolder here untill we have maps */}
-                    <BsSignTurnRightFill />
-                    &nbsp;50 KM away from me!
-                  </ListGroup.Item>
-                  <ListGroup.Item>
-                    <BsPinMapFill />
-                    &nbsp;{conv.address}
-                  </ListGroup.Item>
-                  <ListGroup.Item>
-                    <BsClockFill />
-                    &nbsp;{conv.start_date}
-                  </ListGroup.Item>
-                  <ListGroup.Item>
-                    <BsClockHistory />
-                    &nbsp;{conv.end_date}
-                  </ListGroup.Item>
-                </ListGroup>
-              </Card>
+              <LinkContainer to={`conventionpage/${conv.id}`}>
+                <Card
+                  className="p-0 pb-0 shadow convcard"
+                  style={{ width: "22rem" }}
+                >
+                  <Card.Img
+                    variant="top"
+                    src={`http://localhost:8000/media/${conv.convention_img}`}
+                    className="convcardimg"
+                  />
+                  <Card.Body>
+                    <Card.Title>{conv.name}</Card.Title>
+                  </Card.Body>
+                  <ListGroup variant="flush">
+                    <ListGroup.Item>
+                      {/* placeHolder here untill we have maps */}
+                      <BsSignTurnRightFill />
+                      &nbsp;50 KM away from me!
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <BsPinMapFill />
+                      &nbsp;{conv.address}
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <BsClockFill />
+                      &nbsp;{conv.start_date}
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                      <BsClockHistory />
+                      &nbsp;{conv.end_date}
+                    </ListGroup.Item>
+                  </ListGroup>
+                </Card>
+              </LinkContainer>
             </Col>
           ))}
         </Row>
