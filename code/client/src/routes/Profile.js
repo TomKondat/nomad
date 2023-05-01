@@ -9,7 +9,7 @@ const UserProfile = () => {
 
   async function getProfile() {
     await axios
-      .get(`http://127.0.0.1:8000/api/get-profiles/?q=${1}`) //Instead of one sending the connected user's id
+      .get(`http://127.0.0.1:8000/api/get-profiles?q=${2}`) //Instead of one sending the connected user's id
       .then((res) => {
         setProfile(res.data);
       })
