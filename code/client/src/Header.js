@@ -3,8 +3,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import "./NomadLogo.css";
-import { FaUserFriends } from "react-icons/fa";
-import { CgProfile } from "react-icons/cg";
+import { BsFillChatFill } from "react-icons/bs";
 import { AiFillHome } from "react-icons/ai";
 import { BsFillPersonFill } from "react-icons/bs";
 import { Button } from "react-bootstrap";
@@ -45,18 +44,18 @@ function Header() {
             }}
           >
             <LinkContainer to="/">
-              <Button variant="light">
+              <Button size="lg" variant="light">
                 <AiFillHome className="orange" />
               </Button>
             </LinkContainer>
             <LinkContainer to="/profile">
-              <Button variant="light">
+              <Button size="lg" variant="light">
                 <BsFillPersonFill className="orange" />
               </Button>
             </LinkContainer>
             <LinkContainer to="/friendspage">
-              <Button variant="light">
-                <FaUserFriends className="orange" />
+              <Button size="lg" variant="light">
+                <BsFillChatFill className="orange" />
               </Button>
             </LinkContainer>
           </div>

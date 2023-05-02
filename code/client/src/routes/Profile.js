@@ -9,7 +9,7 @@ const UserProfile = () => {
 
   async function getProfile() {
     await axios
-      .get(`http://127.0.0.1:8000/api/get-profiles/?q=${1}`) //Instead of one sending the connected user's id
+      .get(`http://127.0.0.1:8000/api/get-profiles?q=${2}`) //Instead of one sending the connected user's id
       .then((res) => {
         setProfile(res.data);
       })
@@ -39,11 +39,14 @@ const UserProfile = () => {
               <h1 className="mb-0">
                 {profile?.user?.first_name} {profile?.user?.last_name}
               </h1>
+              <p className="text-muted mt-2">{profile?.position}</p>
 
               <hr />
+              <p className="text-muted">Company:</p>
+              <p> {profile?.company}</p>
               <p className="text-muted">Address:</p>
               <p> {profile?.address}</p>
-              <p className="text-muted">Birthday:</p>
+              <p className="text-muted">Birthdate:</p>
               <p>{profile?.birthdate}</p>
               <LinkContainer to="/EditProfile">
                 <Button

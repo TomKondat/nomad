@@ -81,12 +81,36 @@ function SignUp() {
           />
         </Form.Group>
 
+        <Form.Group controlId="formAddress">
+          <Form.Label>Company</Form.Label>
+          <Form.Control
+            type="text"
+            name="address"
+            value={formValues.address}
+            onChange={handleChange}
+            placeholder="Enter your company"
+            required
+          />
+        </Form.Group>
+
+        <Form.Group controlId="formAddress">
+          <Form.Label>Position</Form.Label>
+          <Form.Control
+            type="text"
+            name="address"
+            value={formValues.address}
+            onChange={handleChange}
+            placeholder="Enter your position"
+            required
+          />
+        </Form.Group>
+
         <Form.Group controlId="formBirthday">
-          <Form.Label>Birthday</Form.Label>
+          <Form.Label>Birthdate</Form.Label>
           <Form.Control
             type="date"
-            name="birthday"
-            value={formValues.birthday}
+            name="birthdate"
+            value={formValues.birthdate}
             onChange={handleChange}
             required
           />
