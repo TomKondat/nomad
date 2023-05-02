@@ -49,7 +49,10 @@ function Login() {
               className="mb-3 mt-lg-3 mt-xl-4 mt-xxl-5"
               controlId="loginEmail"
             >
-              <Form.Label>Username</Form.Label>
+              <Form.Label>
+                {" "}
+                <strong>Username</strong>
+              </Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Username"
@@ -61,7 +64,9 @@ function Login() {
         <Row className="justify-content-center">
           <Col lg={8} xl={6} xxl={5}>
             <Form.Group className="mb-3" controlId="loginPassword">
-              <Form.Label>Password</Form.Label>
+              <Form.Label>
+                <strong>Password</strong>
+              </Form.Label>
               <Form.Control
                 type="password"
                 placeholder="Password"
@@ -70,25 +75,15 @@ function Login() {
             </Form.Group>
           </Col>
         </Row>
-        <Row className="justify-content-center">
-          <Col lg={8} xl={6} xxl={5}>
-            <Form.Group className="mb-3" controlId="loginRemember">
-              <Form.Check
-                type="checkbox"
-                label="Remember me"
-                defaultChecked
-              ></Form.Check>
-            </Form.Group>
-          </Col>
-        </Row>
-        <Row className="justify-content-center">
+
+        <Row className="justify-content-center mt-2">
           <Col lg={8} xl={6} xxl={5}>
             <Button variant="primary" type="submit">
-              Submit
+              Sign In
             </Button>
             &nbsp;&nbsp;
             <LinkContainer to={"/signup"}>
-              <Button variant="outline-primary">Forgot password?</Button>
+              <Button variant="outline-primary">Sign Up</Button>
             </LinkContainer>
           </Col>
         </Row>

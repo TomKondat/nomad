@@ -9,12 +9,10 @@ class Conventions(models.Model):
     description = models.CharField(max_length=512, blank=True)
     address = models.CharField(max_length=64)
     capacity = models.IntegerField(blank=True)
-    start_date = models.DateField()
-    end_date = models.DateField()
+    start_date = models.DateTimeField()
+    end_date = models.DateTimeField()
     convention_img = models.ImageField(
         upload_to='conventions', default="conventions/no-image-icon-21.png")
-
-    # TODO: Find a way to add logo picture to this model
 
 
 class Registration(models.Model):

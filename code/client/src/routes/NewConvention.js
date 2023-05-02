@@ -12,6 +12,7 @@ import {
   Modal,
 } from "react-bootstrap";
 import { FiEdit } from "react-icons/fi";
+import { BsFillChatTextFill } from "react-icons/bs";
 import { LinkContainer } from "react-router-bootstrap";
 
 export default function NewConvention() {
@@ -39,8 +40,8 @@ export default function NewConvention() {
       {convention ? (
         <>
           <Row>
+            <h1 className="display-4 text-center my-3">{convention?.name}</h1>
             <Col>
-              <h1 className="display-4 text-center my-4">{convention?.name}</h1>
               <div
                 style={{
                   position: "relative",
@@ -52,29 +53,37 @@ export default function NewConvention() {
                   src={`http://localhost:8000/media/${convention?.convention_img}`}
                   alt="Convention Image"
                   fluid
-                  style={{ filter: "brightness(60%)" }}
+                  style={{ filter: "brightness(80%)" }}
                   width="350px"
                   height="200px"
                 />
-                <div
-                  style={{
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%)",
-                    color: "#fff",
-                    zIndex: 1,
-                  }}
-                >
-                  <h2 style={{ fontSize: "2rem" }}>{convention?.name}</h2>
-                </div>
               </div>
-              <div className="my-4">
+              <div className="my-2">
+                <Row className="align-items-center">
+                  <Col xs={1} className="d-flx align-items-center">
+                    <Image
+                      src={`http://localhost:8000/media/${convention?.organization?.organization_img}`}
+                      alt="user profile picture"
+                      roundedCircle
+                      width={25}
+                      height={25}
+                    />
+                  </Col>
+                  <Col xs={11}>
+                    <h6 className="mb-0">
+                      Organized by:&nbsp;
+                      {convention?.organization?.name}
+                    </h6>
+                  </Col>
+                </Row>
+              </div>
+
+              <div className="my-3">
                 <p className="lead">{convention?.description}</p>
               </div>
             </Col>
-            <Col lg={4} className="my-4">
-              <div className="card border-0 shadow-sm rounded">
+            <Col lg={4} className="my-2">
+              <div className="card border-2 shadow-sm rounded">
                 <div className="card-body">
                   <Row>
                     <div
@@ -117,6 +126,7 @@ export default function NewConvention() {
                     >
                       Attendees
                     </Button>
+                    <h1></h1>
                   </div>
                 </div>
               </div>
@@ -150,8 +160,8 @@ export default function NewConvention() {
                         <Card.Title className="mb-0">Noam Ezrot</Card.Title>
                         <Card.Text className="text-muted">Attendee</Card.Text>
                       </div>
-                      <Button variant="outline-primary" className="ms-auto">
-                        Add Friend
+                      <Button variant="outline-light" className="ms-auto">
+                        <BsFillChatTextFill className="orange" />
                       </Button>
                     </Card.Body>
                   </Card>

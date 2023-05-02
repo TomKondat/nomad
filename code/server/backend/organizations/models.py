@@ -5,8 +5,8 @@ from profiles.models import User
 class Organization(models.Model):
 
     name = models.CharField(max_length=64, default="none")
-
-    # TODO: Find a way to add logo picture to this model
+    organization_img = models.ImageField(
+        upload_to='organizations', default="conventions/no-image-icon-21.png")
 
 
 class Organizer(models.Model):
