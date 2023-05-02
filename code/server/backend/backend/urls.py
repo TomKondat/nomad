@@ -18,6 +18,8 @@ from django.urls import include, path
 from django.conf.urls.static import static
 from django.conf import settings
 
+api_prefix = settings.API_PREFIX
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),

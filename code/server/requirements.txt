@@ -3,9 +3,12 @@ Django==4.1.7
 django-cors-headers==3.14.0
 djangorestframework==3.14.0
 djangorestframework-simplejwt==5.2.2
+# https://www.lfd.uci.edu/~gohlke/pythonlibs/#mod_wsgi
+../../build/mod-wsgi/mod_wsgi-4.9.2-cp311-cp311-win_amd64.whl
 mysqlclient==2.1.1
 Pillow==9.5.0
 PyJWT==2.6.0
+python-dotenv==1.0.0
 pytz==2022.7.1
 sqlparse==0.4.3
 tzdata==2022.7
