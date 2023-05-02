@@ -2,7 +2,7 @@
 
 echo.
 echo Cloning GIT repositories...
-git clone --quiet --single-branch --branch 39-build-aviram git@gitlab.com:eden881/nomad.git
+git clone --quiet --single-branch --branch main git@gitlab.com:eden881/nomad.git
 echo.
 echo Cleaning up development code from server...
 pushd %PROJECT_NAME%
