@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { LinkContainer } from "react-router-bootstrap";
 import { Container, Row, Col, Image, Button } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -19,11 +19,6 @@ const UserProfile = () => {
     getProfile();
   }, []);
 
-  const navigate = useNavigate();
-
-  const handleClick = () => {
-    navigate("/EditProfile");
-  };
   return (
     <Container className="py-5">
       {profile ? (
@@ -53,16 +48,15 @@ const UserProfile = () => {
               <p> {profile?.address}</p>
               <p className="text-muted">Birthdate:</p>
               <p>{profile?.birthdate}</p>
-              <Button
-                onClick={() => {
-                  handleClick();
-                }}
-                size="lg"
-                variant="outline-primary"
-                className="rounded-pill"
-              >
-                Edit Profile
-              </Button>
+              <LinkContainer to="/EditProfile">
+                <Button
+                  size="lg"
+                  variant="outline-primary"
+                  className="rounded-pill"
+                >
+                  Edit Profile
+                </Button>
+              </LinkContainer>
             </Col>
           </Row>
         </>

@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { LinkContainer } from "react-router-bootstrap";
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
-import Badge from "react-bootstrap/Badge";
 import "./NomadLogo.css";
 import { BsFillChatFill } from "react-icons/bs";
 import { AiFillHome } from "react-icons/ai";

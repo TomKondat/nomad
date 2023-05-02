@@ -12,17 +12,13 @@ import {
   Modal,
 } from "react-bootstrap";
 import { FiEdit } from "react-icons/fi";
-import { useNavigate } from "react-router-dom";
+import { LinkContainer } from "react-router-bootstrap";
 
 export default function NewConvention() {
   const [showModal, setShowModal] = useState(false);
   const handleCloseModal = () => setShowModal(false);
   const handleShowModal = () => setShowModal(true);
-  const navigate = useNavigate();
 
-  const handleClick = () => {
-    navigate("/EditConvention");
-  };
   const [convention, setConvention] = useState();
   let params = useParams();
 
@@ -87,11 +83,9 @@ export default function NewConvention() {
                         justifyContent: "flex-end",
                       }}
                     >
-                      <FiEdit
-                        onClick={() => {
-                          handleClick();
-                        }}
-                      ></FiEdit>
+                      <LinkContainer to="/EditConvention">
+                        <FiEdit />
+                      </LinkContainer>
                     </div>
                     <h3 className="card-title mb-3">Details</h3>
                   </Row>
