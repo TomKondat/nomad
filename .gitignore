@@ -143,3 +143,6 @@
 
 # Pyre type checker
 /code/server/**/.pyre/
+
+.idea
+build/releases
