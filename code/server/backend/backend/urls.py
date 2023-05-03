@@ -23,6 +23,7 @@ api_prefix = settings.API_PREFIX
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path(f'{api_prefix}', include('conventions.urls')),
-    path(f'{api_prefix}', include('profiles.urls')),
+    path('api/', include('conventions.urls')),
+    path('api/', include('profiles.urls')),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
