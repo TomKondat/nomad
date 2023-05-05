@@ -15,10 +15,9 @@ import EditProfile from "./routes/EditProfile";
 import SignUp from "./routes/SignUp";
 import ConventionPage from "./routes/Convention";
 import EditConvention from "./routes/EditConvention";
-
+import ChatPage from "./routes/ChatPage";
 import NewConvention from "./routes/NewConvention";
 import AddConvention from "./routes/AddConvention";
-
 function App() {
   return (
     <React.Fragment>
@@ -36,6 +35,7 @@ function App() {
               <Route path="login" element={<Login />} />
               <Route path="signup" element={<SignUp />} />
               <Route path="addconvention" element={<AddConvention />} />
+              <Route path="chatpage" element={<ChatPage />} />
               <Route path="conventionpage" element={<ConventionPage />}>
                 <Route path=":conventionId" element={<NewConvention />} />
               </Route>
