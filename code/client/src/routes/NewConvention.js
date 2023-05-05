@@ -93,7 +93,7 @@ export default function NewConvention() {
                       }}
                     >
                       <LinkContainer to="/EditConvention">
-                        <FiEdit />
+                        <FiEdit className="blue" />
                       </LinkContainer>
                     </div>
                     <h3 className="card-title mb-3">Details</h3>
