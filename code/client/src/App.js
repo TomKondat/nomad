@@ -35,7 +35,9 @@ function App() {
               <Route path="login" element={<Login />} />
               <Route path="signup" element={<SignUp />} />
               <Route path="addconvention" element={<AddConvention />} />
-              <Route path="chatpage" element={<ChatPage />} />
+              <Route path="chatpage">
+                <Route path=":username" element={<ChatPage />} />
+              </Route>
               <Route path="conventionpage" element={<ConventionPage />}>
                 <Route path=":conventionId" element={<NewConvention />} />
               </Route>

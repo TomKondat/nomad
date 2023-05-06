@@ -6,13 +6,13 @@ import {
   InputGroup,
   FormControl,
   Button,
-  Card,
   Form,
 } from "react-bootstrap";
 import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 import "./BigLogo.css";
 import WebIM from "../WebIM";
 import { useRef, useEffect, useState, useContext } from "react";
+import { useParams } from "react-router-dom";
 import AuthContext from "../AuthContext";
 
 function OutgoingMessage(props) {
@@ -42,7 +42,7 @@ function OutgoingMessage(props) {
 
 function IncomingMessage(props) {
   return (
-    <div className="d-flex flex-column mb-4">
+    <div className="d-flex flex-column mb-2">
       <div className="d-flex align-items-center justify-content-end mb-2">
         <div
           className="rounded bg-secondary text-white py-2 px-3 ms-auto"
@@ -66,10 +66,12 @@ function IncomingMessage(props) {
 function ChatPage() {
   const [messages, setMessages] = useState([]);
   const { userData } = useContext(AuthContext);
+  const params = useParams();
   const wasRenderd = useRef(false);
 
   useEffect(() => {
     if (wasRenderd.current) return;
+    console.log();
     wasRenderd.current = true;
 
     fetch(
@@ -106,7 +108,8 @@ function ChatPage() {
     const option = {
       chatType: "singleChat",
       type: "txt",
-      to: "hen",
+      to: params.username,
+      from: userData.username,
       msg: txt,
       ext: {
         // name:ext?.name,
@@ -119,6 +122,8 @@ function ChatPage() {
     const message = WebIM.message.create(option);
     WebIM.conn.send(message);
     // console.log(e.target[0].value);
+
+    setMessages((m) => [...m, message]);
   };
 
   return (
@@ -136,7 +141,7 @@ function ChatPage() {
                     className="rounded-circle me-2"
                     alt="User Avatar"
                   />
-                  <h3 className="mb-0">Username</h3>
+                  <h3 className="mb-0">{params.username}</h3>
                 </div>
               </div>
               <div className="card-body overflow-auto">
@@ -144,7 +149,7 @@ function ChatPage() {
                   message.from === userData.username ? (
                     <OutgoingMessage
                       key={message.id}
-                      msg={message.sourceMsg}
+                      msg={message.msg}
                       time={new Date(parseInt(message.time))
                         .toISOString()
                         .split("T")[1]
