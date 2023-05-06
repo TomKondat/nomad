@@ -1,29 +1,22 @@
 .biglogo-img {
-  display: inline-block;
-  margin-right: 5px; /* add a small margin to separate the logo from the text */
-}
-
-.biglogo {
-  font-family: sans-serif;
-  font-size: 1.8em;
-  font-weight: bold;
-  color: #000;
-  display: inline-block;
-}
-
-.orange-login {
-  color: #f56500;
-}
-.orangeb {
-  background-color: #F56500;
-}
-.blue {
-  color: rgb(73, 151, 172);
-}
-.blueb{
-  background-color: rgb(73, 151, 172);
-}
-
-.chatb{
-  background-color: rgb(112, 197, 220);
-}
+    display: inline-block;
+    margin-right: 5px; /* add a small margin to separate the logo from the text */
+  }
+  
+  .biglogo {
+    font-family: sans-serif;
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #000;
+    display: inline-block;
+  }
+  
+  .orange {
+    color: #F56500;
+  }
+  .blue {
+    color: rgb(73, 151, 172);
+  }
+  .white {
+    color:white;
+  }

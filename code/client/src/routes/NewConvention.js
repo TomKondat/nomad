@@ -14,7 +14,7 @@ import {
 import { FiEdit } from "react-icons/fi";
 import { BsFillChatTextFill } from "react-icons/bs";
 import { LinkContainer } from "react-router-bootstrap";
-
+import "./BigLogo.css";
 export default function NewConvention() {
   const [showModal, setShowModal] = useState(false);
   const handleCloseModal = () => setShowModal(false);
@@ -93,7 +93,7 @@ export default function NewConvention() {
                       }}
                     >
                       <LinkContainer to="/EditConvention">
-                        <FiEdit />
+                        <FiEdit className="blue" />
                       </LinkContainer>
                     </div>
                     <h3 className="card-title mb-3">Details</h3>
@@ -112,21 +112,28 @@ export default function NewConvention() {
                       <strong>End Time:</strong> {convention?.end_date}
                     </li>
                   </ul>
+
+                  {/* testing */}
                   <div className="d-flex justify-content-between">
-                    <Button variant="primary" className="btn-block my-4">
+                    <Button
+                      variant="outline-light"
+                      className="btn-block my-4 shadow fw-bold blue"
+                    >
                       Join
                     </Button>
-                    <Button variant="danger" className="btn-block my-4">
+                    <Button
+                      variant="outline-light"
+                      className="btn-block my-4 shadow fw-bold blue"
+                    >
                       Leave
                     </Button>
                     <Button
-                      variant="secondary"
-                      className="btn-block my-4"
+                      variant="outline-light"
+                      className="btn-block my-4 shadow fw-bold blue"
                       onClick={handleShowModal}
                     >
                       Attendees
                     </Button>
-                    <h1></h1>
                   </div>
                 </div>
               </div>
