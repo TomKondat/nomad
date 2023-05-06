@@ -12,5 +12,13 @@
 }
 
 .orange {
-  color: #F56500;
+  color: #f56500;
+}
+
+.purple {
+  background-color: #4b4ba3;
+}
+
+.btn-navbar.active {
+  background-color: #383878;
 }
