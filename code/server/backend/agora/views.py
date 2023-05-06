@@ -15,25 +15,18 @@ APP_ID = '832ecb8d44cf4e0c83f3196781f68cb0'
 APP_CERTIFICATE = '9f546b511f7e49ab9f7d42e8e1f7e7e6'
 ORG_NAME = '71959135'
 APP_NAME = '1122013'
-# CUSTOMER_ID = '0f7f01bf832143ce87016b13cdc8b4b2'
-# SECRET = '46c9763929034ccfbe36909c7fdea6cb'
 AGORA_HOST = 'api.agora.io'
 REST_API = 'a71.chat.agora.io'
 WEB_SOCKET = 'msync-api-71.chat.agora.io'
 SERVER_URL = 'http://127.0.0.1:8000'
 
-
-
-
 HOST_URL_APP_KEY  = f"https://{REST_API}/{ORG_NAME}/{APP_NAME}"
 
-
-
 def getAppToken(expireTime):
-    return ChatTokenBuilder.build_app_token(APP_ID,APP_CERTIFICATE,expireTime)
+    return ChatTokenBuilder.build_app_token(APP_ID,APP_CERTIFICATE, expireTime)
 
 def getUserToken(expireTime,uid):
-    return ChatTokenBuilder.build_user_token(APP_ID,APP_CERTIFICATE,uid,expireTime) 
+    return ChatTokenBuilder.build_user_token(APP_ID,APP_CERTIFICATE, uid, expireTime) 
 
 def get_auth_headers(token):
     return {
@@ -43,7 +36,7 @@ def get_auth_headers(token):
     }
 
 
-class Get_Token(APIView):  #api/get_token/user/?uid=[name]
+class Get_Token(APIView):  # api/agora/get_token/user?uid=[name]
     http_method_names = ['get']
 
     def get(self,request, token_type):
@@ -58,15 +51,12 @@ class Get_Token(APIView):  #api/get_token/user/?uid=[name]
         return  Response({'appToken':token})
 
 
-    def getUserToken(self,request):
-        uid = request.GET.get('uid',None)
+    def getUserToken(self, request):
+        uid = request.GET.get('uid', None)
         if uid:
-            token = getUserToken(expireTime=5000,uid=uid)
-            return Response({'userToken':token})
-        return Response('uid is missing',status=status.HTTP_400_BAD_REQUEST)
-
-
-
+            token = getUserToken(expireTime=5000, uid=uid)
+            return Response({'userToken': token})
+        return Response('uid is missing', status=status.HTTP_400_BAD_REQUEST)
 
 
 class Users(ModelViewSet):
@@ -74,18 +64,18 @@ class Users(ModelViewSet):
     serializer_class = EmptySerializer
 
     @action(detail=False, methods=['POST'])
-    def register_users(self,request):
+    def register_users(self, request):
         token = getAppToken(5000)
-        users = request.data.get('users',None)
-        case_id = request.data.get('caseId',None)
+        users = request.data.get('users', None)
+        case_id = request.data.get('caseId', None)
 
         missing_props={
-            **({'error':'users missing'} if not users else {}),
-            **({'error':'case id missing'} if not case_id else {})
+            **({'error': 'users missing'} if not users else {}),
+            **({'error': 'case id missing'} if not case_id else {})
         }
 
         if len(missing_props) > 0:
-            return Response({'missing parameters':missing_props}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'missing parameters': missing_props}, status=status.HTTP_400_BAD_REQUEST)
 
         responses=[]
         headers = get_auth_headers(token)
@@ -96,10 +86,10 @@ class Users(ModelViewSet):
                 return Response(f"missing values of user in index {i}", status=status.HTTP_400_BAD_REQUEST)
 
             uid = re.sub(r'[^\w\s]', '', username)
-            payload={
-                'username':uid,
-                'password':password,
-                'nickname':first_name,
+            payload = {
+                'username': uid,
+                'password': password,
+                'nickname': first_name,
             }
 
 

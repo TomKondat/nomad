@@ -136,6 +136,8 @@ export const AuthProvider = ({ children }) => {
     logoutUser: logoutUser,
     auth: auth,
     setAuth: setAuth,
+    userData: userData,
+    userProfileData: userProfileData,
   };
 
   return (
