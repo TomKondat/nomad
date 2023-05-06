@@ -6,12 +6,128 @@ import {
   InputGroup,
   FormControl,
   Button,
-  Card,
+  Form,
 } from "react-bootstrap";
 import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 import "./BigLogo.css";
+import WebIM from "../WebIM";
+import { useRef, useEffect, useState, useContext } from "react";
+import { useParams } from "react-router-dom";
+import AuthContext from "../AuthContext";
+import "./BigLogo.css";
+
+function OutgoingMessage(props) {
+  return (
+    <div className="d-flex flex-column mb-2">
+      <div className="d-flex align-items-center mb-2">
+        <img
+          src="https://via.placeholder.com/35x35"
+          className="rounded-circle me-2"
+          alt="User Avatar"
+          height={35}
+          width={35}
+        />
+        <div
+          className="rounded bg-light text-black py-2 px-3"
+          style={{ wordBreak: "break-word" }}
+        >
+          {props.msg}
+        </div>
+      </div>
+      <div className="d-flex justify-content-start small mb-1">
+        {`${props.time}`}
+      </div>
+    </div>
+  );
+}
+
+function IncomingMessage(props) {
+  return (
+    <div className="d-flex flex-column mb-2">
+      <div className="d-flex align-items-center justify-content-end mb-2">
+        <div
+          className="rounded chatb text-white py-2 px-3 ms-auto"
+          style={{ wordBreak: "break-word" }}
+        >
+          {props.msg}
+        </div>
+        <img
+          src="https://via.placeholder.com/35x35"
+          className="rounded-circle ms-2"
+          alt="User Avatar"
+          height={35}
+          width={35}
+        />
+      </div>
+      <div className="d-flex justify-content-end small mb-1">{`${props.time}`}</div>
+    </div>
+  );
+}
 
 function ChatPage() {
+  const [messages, setMessages] = useState([]);
+  const { userData } = useContext(AuthContext);
+  const params = useParams();
+  const wasRenderd = useRef(false);
+  const [text, setText] = useState("");
+  useEffect(() => {
+    if (wasRenderd.current) return;
+    console.log();
+    wasRenderd.current = true;
+
+    fetch(
+      `http://localhost:8000/api/agora/get_token/user?uid=${userData.username}`
+    )
+      .then((res) => res.json())
+      .then((res) => {
+        connect(res.userToken);
+      });
+    WebIM.conn.addEventHandler(userData.username, {});
+  }, []);
+
+  const connect = (agoraToken) => {
+    WebIM.conn.open({
+      user: userData.username,
+      agoraToken: agoraToken,
+    });
+  };
+
+  WebIM.conn.listen({
+    onTextMessage: (msg) => {
+      setMessages((m) => [...m, msg]);
+    },
+  });
+
+  // WebIM.conn.close() //to
+  // window.addEventListener('popstate',handleDisconnect) //refresh
+  // window.addEventListener('beforeunload',handleDisconnect) //back
+
+  const handleSendMessage = (e) => {
+    e.preventDefault();
+    const txt = e.target[0].value;
+
+    const option = {
+      chatType: "singleChat",
+      type: "txt",
+      to: params.username,
+      from: userData.username,
+      msg: txt,
+      ext: {
+        // name:ext?.name,
+        // color:ext?.color,
+        // side:ext?.side,
+        // userId:ext?.userId,
+        // sender:ext.sender,
+      },
+    };
+    const message = WebIM.message.create(option);
+    WebIM.conn.send(message);
+    // console.log(e.target[0].value);
+
+    setMessages((m) => [...m, message]);
+    setText("");
+  };
+
   return (
     <>
       <Container className="h-100 mt-4">
@@ -27,61 +143,50 @@ function ChatPage() {
                     className="rounded-circle me-2"
                     alt="User Avatar"
                   />
-                  <h3 className="mb-0">Username</h3>
+                  <h3 className="mb-0">
+                    <strong>{params.username}</strong>
+                  </h3>
                 </div>
               </div>
               <div className="card-body overflow-auto">
-                <div className="d-flex flex-column mb-2">
-                  <div className="d-flex justify-content-center mb-2">
-                    <div> 4 May 2023</div>
-                  </div>
-                  <div className="d-flex align-items-center mb-2">
-                    <img
-                      src="https://via.placeholder.com/35x35"
-                      className="rounded-circle me-2"
-                      alt="User Avatar"
-                      height={35}
-                      width={35}
+                {messages.map((message) =>
+                  message.from === userData.username ? (
+                    <OutgoingMessage
+                      key={message.id}
+                      msg={message.msg}
+                      time={new Date(parseInt(message.time))
+                        .toISOString()
+                        .split("T")[1]
+                        .substring(0, 5)}
                     />
-                    <div
-                      className="rounded bg-primary text-white py-2 px-3"
-                      style={{ wordBreak: "break-word" }}
-                    >
-                      hello.
-                    </div>
-                  </div>
-                  <div className="d-flex justify-content-start small mb-1">
-                    10:30 AM
-                  </div>
-                </div>
-                <div className="d-flex flex-column mb-4">
-                  <div className="d-flex align-items-center justify-content-end mb-2">
-                    <div
-                      className="rounded bg-secondary text-white py-2 px-3 ms-auto"
-                      style={{ wordBreak: "break-word" }}
-                    >
-                      hi.
-                    </div>
-                    <img
-                      src="https://via.placeholder.com/35x35"
-                      className="rounded-circle ms-2"
-                      alt="User Avatar"
-                      height={35}
-                      width={35}
+                  ) : (
+                    <IncomingMessage
+                      key={message.id}
+                      msg={message.sourceMsg}
+                      time={new Date(parseInt(message.time))
+                        .toISOString()
+                        .split("T")[1]
+                        .substring(0, 5)}
                     />
-                  </div>
-                  <div className="d-flex justify-content-end small mb-1">
-                    10:35 AM
-                  </div>
-                </div>
+                  )
+                )}
               </div>
               <div className="card-footer">
-                <InputGroup className="mb-3">
-                  <FormControl placeholder="Message" aria-label="Message" />
-                  <Button variant="primary" id="button-addon2">
-                    Send <BsFillArrowLeftCircleFill />
-                  </Button>
-                </InputGroup>
+                <Form onSubmit={handleSendMessage}>
+                  <InputGroup className="mb-3">
+                    <FormControl
+                      value={text}
+                      placeholder="Message"
+                      aria-label="Message"
+                      onChange={(e) => {
+                        setText(e.target.value);
+                      }}
+                    />
+                    <Button variant="primary" id="button-addon2" type="submit">
+                      <BsFillArrowLeftCircleFill />
+                    </Button>
+                  </InputGroup>
+                </Form>
               </div>
             </div>
           </Col>

@@ -37,7 +37,7 @@ function Login() {
               />
 
               <div className="biglogo">
-                N<span className="orange">o</span>mad
+                N<span className="orange-login">o</span>mad
               </div>
             </h1>
           </Col>

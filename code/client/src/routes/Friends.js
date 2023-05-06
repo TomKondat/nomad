@@ -8,11 +8,9 @@ import {
   Container,
   FormControl,
 } from "react-bootstrap";
-import { BsFillPersonPlusFill } from "react-icons/bs";
 import { TfiViewList } from "react-icons/tfi";
-import { RxCross1 } from "react-icons/rx";
-import { AiOutlineCheck } from "react-icons/ai";
 import { BsFillChatTextFill } from "react-icons/bs";
+import { LinkContainer } from "react-router-bootstrap";
 
 function FriendsPage() {
   const [showFriendRequest, setShowFriendRequest] = useState(false);
@@ -62,9 +60,11 @@ function FriendsPage() {
             <Card.Title className="mb-0">Ron Vak</Card.Title>
             <Card.Text className="text-muted">Amdocs</Card.Text>
           </div>
-          <Button variant="outline-light" className="ms-auto">
-            <BsFillChatTextFill className="orange" />
-          </Button>
+          <LinkContainer to="/chatpage/ronvak">
+            <Button variant="outline-light" className="ms-auto">
+              <BsFillChatTextFill className="orange" />
+            </Button>
+          </LinkContainer>
         </Card.Body>
       </Card>
 

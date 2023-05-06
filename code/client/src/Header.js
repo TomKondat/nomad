@@ -21,7 +21,13 @@ function Header() {
 
   return (
     <React.Fragment>
-      <Navbar bg="light" expand="lg" sticky="top" collapseOnSelect>
+      <Navbar
+        variant="dark"
+        expand="lg"
+        sticky="top"
+        collapseOnSelect
+        className="purple"
+      >
         <Container>
           <LinkContainer to={`/`}>
             <Navbar.Brand>
@@ -31,10 +37,11 @@ function Header() {
                 width="30"
                 height="30"
                 className="d-inline-block align-top"
+                style={{ marginRight: "3px" }}
               />
-              <div className="logo">
+              <span style={{ fontWeight: "bold" }}>
                 N<span className="orange">o</span>mad
-              </div>
+              </span>
             </Navbar.Brand>
           </LinkContainer>
           <div
@@ -44,17 +51,17 @@ function Header() {
             }}
           >
             <LinkContainer to="/">
-              <Button size="lg" variant="light">
+              <Button size="lg" variant="navbar">
                 <AiFillHome className="orange" />
               </Button>
             </LinkContainer>
             <LinkContainer to="/profile">
-              <Button size="lg" variant="light">
+              <Button size="lg" variant="navbar">
                 <BsFillPersonFill className="orange" />
               </Button>
             </LinkContainer>
             <LinkContainer to="/friendspage">
-              <Button size="lg" variant="light">
+              <Button size="lg" variant="navbar">
                 <BsFillChatFill className="orange" />
               </Button>
             </LinkContainer>
