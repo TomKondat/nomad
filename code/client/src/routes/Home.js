@@ -117,11 +117,12 @@ function Home() {
                     </ListGroup.Item>
                     <ListGroup.Item>
                       <BsClockFill />
-                      &nbsp;{conv.start_date}
+                      &nbsp;
+                      {new Date(conv.start_date).toLocaleString("en-gb")}
                     </ListGroup.Item>
                     <ListGroup.Item>
                       <BsClockHistory />
-                      &nbsp;{conv.end_date}
+                      &nbsp;{new Date(conv.end_date).toLocaleString("en-gb")}
                     </ListGroup.Item>
                   </ListGroup>
                 </Card>
