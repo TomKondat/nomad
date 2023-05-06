@@ -14,7 +14,17 @@
   .orange {
     color: #F56500;
   }
+  .orangeb {
+    background-color: #F56500;
+  }
   .blue {
     color: rgb(73, 151, 172);
+  }
+  .blueb{
+    background-color: rgb(73, 151, 172);
+  }
+ 
+  .chatb{
+    background-color: rgb(112, 197, 220);
   }
  

@@ -14,6 +14,7 @@ import WebIM from "../WebIM";
 import { useRef, useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import AuthContext from "../AuthContext";
+import "./BigLogo.css";
 
 function OutgoingMessage(props) {
   return (
@@ -27,7 +28,7 @@ function OutgoingMessage(props) {
           width={35}
         />
         <div
-          className="rounded bg-primary text-white py-2 px-3"
+          className="rounded bg-light text-black py-2 px-3"
           style={{ wordBreak: "break-word" }}
         >
           {props.msg}
@@ -45,7 +46,7 @@ function IncomingMessage(props) {
     <div className="d-flex flex-column mb-2">
       <div className="d-flex align-items-center justify-content-end mb-2">
         <div
-          className="rounded bg-secondary text-white py-2 px-3 ms-auto"
+          className="rounded chatb text-white py-2 px-3 ms-auto"
           style={{ wordBreak: "break-word" }}
         >
           {props.msg}
@@ -68,7 +69,7 @@ function ChatPage() {
   const { userData } = useContext(AuthContext);
   const params = useParams();
   const wasRenderd = useRef(false);
-
+  const [text, setText] = useState("");
   useEffect(() => {
     if (wasRenderd.current) return;
     console.log();
@@ -124,6 +125,7 @@ function ChatPage() {
     // console.log(e.target[0].value);
 
     setMessages((m) => [...m, message]);
+    setText("");
   };
 
   return (
@@ -141,7 +143,9 @@ function ChatPage() {
                     className="rounded-circle me-2"
                     alt="User Avatar"
                   />
-                  <h3 className="mb-0">{params.username}</h3>
+                  <h3 className="mb-0">
+                    <strong>{params.username}</strong>
+                  </h3>
                 </div>
               </div>
               <div className="card-body overflow-auto">
@@ -170,7 +174,14 @@ function ChatPage() {
               <div className="card-footer">
                 <Form onSubmit={handleSendMessage}>
                   <InputGroup className="mb-3">
-                    <FormControl placeholder="Message" aria-label="Message" />
+                    <FormControl
+                      value={text}
+                      placeholder="Message"
+                      aria-label="Message"
+                      onChange={(e) => {
+                        setText(e.target.value);
+                      }}
+                    />
                     <Button variant="primary" id="button-addon2" type="submit">
                       <BsFillArrowLeftCircleFill />
                     </Button>
