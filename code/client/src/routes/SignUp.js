@@ -1,40 +1,47 @@
 import { useState } from "react";
-import { Container, Form, Button } from "react-bootstrap";
+import { Container, Form, Button, Row, Col, Alert } from "react-bootstrap";
 
 function SignUp() {
-  const [formValues, setFormValues] = useState({
-    name: "",
-    lastName: "",
-    address: "",
-    birthday: "",
-    email: "",
-    password: "",
-    verifyPassword: "",
-  });
-
-  const [passwordMatch, setPasswordMatch] = useState(true);
-  const [formSubmitted, setFormSubmitted] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (formValues.password !== formValues.verifyPassword) {
-      setPasswordMatch(false);
-      setFormSubmitted(true);
+    setShowSuccess(false);
+
+    if (e.target.password.value !== e.target.verifyPassword.value) {
+      setPasswordError(true);
       return;
     }
-    console.log(formValues); // Do whatever you want with the form values
-  };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormSubmitted(false); // Reset form submission flag when a field is changed
-    setFormValues({ ...formValues, [name]: value });
-  };
+    setPasswordError(false);
+    const data = {
+      username: e.target.username.value,
+      password: e.target.password.value,
+      email: e.target.email.value,
+      profile: {
+        birthdate: e.target.birthdate.value,
+        address: e.target.address.value,
+      },
+    };
 
-  const handleVerifyPasswordChange = (e) => {
-    const { value } = e.target;
-    setPasswordMatch(value === formValues.password);
-    handleChange(e);
+    fetch("http://localhost:8000/api/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => {
+        if (res.status === 201) {
+          setShowSuccess(true);
+        } else {
+          console.log(res);
+        }
+
+        return res.json();
+      })
+      .then((res) => console.log(res));
   };
 
   return (
@@ -44,120 +51,145 @@ function SignUp() {
         <p className="lead">Create an account and start using Nomad</p>
       </header>
 
+      {showSuccess ? (
+        <Alert
+          variant="success"
+          onClose={() => setShowSuccess(false)}
+          dismissible
+        >
+          User created successfully!
+        </Alert>
+      ) : null}
+
       <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="formName">
-          <Form.Label>Name</Form.Label>
-          <Form.Control
-            type="text"
-            name="name"
-            value={formValues.name}
-            onChange={handleChange}
-            placeholder="Enter your name"
-            required
-          />
-        </Form.Group>
+        <Row>
+          <Col lg={6}>
+            <Form.Group className="mb-3" controlId="formUsername">
+              <Form.Label>Username</Form.Label>
+              <Form.Control
+                type="text"
+                name="username"
+                placeholder="Enter your username"
+                required
+              />
+            </Form.Group>
+          </Col>
 
-        <Form.Group controlId="formLastName">
-          <Form.Label>Last Name</Form.Label>
-          <Form.Control
-            type="text"
-            name="lastName"
-            value={formValues.lastName}
-            onChange={handleChange}
-            placeholder="Enter your last name"
-            required
-          />
-        </Form.Group>
+          <Col lg={3}>
+            <Form.Group className="mb-3" controlId="formFirstName">
+              <Form.Label>First Name</Form.Label>
+              <Form.Control
+                type="text"
+                name="firstName"
+                placeholder="Enter your first name"
+                required
+              />
+            </Form.Group>
+          </Col>
 
-        <Form.Group controlId="formAddress">
-          <Form.Label>Address</Form.Label>
-          <Form.Control
-            type="text"
-            name="address"
-            value={formValues.address}
-            onChange={handleChange}
-            placeholder="Enter your address"
-            required
-          />
-        </Form.Group>
+          <Col lg={3}>
+            <Form.Group className="mb-3" controlId="formLastName">
+              <Form.Label>Last Name</Form.Label>
+              <Form.Control
+                type="text"
+                name="lastName"
+                placeholder="Enter your last name"
+                required
+              />
+            </Form.Group>
+          </Col>
+        </Row>
 
-        <Form.Group controlId="formAddress">
-          <Form.Label>Company</Form.Label>
-          <Form.Control
-            type="text"
-            name="address"
-            value={formValues.address}
-            onChange={handleChange}
-            placeholder="Enter your company"
-            required
-          />
-        </Form.Group>
+        <Row>
+          <Form.Group className="mb-3" controlId="formAddress">
+            <Form.Label>Address</Form.Label>
+            <Form.Control
+              type="text"
+              name="address"
+              placeholder="Enter your address"
+              required
+            />
+          </Form.Group>
+        </Row>
 
-        <Form.Group controlId="formAddress">
-          <Form.Label>Position</Form.Label>
-          <Form.Control
-            type="text"
-            name="address"
-            value={formValues.address}
-            onChange={handleChange}
-            placeholder="Enter your position"
-            required
-          />
-        </Form.Group>
+        <Row>
+          <Col lg={6}>
+            <Form.Group className="mb-3" controlId="formCompany">
+              <Form.Label>Company</Form.Label>
+              <Form.Control
+                type="text"
+                name="company"
+                placeholder="Enter your company"
+                required
+              />
+            </Form.Group>
+          </Col>
 
-        <Form.Group controlId="formBirthday">
-          <Form.Label>Birthdate</Form.Label>
-          <Form.Control
-            type="date"
-            name="birthdate"
-            value={formValues.birthdate}
-            onChange={handleChange}
-            required
-          />
-        </Form.Group>
+          <Col lg={6}>
+            <Form.Group className="mb-3" controlId="formPosition">
+              <Form.Label>Position</Form.Label>
+              <Form.Control
+                type="text"
+                name="position"
+                placeholder="Enter your position"
+                required
+              />
+            </Form.Group>
+          </Col>
+        </Row>
 
-        <Form.Group controlId="formEmail">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control
-            type="email"
-            name="email"
-            value={formValues.email}
-            onChange={handleChange}
-            placeholder="Enter your email address"
-            required
-          />
-        </Form.Group>
+        <Row>
+          <Col lg={9}>
+            <Form.Group className="mb-3" controlId="formEmail">
+              <Form.Label>Email address</Form.Label>
+              <Form.Control
+                type="email"
+                name="email"
+                placeholder="Enter your email address"
+                required
+              />
+            </Form.Group>
+          </Col>
 
-        <Form.Group controlId="formPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            name="password"
-            value={formValues.password}
-            onChange={handleChange}
-            placeholder="Enter your password"
-            required
-          />
-        </Form.Group>
+          <Col lg={3}>
+            <Form.Group className="mb-3" controlId="formBirthdate">
+              <Form.Label>Birthdate</Form.Label>
+              <Form.Control type="date" name="birthdate" required />
+            </Form.Group>
+          </Col>
+        </Row>
 
-        <Form.Group controlId="formVerifyPassword">
-          <Form.Label>Verify Password</Form.Label>
-          <Form.Control
-            type="password"
-            name="verifyPassword"
-            value={formValues.verifyPassword}
-            onChange={handleVerifyPasswordChange}
-            placeholder="Re-enter your password"
-            required
-          />
-          {!passwordMatch && formSubmitted && (
-            <Form.Text className="text-danger">
-              Passwords do not match!
-            </Form.Text>
-          )}
-        </Form.Group>
-        <br />
-        <Button variant="primary" type="submit">
+        <Row>
+          <Col lg={6}>
+            <Form.Group className="mb-3" controlId="formPassword">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                name="password"
+                placeholder="Enter your password"
+                required
+              />
+            </Form.Group>
+          </Col>
+
+          <Col lg={6}>
+            <Form.Group controlId="formVerifyPassword">
+              <Form.Label>Verify Password</Form.Label>
+              <Form.Control
+                type="password"
+                name="verifyPassword"
+                placeholder="Re-enter your password"
+                className={`${passwordError ? "is-invalid" : ""}`}
+                required
+              />
+              <Form.Control.Feedback type="invalid">
+                Please enter matching passwords.
+              </Form.Control.Feedback>
+            </Form.Group>
+          </Col>
+        </Row>
+
+        <Button className="mt-3" variant="primary" type="submit">
           Sign Up
         </Button>
       </Form>
