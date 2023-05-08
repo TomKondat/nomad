@@ -46,7 +46,7 @@ function IncomingMessage(props) {
     <div className="d-flex flex-column mb-2">
       <div className="d-flex align-items-center justify-content-end mb-2">
         <div
-          className="rounded bg-primary text-white py-2 px-3 ms-auto"
+          className="rounded chatb text-white py-2 px-3 ms-auto"
           style={{ wordBreak: "break-word" }}
         >
           {props.msg}
@@ -189,8 +189,10 @@ function ChatPage() {
                         setText(e.target.value);
                       }}
                     />
-                    <Button variant="primary" id="button-addon2" type="submit">
-                      <BsFillArrowLeftCircleFill />
+                    <Button id="button-addon2" type="submit">
+                      <BsFillArrowLeftCircleFill
+                        style={{ width: "1.5rem", height: "1.5rem" }}
+                      />
                     </Button>
                   </InputGroup>
                 </Form>
