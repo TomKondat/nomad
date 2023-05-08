@@ -1,11 +1,16 @@
 import React from "react";
 import { LinkContainer } from "react-router-bootstrap";
-import { Container, Row, Col, Image, Button } from "react-bootstrap";
+import { Container, Row, Col, Image, Button, Modal } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { FiEdit } from "react-icons/fi";
+import { SlLogout } from "react-icons/sl";
 
 const UserProfile = () => {
   const [profile, setProfile] = useState();
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   async function getProfile() {
     await axios
@@ -23,8 +28,37 @@ const UserProfile = () => {
     <Container className="py-5">
       {profile ? (
         <>
+          <Modal show={show} onHide={handleClose} centered>
+            <Modal.Header closeButton>
+              <Modal.Title>Log out</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>Are you sure you want to log out?</Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                Close
+              </Button>
+              <LinkContainer to="/Login">
+                <Button variant="danger" onClick={handleClose}>
+                  Log out
+                </Button>
+              </LinkContainer>
+            </Modal.Footer>
+          </Modal>
+
           <Row className="justify-content-center">
             <Col md={8} lg={6} className="text-center">
+              <Row>
+                <Col>
+                  <Button
+                    size="sm"
+                    variant="outline-danger"
+                    className="float-end fw-bold"
+                    onClick={handleShow}
+                  >
+                    <SlLogout />
+                  </Button>
+                </Col>
+              </Row>
               {profile ? (
                 <Image
                   src={`http://localhost:8000/media/${profile?.profile_img}`}
@@ -42,21 +76,25 @@ const UserProfile = () => {
               <p className="text-muted mt-2">{profile?.position}</p>
 
               <hr />
+              <Row>
+                <Col>
+                  <LinkContainer to="/EditProfile">
+                    <Button
+                      size="sm"
+                      variant="outline-secondary "
+                      className="float-end"
+                    >
+                      <FiEdit />
+                    </Button>
+                  </LinkContainer>
+                </Col>
+              </Row>
               <p className="text-muted">Company:</p>
               <p> {profile?.company}</p>
               <p className="text-muted">Address:</p>
               <p> {profile?.address}</p>
               <p className="text-muted">Birthdate:</p>
               <p>{profile?.birthdate}</p>
-              <LinkContainer to="/EditProfile">
-                <Button
-                  size="lg"
-                  variant="outline-primary"
-                  className="rounded-pill"
-                >
-                  Edit Profile
-                </Button>
-              </LinkContainer>
             </Col>
           </Row>
         </>
