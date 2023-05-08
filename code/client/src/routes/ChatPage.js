@@ -46,7 +46,7 @@ function IncomingMessage(props) {
     <div className="d-flex flex-column mb-2">
       <div className="d-flex align-items-center justify-content-end mb-2">
         <div
-          className="rounded chatb text-white py-2 px-3 ms-auto"
+          className="rounded bg-primary text-white py-2 px-3 ms-auto"
           style={{ wordBreak: "break-word" }}
         >
           {props.msg}
@@ -69,6 +69,7 @@ function ChatPage() {
   const { userData } = useContext(AuthContext);
   const params = useParams();
   const wasRenderd = useRef(false);
+  const messageEndRef = useRef(null);
   const [text, setText] = useState("");
   useEffect(() => {
     if (wasRenderd.current) return;
@@ -91,6 +92,10 @@ function ChatPage() {
       agoraToken: agoraToken,
     });
   };
+
+  useEffect(() => {
+    messageEndRef.current?.scrollIntoView();
+  }, [messages]);
 
   WebIM.conn.listen({
     onTextMessage: (msg) => {
@@ -170,7 +175,9 @@ function ChatPage() {
                     />
                   )
                 )}
+                <div ref={messageEndRef} />
               </div>
+
               <div className="card-footer">
                 <Form onSubmit={handleSendMessage}>
                   <InputGroup className="mb-3">
