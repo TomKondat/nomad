@@ -84,7 +84,7 @@ function FriendsPage() {
           <Card className="mb-3">
             <Card.Body className="d-flex align-items-center">
               <Image
-                src="https://scontent.ftlv20-1.fna.fbcdn.net/v/t39.30808-1/283797259_5732332996780286_8152176667643302543_n.jpg?stp=dst-jpg_p320x320&_nc_cat=106&ccb=1-7&_nc_sid=7206a8&_nc_ohc=sasfYWfk8i0AX9Q-33Z&_nc_ht=scontent.ftlv20-1.fna&oh=00_AfCUwL9RnWIzfX3oTSVSN6fbeY9SbHTUnHUS1xyBKoG91A&oe=64531BCE"
+                src="https://scontent.ftlv19-1.fna.fbcdn.net/v/t39.30808-6/283797259_5732332996780286_8152176667643302543_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=kYQscuX-lEkAX-JtVlk&_nc_ht=scontent.ftlv19-1.fna&oh=00_AfAoBoXiIKNAIEdHc0ELAs2w68A03RlGYZDLBjTwBnVbWw&oe=645E26D0"
                 width={60}
                 height={60}
                 roundedCircle
