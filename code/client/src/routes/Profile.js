@@ -52,11 +52,21 @@ const UserProfile = () => {
                   <Button
                     size="sm"
                     variant="outline-danger"
-                    className="float-end fw-bold"
+                    className="float-end "
                     onClick={handleShow}
                   >
                     <SlLogout />
                   </Button>
+
+                  <LinkContainer to="/EditProfile">
+                    <Button
+                      size="sm"
+                      variant="outline-secondary mx-2"
+                      className="float-end"
+                    >
+                      <FiEdit />
+                    </Button>
+                  </LinkContainer>
                 </Col>
               </Row>
               {profile ? (
@@ -76,19 +86,6 @@ const UserProfile = () => {
               <p className="text-muted mt-2">{profile?.position}</p>
 
               <hr />
-              <Row>
-                <Col>
-                  <LinkContainer to="/EditProfile">
-                    <Button
-                      size="sm"
-                      variant="outline-secondary "
-                      className="float-end"
-                    >
-                      <FiEdit />
-                    </Button>
-                  </LinkContainer>
-                </Col>
-              </Row>
               <p className="text-muted">Company:</p>
               <p> {profile?.company}</p>
               <p className="text-muted">Address:</p>
