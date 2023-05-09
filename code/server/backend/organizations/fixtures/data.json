@@ -1,0 +1,182 @@
+[
+  {
+    "model": "profiles.userprofile",
+    "pk": 1,
+    "fields": {
+      "user": 2,
+      "birthdate": "1997-01-14",
+      "address": "Harama 52, Dimona",
+      "company": "Intel",
+      "position": "Backend Developer",
+      "lat": "0.000001",
+      "lon": "0.000001",
+      "profile_img": "profiles/noamezra.jpg"
+    }
+  },
+  {
+    "model": "profiles.userprofile",
+    "pk": 2,
+    "fields": {
+      "user": 3,
+      "birthdate": "1997-03-06",
+      "address": "Yermia 14, Dimona",
+      "company": "",
+      "position": "",
+      "lat": null,
+      "lon": null,
+      "profile_img": "profiles/no-profile-picture.svg"
+    }
+  },
+  {
+    "model": "profiles.userprofile",
+    "pk": 3,
+    "fields": {
+      "user": 4,
+      "birthdate": "1997-03-06",
+      "address": "Yermia 14, Dimona",
+      "company": "",
+      "position": "",
+      "lat": null,
+      "lon": null,
+      "profile_img": "profiles/no-profile-picture.svg"
+    }
+  },
+  {
+    "model": "organizations.organization",
+    "pk": 1,
+    "fields": {
+      "name": "Microsoft",
+      "organization_img": "organizations/Microsoft_logo.svg.png"
+    }
+  },
+  {
+    "model": "organizations.organization",
+    "pk": 2,
+    "fields": {
+      "name": "Google",
+      "organization_img": "organizations/google-new-logo-450x450.jpg"
+    }
+  },
+  {
+    "model": "organizations.organization",
+    "pk": 3,
+    "fields": {
+      "name": "Nvidia",
+      "organization_img": "organizations/02-nvidia-logo-color-blk-500x200-4c25-p.png"
+    }
+  },
+  {
+    "model": "conventions.conventions",
+    "pk": 1,
+    "fields": {
+      "organization_id": 3,
+      "name": "Nvidia Convention",
+      "description": "Revealing a new GPU",
+      "address": "Harama 52, Dimona",
+      "capacity": 500,
+      "start_date": "2023-05-01T16:16:38Z",
+      "end_date": "2023-05-01T16:16:37Z",
+      "convention_img": "conventions/depositphotos_241920474-stock-photo-people-visit-stand-nvidia-11th.jpg"
+    }
+  },
+  {
+    "model": "conventions.conventions",
+    "pk": 2,
+    "fields": {
+      "organization_id": 2,
+      "name": "Google Convention",
+      "description": "Business meetup",
+      "address": "Hazohar 12, Tel Aviv",
+      "capacity": 50,
+      "start_date": "2023-05-01T16:16:29Z",
+      "end_date": "2023-05-01T16:16:30Z",
+      "convention_img": "conventions/gty_google_io_ll_130514_wmain.jpg"
+    }
+  },
+  {
+    "model": "conventions.conventions",
+    "pk": 3,
+    "fields": {
+      "organization_id": 1,
+      "name": "Microsoft Convention",
+      "description": "New technology presented",
+      "address": "Harama 52, Dimona",
+      "capacity": 200,
+      "start_date": "2023-05-01T16:00:00Z",
+      "end_date": "2023-05-01T16:00:00Z",
+      "convention_img": "conventions/microsoft_conv.jpg"
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$390000$kXab8cDskSDAcRnPxppBkR$ov1IP0zDRqbPLR1KdVZYGumoWmUKL5lXl/cz4R53fS4=",
+      "last_login": "2023-05-06T12:49:37.929Z",
+      "is_superuser": true,
+      "username": "admin",
+      "first_name": "",
+      "last_name": "",
+      "email": "",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2023-05-01T15:00:20.853Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+      "password": "pbkdf2_sha256$390000$rJKnPxmqF7tbgLmyZafJKF$iLuOFTraMkzSx8H8LNveoZhj39oG0HrbMvodccav8o4=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "noamezra",
+      "first_name": "Noam",
+      "last_name": "Ezra",
+      "email": "noamezra@gmail.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2023-05-01T15:19:35Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 3,
+    "fields": {
+      "password": "pbkdf2_sha256$390000$CIIqvdVCnwjuGe45K51N93$K1Wd9KCK4iEyFm5I2qiPG1s3wH91Q8SNxIECKmj9gGE=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "ronvak",
+      "first_name": "Ron",
+      "last_name": "Vak",
+      "email": "ronvak@gmail.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2023-05-06T10:52:04.570Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "pk": 4,
+    "fields": {
+      "password": "pbkdf2_sha256$390000$YADf2SaOlWmC2e9SmSwMsa$wekN7dGITgMNliLUWtM0mMWhlep9F6o44x9QS4qTm4Q=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "tom",
+      "first_name": "Tom",
+      "last_name": "Kondat",
+      "email": "tom@tom.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2023-05-06T12:50:23.590Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  }
+]
