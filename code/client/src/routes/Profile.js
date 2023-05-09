@@ -5,12 +5,20 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { FiEdit } from "react-icons/fi";
 import { SlLogout } from "react-icons/sl";
+import AuthContext from "../AuthContext";
+import { useContext } from "react";
 
 const UserProfile = () => {
   const [profile, setProfile] = useState();
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
+
   const handleShow = () => setShow(true);
+  const { logoutUser } = useContext(AuthContext);
+
+  const handleClose = () => {
+    logoutUser();
+    setShow(false);
+  };
 
   async function getProfile() {
     await axios
