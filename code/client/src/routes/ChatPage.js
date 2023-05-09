@@ -189,7 +189,11 @@ function ChatPage() {
                         setText(e.target.value);
                       }}
                     />
-                    <Button id="button-addon2" type="submit">
+                    <Button
+                      id="button-addon2"
+                      type="submit"
+                      disabled={text === "" || /^\s+$/.test(text)}
+                    >
                       <BsFillArrowLeftCircleFill
                         style={{ width: "1.5rem", height: "1.5rem" }}
                       />
