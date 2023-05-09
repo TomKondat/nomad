@@ -19,7 +19,7 @@ import "./BigLogo.css";
 function OutgoingMessage(props) {
   return (
     <div className="d-flex flex-column mb-2">
-      <div className="d-flex align-items-center mb-2">
+      <div className="d-flex  mb-2 ">
         <img
           src="https://via.placeholder.com/35x35"
           className="rounded-circle me-2"
@@ -44,7 +44,7 @@ function OutgoingMessage(props) {
 function IncomingMessage(props) {
   return (
     <div className="d-flex flex-column mb-2">
-      <div className="d-flex align-items-center justify-content-end mb-2">
+      <div className="d-flex justify-content-end mb-2">
         <div
           className="rounded chatb text-white py-2 px-3 ms-auto"
           style={{ wordBreak: "break-word" }}
@@ -132,7 +132,6 @@ function ChatPage() {
     setMessages((m) => [...m, message]);
     setText("");
   };
-
   return (
     <>
       <Container className="h-100 mt-4">
@@ -182,11 +181,18 @@ function ChatPage() {
                 <Form onSubmit={handleSendMessage}>
                   <InputGroup className="mb-3">
                     <FormControl
+                      as="textarea"
+                      rows={1}
                       value={text}
                       placeholder="Message"
                       aria-label="Message"
                       onChange={(e) => {
                         setText(e.target.value);
+                      }}
+                      style={{
+                        resize: "none",
+                        overflow: "auto",
+                        maxHeight: "10px",
                       }}
                     />
                     <Button
