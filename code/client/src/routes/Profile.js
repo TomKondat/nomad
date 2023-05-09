@@ -5,12 +5,20 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { FiEdit } from "react-icons/fi";
 import { SlLogout } from "react-icons/sl";
+import AuthContext from "../AuthContext";
+import { useContext } from "react";
 
 const UserProfile = () => {
   const [profile, setProfile] = useState();
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
+
   const handleShow = () => setShow(true);
+  const { logoutUser } = useContext(AuthContext);
+
+  const handleClose = () => {
+    logoutUser();
+    setShow(false);
+  };
 
   async function getProfile() {
     await axios
@@ -52,11 +60,21 @@ const UserProfile = () => {
                   <Button
                     size="sm"
                     variant="outline-danger"
-                    className="float-end fw-bold"
+                    className="float-end "
                     onClick={handleShow}
                   >
                     <SlLogout />
                   </Button>
+
+                  <LinkContainer to="/EditProfile">
+                    <Button
+                      size="sm"
+                      variant="outline-secondary mx-2"
+                      className="float-end"
+                    >
+                      <FiEdit />
+                    </Button>
+                  </LinkContainer>
                 </Col>
               </Row>
               {profile ? (
@@ -76,19 +94,6 @@ const UserProfile = () => {
               <p className="text-muted mt-2">{profile?.position}</p>
 
               <hr />
-              <Row>
-                <Col>
-                  <LinkContainer to="/EditProfile">
-                    <Button
-                      size="sm"
-                      variant="outline-secondary "
-                      className="float-end"
-                    >
-                      <FiEdit />
-                    </Button>
-                  </LinkContainer>
-                </Col>
-              </Row>
               <p className="text-muted">Company:</p>
               <p> {profile?.company}</p>
               <p className="text-muted">Address:</p>
