@@ -12,18 +12,15 @@ import { TfiViewList } from "react-icons/tfi";
 import { BsFillChatTextFill } from "react-icons/bs";
 import { LinkContainer } from "react-router-bootstrap";
 
-function FriendsPage() {
-  const [showFriendRequest, setShowFriendRequest] = useState(false);
+function Chats() {
   const [showFriendList, setShowFriendList] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [friendListQuery, setFriendListQuery] = useState("");
 
   const handleClose = () => {
-    setShowFriendRequest(false);
     setShowFriendList(false);
   };
 
-  const handleShowFriendRequest = () => setShowFriendRequest(true);
   const handleShowFriendList = () => setShowFriendList(true);
 
   return (
@@ -105,4 +102,4 @@ function FriendsPage() {
   );
 }
 
-export default FriendsPage;
+export default Chats;
