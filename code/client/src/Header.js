@@ -60,7 +60,7 @@ function Header() {
                 <BsFillPersonFill className="orange" />
               </Button>
             </LinkContainer>
-            <LinkContainer to="/friendspage">
+            <LinkContainer to="/Chats">
               <Button size="lg" variant="navbar">
                 <BsFillChatFill className="orange" />
               </Button>

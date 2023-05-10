@@ -8,7 +8,6 @@ import Header from "./Header";
 
 // Routes
 import Home from "./routes/Home";
-import FriendsPage from "./routes/Friends";
 import Profile from "./routes/Profile";
 import Login from "./routes/Login";
 import EditProfile from "./routes/EditProfile";
@@ -18,6 +17,7 @@ import EditConvention from "./routes/EditConvention";
 import ChatPage from "./routes/ChatPage";
 import NewConvention from "./routes/NewConvention";
 import AddConvention from "./routes/AddConvention";
+import Chats from "./routes/Chats";
 function App() {
   return (
     <React.Fragment>
@@ -27,7 +27,7 @@ function App() {
           <Container className="pt-2">
             <Routes>
               <Route index element={<Home />} />
-              <Route path="friendspage" element={<FriendsPage />} />
+              <Route path="chats" element={<Chats />} />
               <Route element={<PrivateRoute />}>
                 <Route path="profile" element={<Profile />} />
               </Route>

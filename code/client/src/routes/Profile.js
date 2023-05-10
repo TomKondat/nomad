@@ -16,8 +16,11 @@ const UserProfile = () => {
   const { logoutUser } = useContext(AuthContext);
 
   const handleClose = () => {
-    logoutUser();
     setShow(false);
+  };
+
+  const handleLogOut = () => {
+    logoutUser();
   };
 
   async function getProfile() {
@@ -46,7 +49,7 @@ const UserProfile = () => {
                 Close
               </Button>
               <LinkContainer to="/Login">
-                <Button variant="danger" onClick={handleClose}>
+                <Button variant="danger" onClick={handleLogOut}>
                   Log out
                 </Button>
               </LinkContainer>
