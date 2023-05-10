@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { LinkContainer } from "react-router-bootstrap";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import Navbar from "react-bootstrap/Navbar";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import "./BigLogo.css";
@@ -25,7 +26,7 @@ function Login() {
   return (
     <React.Fragment>
       <Form onSubmit={handleSubmit}>
-        <Row className="justify-content-center mt-2">
+        <Row className="justify-content-center mt-4">
           <Col lg={8} xl={6} xxl={5}>
             <h1 className="mt-2 text-center">
               <img
@@ -37,7 +38,7 @@ function Login() {
               />
 
               <div className="biglogo">
-                N<span className="orange-login">o</span>mad
+                N<span className="orange">o</span>mad
               </div>
             </h1>
           </Col>
@@ -76,17 +77,28 @@ function Login() {
           </Col>
         </Row>
 
-        <Row className="justify-content-center mt-2">
+        <Row className="justify-content-center mt-3">
           <Col lg={8} xl={6} xxl={5}>
             <Button variant="primary" type="submit">
               Sign In
             </Button>
-            &nbsp;&nbsp;
+
             <LinkContainer to={"/signup"}>
-              <Button variant="outline-primary">Sign Up</Button>
+              <Button className="mx-4" variant="outline-primary">
+                Sign Up
+              </Button>
             </LinkContainer>
           </Col>
         </Row>
+        <br />
+        <br />
+        <br />
+        <br />
+        <Navbar bg="light" className=" justify-content-center mt-5   shadow-sm">
+          <p className=" text-center mb-0  lead">
+            © 2023 Copyright: <strong>Nomad</strong>
+          </p>
+        </Navbar>
       </Form>
     </React.Fragment>
   );
