@@ -25,7 +25,7 @@ function SignUp() {
       },
     };
 
-    fetch("http://localhost:8000/api/signup", {
+    fetch("/api/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
