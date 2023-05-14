@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Container,
   Row,
@@ -9,16 +9,23 @@ import {
   Alert,
 } from "react-bootstrap";
 import { FaCamera } from "react-icons/fa";
+import axios from "axios";
 
 const AddConvention = () => {
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const [profileImage, setProfileImage] = useState("");
+  const [organizers, setOrganizers] = useState([]);
 
   const handleSaveChanges = () => {
     // Handle save changes logic here
     setShowSuccessAlert(true);
   };
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8000/api/organizations")
+      .then((res) => setOrganizers(res.data));
+  }, []);
 
   const handleProfileImageChange = (event) => {
     const file = event.target.files[0];
@@ -69,6 +76,14 @@ const AddConvention = () => {
             </div>
           </div>
           <Form>
+            <Form.Group controlId="formOrganizer">
+              <Form.Label>Organizer</Form.Label>
+              <Form.Select>
+                {organizers.map((organizer) => (
+                  <option key={organizer.id}>{organizer.name}</option>
+                ))}
+              </Form.Select>
+            </Form.Group>
             <Form.Group controlId="formTitle">
               <Form.Label>Convention name</Form.Label>
               <Form.Control type="text" placeholder="Enter convention name" />
