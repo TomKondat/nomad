@@ -82,7 +82,7 @@ const UserProfile = () => {
               </Row>
               {profile ? (
                 <Image
-                  src={`http://localhost:8000/media/${profile?.profile_img}`}
+                  src={`/media/${profile?.profile_img}`}
                   alt="user profile picture"
                   roundedCircle
                   className="mb-3"
