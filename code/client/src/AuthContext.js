@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
 
   const fetchUserData = async (tokens) => {
-    const response = await fetch("/api/whoami", {
+    const response = await fetch("http://localhost:8000/api/whoami", {
       headers: {
         Authorization: "Bearer ".concat(tokens.access),
       },
@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const loginUser = async (data) => {
-    const response = await fetch("/api/token", {
+    const response = await fetch("http://localhost:8000/api/token", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -90,7 +90,7 @@ export const AuthProvider = ({ children }) => {
     const currentTokens = localStorage.getItem("authTokens");
 
     if (currentTokens) {
-      const response = await fetch("/api/token", {
+      const response = await fetch("http://localhost:8000/api/token", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

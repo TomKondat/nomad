@@ -99,7 +99,7 @@ function Home() {
                 >
                   <Card.Img
                     variant="top"
-                    src={`/media/${conv.convention_img}`}
+                    src={`http://localhost:8000/media/${conv.convention_img}`}
                     className="convcardimg"
                   />
                   <Card.Body>

@@ -76,7 +76,9 @@ function ChatPage() {
     console.log();
     wasRenderd.current = true;
 
-    fetch(`/api/agora/get_token/user?uid=${userData.username}`)
+    fetch(
+      `http://localhost:8000/api/agora/get_token/user?uid=${userData.username}`
+    )
       .then((res) => res.json())
       .then((res) => {
         connect(res.userToken);
