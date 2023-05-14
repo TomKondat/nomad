@@ -72,11 +72,11 @@ function Home() {
             </InputGroup>
           </Col>
           <Col xs={1}>
-            <Button variant="light">
-              <LinkContainer to="/AddConvention">
+            <LinkContainer to="/AddConvention">
+              <Button variant="light">
                 <MdAddToPhotos />
-              </LinkContainer>
-            </Button>
+              </Button>
+            </LinkContainer>
           </Col>
         </Row>
       </Container>
