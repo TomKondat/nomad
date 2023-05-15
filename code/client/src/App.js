@@ -14,6 +14,7 @@ import EditProfile from "./routes/EditProfile";
 import SignUp from "./routes/SignUp";
 import ConventionPage from "./routes/Convention";
 import EditConvention from "./routes/EditConvention";
+import EditNewConvention from "./routes/EditNewConvention";
 import ChatPage from "./routes/ChatPage";
 import NewConvention from "./routes/NewConvention";
 import AddConvention from "./routes/AddConvention";
@@ -41,7 +42,9 @@ function App() {
               <Route path="conventionpage" element={<ConventionPage />}>
                 <Route path=":conventionId" element={<NewConvention />} />
               </Route>
-              <Route path="editconvention" element={<EditConvention />} />
+              <Route path="editnewconvention" element={<EditNewConvention />}>
+                <Route path=":conventionId" element={<EditConvention />} />
+              </Route>
             </Routes>
           </Container>
         </AuthProvider>

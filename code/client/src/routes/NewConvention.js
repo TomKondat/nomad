@@ -92,7 +92,9 @@ export default function NewConvention() {
                         justifyContent: "flex-end",
                       }}
                     >
-                      <LinkContainer to="/EditConvention">
+                      <LinkContainer
+                        to={"/editnewconvention/" + params.conventionId}
+                      >
                         <FiEdit className="blue" />
                       </LinkContainer>
                     </div>
