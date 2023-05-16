@@ -10,11 +10,28 @@ import {
 } from "react-bootstrap";
 import { FaCamera } from "react-icons/fa";
 import { TfiFaceSad } from "react-icons/tfi";
+import { useEffect } from "react";
+import axios from "axios";
+import AuthContext from "../AuthContext";
+import { useContext } from "react";
 
 const EditProfile = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const [profileImage, setProfileImage] = useState("");
+  const [profile, setProfile] = useState();
+  const { userProfileData } = useContext(AuthContext);
+  async function getProfile() {
+    await axios
+      .get(`http://127.0.0.1:8000/api/get-profiles?q=${userProfileData?.user}`) //Instead of one sending the connected user's id
+      .then((res) => {
+        setProfile(res.data);
+      })
+      .catch((error) => console.log(error));
+  }
+  useEffect(() => {
+    getProfile();
+  }, []);
 
   const handleDeleteAccount = () => {
     // Handle delete account logic here
@@ -48,7 +65,11 @@ const EditProfile = () => {
           <div className="d-flex justify-content-center mb-4">
             <div className="position-relative">
               <img
-                src={profileImage || "https://via.placeholder.com/200x200"}
+                src={
+                  !profile
+                    ? "https://via.placeholder.com/200x200"
+                    : `http://localhost:8000/media/${profile?.profile_img}`
+                }
                 alt="Profile"
                 className="rounded-circle border border-4 border-white shadow-sm"
                 style={{ width: "200px", height: "200px" }}
@@ -73,32 +94,60 @@ const EditProfile = () => {
           <Form>
             <Form.Group controlId="formName">
               <Form.Label>Name</Form.Label>
-              <Form.Control type="text" placeholder="Enter your name" />
+              <Form.Control
+                type="text"
+                placeholder="Enter your new name"
+                defaultValue={profile?.user?.first_name}
+              />
             </Form.Group>
             <Form.Group controlId="formLastName">
               <Form.Label>Last Name</Form.Label>
-              <Form.Control type="text" placeholder="Enter your last name" />
+              <Form.Control
+                type="text"
+                placeholder="Enter your new last name"
+                defaultValue={profile?.user?.last_name}
+              />
             </Form.Group>
             <Form.Group controlId="formAddress">
               <Form.Label>Address</Form.Label>
-              <Form.Control type="text" placeholder="Enter your address" />
+              <Form.Control
+                type="text"
+                placeholder="Enter your new address"
+                defaultValue={profile?.address}
+              />
             </Form.Group>
             <Form.Group controlId="formAddress">
               <Form.Label>Company</Form.Label>
-              <Form.Control type="text" placeholder="Enter your company" />
+              <Form.Control
+                type="text"
+                placeholder="Enter your new company"
+                defaultValue={profile?.company}
+              />
             </Form.Group>
             <Form.Group controlId="formAddress">
               <Form.Label>Position</Form.Label>
-              <Form.Control type="text" placeholder="Enter your position" />
+              <Form.Control
+                type="text"
+                placeholder="Enter your new position"
+                defaultValue={profile?.position}
+              />
             </Form.Group>
             <Form.Group controlId="formEmail">
               <Form.Label>Email</Form.Label>
-              <Form.Control type="email" placeholder="Enter your email" />
+              <Form.Control
+                type="email"
+                placeholder="Enter your new email"
+                defaultValue={profile?.user?.email}
+              />
             </Form.Group>
-            <Form.Group controlId="formPassword">
+            {/* <Form.Group controlId="formPassword">
               <Form.Label>Password</Form.Label>
-              <Form.Control type="password" placeholder="Enter your password" />
-            </Form.Group>
+              <Form.Control
+                type="password"
+                placeholder="Enter your new password"
+                defaultValue={profile?.user?.password}
+              />
+            </Form.Group> */}
 
             <br></br>
             <Button
