@@ -13,7 +13,7 @@ const UserProfile = () => {
   const [show, setShow] = useState(false);
 
   const handleShow = () => setShow(true);
-  const { logoutUser } = useContext(AuthContext);
+  const { logoutUser, userProfileData } = useContext(AuthContext);
 
   const handleClose = () => {
     setShow(false);
@@ -25,8 +25,9 @@ const UserProfile = () => {
 
   async function getProfile() {
     await axios
-      .get(`http://127.0.0.1:8000/api/get-profiles?q=${2}`) //Instead of one sending the connected user's id
+      .get(`http://127.0.0.1:8000/api/get-profiles?q=${userProfileData?.user}`) //Instead of one sending the connected user's id
       .then((res) => {
+        console.log(res.data);
         setProfile(res.data);
       })
       .catch((error) => console.log(error));
@@ -86,6 +87,7 @@ const UserProfile = () => {
                   alt="user profile picture"
                   roundedCircle
                   className="mb-3"
+                  style={{ width: "200px", height: "200px" }}
                 />
               ) : (
                 ""

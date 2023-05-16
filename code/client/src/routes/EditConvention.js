@@ -64,8 +64,9 @@ const EditConvention = () => {
             <div className="position-relative">
               <img
                 src={
-                  `http://localhost:8000/media/${convention?.convention_img}` ||
-                  "https://via.placeholder.com/250x200"
+                  convention
+                    ? `http://localhost:8000/media/${convention?.convention_img}`
+                    : "https://via.placeholder.com/250x200"
                 }
                 alt="Profile"
                 className=" border border-4 border-white shadow-sm"

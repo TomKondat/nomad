@@ -12,15 +12,18 @@ import { FaCamera } from "react-icons/fa";
 import { TfiFaceSad } from "react-icons/tfi";
 import { useEffect } from "react";
 import axios from "axios";
+import AuthContext from "../AuthContext";
+import { useContext } from "react";
 
 const EditProfile = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const [profileImage, setProfileImage] = useState("");
   const [profile, setProfile] = useState();
+  const { userProfileData } = useContext(AuthContext);
   async function getProfile() {
     await axios
-      .get(`http://127.0.0.1:8000/api/get-profiles?q=${2}`) //Instead of one sending the connected user's id
+      .get(`http://127.0.0.1:8000/api/get-profiles?q=${userProfileData?.user}`) //Instead of one sending the connected user's id
       .then((res) => {
         setProfile(res.data);
       })
@@ -63,8 +66,9 @@ const EditProfile = () => {
             <div className="position-relative">
               <img
                 src={
-                  `http://localhost:8000/media/${profile?.profile_img}` ||
-                  "https://via.placeholder.com/200x200"
+                  !profile
+                    ? "https://via.placeholder.com/200x200"
+                    : `http://localhost:8000/media/${profile?.profile_img}`
                 }
                 alt="Profile"
                 className="rounded-circle border border-4 border-white shadow-sm"
