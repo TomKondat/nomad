@@ -31,6 +31,7 @@ const EditProfile = () => {
   });
 
   const [hasChanges, setHasChanges] = useState(false);
+  const [isSaveDisabled, setIsSaveDisabled] = useState(true);
 
   useEffect(() => {
     getProfile();
@@ -39,11 +40,12 @@ const EditProfile = () => {
   useEffect(() => {
     const hasChanges = checkForChanges();
     setHasChanges(hasChanges);
+    setIsSaveDisabled(!hasChanges || checkForEmptyFields());
   }, [formValues]);
 
   async function getProfile() {
     await axios
-      .get(`http://127.0.0.1:8000/api/get-profiles?q=${userProfileData?.user}`) //Instead of one sending the connected user's id
+      .get(`http://127.0.0.1:8000/api/get-profiles?q=${userProfileData?.user}`)
       .then((res) => {
         const profileData = res.data;
         setProfile(profileData);
@@ -65,6 +67,10 @@ const EditProfile = () => {
   };
 
   const handleSaveChanges = () => {
+    if (isSaveDisabled) {
+      return; // If save button is disabled, do nothing
+    }
+
     // Handle save changes logic here
     setShowSuccessAlert(true);
   };
@@ -105,6 +111,19 @@ const EditProfile = () => {
     );
   };
 
+  const checkForEmptyFields = () => {
+    const { name, lastName, address, company, position, email } = formValues;
+
+    return (
+      !name.trim() ||
+      !lastName.trim() ||
+      !address.trim() ||
+      !company.trim() ||
+      !position.trim() ||
+      !email.trim()
+    );
+  };
+
   const handleResetChanges = () => {
     setFormValues({
       name: profile?.user?.first_name,
@@ -115,6 +134,7 @@ const EditProfile = () => {
       email: profile?.user?.email,
     });
     setHasChanges(false);
+    setIsSaveDisabled(true);
   };
 
   return (
@@ -211,7 +231,7 @@ const EditProfile = () => {
               variant="primary"
               className="mb-1 rounded-pill"
               onClick={handleSaveChanges}
-              disabled={!hasChanges}
+              disabled={isSaveDisabled}
             >
               Save Changes
             </Button>
