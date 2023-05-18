@@ -7,10 +7,18 @@ import { FiEdit } from "react-icons/fi";
 import { SlLogout } from "react-icons/sl";
 import AuthContext from "../AuthContext";
 import { useContext } from "react";
+import Form from "react-bootstrap/Form";
+import { MdOutlineLocationOn } from "react-icons/md";
+import { MdOutlineLocationOff } from "react-icons/md";
 
 const UserProfile = () => {
   const [profile, setProfile] = useState();
   const [show, setShow] = useState(false);
+
+  const [showLocation, setShowLocation] = useState(false);
+  const handleLocationSwitch = () => {
+    setShowLocation(!showLocation);
+  };
 
   const handleShow = () => setShow(true);
   const { logoutUser, userProfileData } = useContext(AuthContext);
@@ -25,7 +33,7 @@ const UserProfile = () => {
 
   async function getProfile() {
     await axios
-      .get(`http://127.0.0.1:8000/api/get-profiles?q=${userProfileData?.user}`) //Instead of one sending the connected user's id
+      .get(`http://127.0.0.1:8000/api/get-profiles?q=${userProfileData?.user}`)
       .then((res) => {
         console.log(res.data);
         setProfile(res.data);
@@ -79,8 +87,26 @@ const UserProfile = () => {
                       <FiEdit />
                     </Button>
                   </LinkContainer>
+                  <div className="float-start">
+                    <Form.Check
+                      type="switch"
+                      id="custom-switch"
+                      variant="info"
+                      label={
+                        showLocation ? (
+                          <MdOutlineLocationOn size={25} />
+                        ) : (
+                          <MdOutlineLocationOff size={25} />
+                        )
+                      }
+                      checked={showLocation}
+                      onChange={handleLocationSwitch}
+                      className="shadow-sm"
+                    />
+                  </div>
                 </Col>
               </Row>
+
               {profile ? (
                 <Image
                   src={`http://localhost:8000/media/${profile?.profile_img}`}
