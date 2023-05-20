@@ -45,7 +45,19 @@ function SignUp() {
 
         return res.json();
       })
-      .then((res) => console.log(res));
+      .then(() =>
+        fetch("http://localhost:8000/api/agora/users/register_user/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            uid: e.target.username.value,
+            username: e.target.username.value,
+            password: e.target.username.value,
+          }),
+        })
+      );
   };
 
   return (
