@@ -18,16 +18,19 @@ const EditConvention = () => {
   const [profileImage, setProfileImage] = useState("");
   let params = useParams();
   const [convention, setConvention] = useState();
+
   const [formValues, setFormValues] = useState({
     name: "",
     description: "",
     capacity: "",
     address: "",
-    starting_time: "",
-    ending_time: "",
   });
 
   const [hasChanges, setHasChanges] = useState(false);
+
+  useEffect(() => {
+    getConvention();
+  }, [params]);
 
   useEffect(() => {
     const hasChanges = checkForChanges();
@@ -45,15 +48,20 @@ const EditConvention = () => {
           description: convention?.description,
           capacity: convention?.capacity,
           address: convention?.address,
-          starting_time: convention?.start_date,
-          ending_time: convention?.end_date,
         });
       })
       .catch((error) => console.log(error));
   }
-  useEffect(() => {
-    getConvention();
-  }, [params]);
+
+  const handleDeleteAccount = () => {
+    // Handle delete account logic here
+    setShowDeleteModal(false);
+  };
+
+  const handleSaveChanges = () => {
+    // Handle save changes logic here
+    setShowSuccessAlert(true);
+  };
 
   const handleInputChange = (event) => {
     const { id, value } = event.target;
@@ -64,16 +72,13 @@ const EditConvention = () => {
   };
 
   const checkForChanges = () => {
-    const { name, description, capacity, address, starting_time, ending_time } =
-      formValues;
+    const { name, description, capacity, address } = formValues;
 
     return (
       name !== convention?.name ||
       description !== convention?.description ||
       capacity !== convention?.capacity ||
-      address !== convention?.address ||
-      starting_time !== convention?.start_date ||
-      ending_time !== convention?.end_date
+      address !== convention?.address
     );
   };
 
@@ -83,20 +88,8 @@ const EditConvention = () => {
       description: convention?.description,
       capacity: convention?.capacity,
       address: convention?.address,
-      starting_time: convention?.start_date,
-      ending_time: convention?.end_date,
     });
     setHasChanges(false);
-  };
-
-  const handleDeleteAccount = () => {
-    // Handle delete account logic here
-    setShowDeleteModal(false);
-  };
-
-  const handleSaveChanges = () => {
-    // Handle save changes logic here
-    setShowSuccessAlert(true);
   };
 
   const handleProfileImageChange = (event) => {
@@ -117,7 +110,6 @@ const EditConvention = () => {
   return (
     <Container className="py-5">
       <Row className="justify-content-center">
-        {/* <h1 className="display-4 text-center py-2 bg-light">Edit Profile</h1> */}
         <Col md={8} lg={6}>
           <div className="d-flex justify-content-center mb-4">
             <div className="position-relative">
@@ -158,8 +150,8 @@ const EditConvention = () => {
               <Form.Control
                 type="text"
                 value={formValues.name}
-                placeholder="Enter convention name"
                 onChange={handleInputChange}
+                placeholder="Enter convention name"
               />
             </Form.Group>
             <Form.Group controlId="description">
@@ -195,9 +187,7 @@ const EditConvention = () => {
               <Form.Label>Starting date</Form.Label>
               <Form.Control
                 type="datetime-local"
-                name="birthday"
-                value={formValues.starting_time?.slice(0, -1)}
-                onChange={handleInputChange}
+                value={convention?.end_date?.slice(0, -1)}
                 disabled
               />
             </Form.Group>
@@ -205,8 +195,7 @@ const EditConvention = () => {
               <Form.Label>Ending date</Form.Label>
               <Form.Control
                 type="datetime-local"
-                value={formValues.ending_time?.slice(0, -1)}
-                onChange={handleInputChange}
+                value={convention?.end_date?.slice(0, -1)}
                 disabled
               />
             </Form.Group>
@@ -214,8 +203,8 @@ const EditConvention = () => {
             <Button
               variant="primary"
               className="mb-1 rounded-pill"
-              onClick={handleSaveChanges}
               disabled={!hasChanges}
+              onClick={handleSaveChanges}
             >
               Save Changes
             </Button>
