@@ -14,9 +14,8 @@ import {
 import { FiEdit } from "react-icons/fi";
 import { BsFillChatTextFill } from "react-icons/bs";
 import { LinkContainer } from "react-router-bootstrap";
-import "./BigLogo.css";
+import "../styles.css";
 import Map from "../Map";
-import Accordion from "react-bootstrap/Accordion";
 
 export default function NewConvention() {
   const [showModal, setShowModal] = useState(false);
