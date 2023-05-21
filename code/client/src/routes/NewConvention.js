@@ -25,7 +25,7 @@ export default function NewConvention() {
 
   async function getConvention() {
     await axios
-      .get(`http://127.0.0.1:8000/api/get-convention/?q=${params.conventionId}`)
+      .get(`/api/get-convention/?q=${params.conventionId}`)
       .then((res) => {
         setConvention(res.data);
       })
@@ -50,7 +50,7 @@ export default function NewConvention() {
                 }}
               >
                 <Image
-                  src={`http://localhost:8000/media/${convention?.convention_img}`}
+                  src={`/media/${convention?.convention_img}`}
                   alt="Convention Image"
                   fluid
                   style={{ filter: "brightness(80%)" }}
@@ -62,7 +62,7 @@ export default function NewConvention() {
                 <Row className="align-items-center">
                   <Col xs={1} className="d-flx align-items-center">
                     <Image
-                      src={`http://localhost:8000/media/${convention?.organization?.organization_img}`}
+                      src={`/media/${convention?.organization?.organization_img}`}
                       alt="user profile picture"
                       roundedCircle
                       width={25}
