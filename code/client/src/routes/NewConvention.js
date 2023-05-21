@@ -15,6 +15,9 @@ import { FiEdit } from "react-icons/fi";
 import { BsFillChatTextFill } from "react-icons/bs";
 import { LinkContainer } from "react-router-bootstrap";
 import "./BigLogo.css";
+import Map from "../Map";
+import Accordion from "react-bootstrap/Accordion";
+
 export default function NewConvention() {
   const [showModal, setShowModal] = useState(false);
   const handleCloseModal = () => setShowModal(false);
@@ -82,6 +85,7 @@ export default function NewConvention() {
                 <p className="lead">{convention?.description}</p>
               </div>
             </Col>
+
             <Col lg={4} className="my-2">
               <div className="card border-2 shadow-sm rounded">
                 <div className="card-body">
@@ -115,6 +119,8 @@ export default function NewConvention() {
                     </li>
                   </ul>
 
+                  <Map />
+
                   {/* testing */}
                   <div className="d-flex justify-content-between">
                     <Button
@@ -137,6 +143,14 @@ export default function NewConvention() {
                       Attendees
                     </Button>
                   </div>
+                  {/* <Accordion defaultActiveKey="0">
+                    <Accordion.Header>
+                      <strong>Show Map</strong>
+                    </Accordion.Header>
+                    <Accordion.Body>
+                      <Map />
+                    </Accordion.Body>
+                  </Accordion> */}
                 </div>
               </div>
             </Col>
