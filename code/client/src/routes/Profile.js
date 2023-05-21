@@ -33,7 +33,7 @@ const UserProfile = () => {
 
   async function getProfile() {
     await axios
-      .get(`http://127.0.0.1:8000/api/get-profiles?q=${userProfileData?.user}`)
+      .get(`/api/get-profiles?q=${userProfileData?.user}`)
       .then((res) => {
         console.log(res.data);
         setProfile(res.data);
@@ -109,7 +109,7 @@ const UserProfile = () => {
 
               {profile ? (
                 <Image
-                  src={`http://localhost:8000/media/${profile?.profile_img}`}
+                  src={`/media/${profile?.profile_img}`}
                   alt="user profile picture"
                   roundedCircle
                   className="mb-3"

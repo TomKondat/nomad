@@ -45,7 +45,7 @@ const EditProfile = () => {
 
   async function getProfile() {
     await axios
-      .get(`http://127.0.0.1:8000/api/get-profiles?q=${userProfileData?.user}`)
+      .get(`/api/get-profiles?q=${userProfileData?.user}`)
       .then((res) => {
         const profileData = res.data;
         setProfile(profileData);
@@ -147,7 +147,7 @@ const EditProfile = () => {
                 src={
                   !profile
                     ? "https://via.placeholder.com/200x200"
-                    : `http://localhost:8000/media/${profile?.profile_img}`
+                    : `/media/${profile?.profile_img}`
                 }
                 alt="Profile"
                 className="rounded-circle border border-4 border-white shadow-sm"

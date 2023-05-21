@@ -26,7 +26,7 @@ function Home() {
 
   async function getConvention() {
     await axios
-      .get("http://127.0.0.1:8000/api/get-conventions/")
+      .get("/api/get-conventions/")
       .then((res) => {
         setConventionsInit(res.data);
         setConventions(res.data);
@@ -99,7 +99,7 @@ function Home() {
                 >
                   <Card.Img
                     variant="top"
-                    src={`http://localhost:8000/media/${conv.convention_img}`}
+                    src={`/media/${conv.convention_img}`}
                     className="convcardimg"
                   />
                   <Card.Body>

@@ -28,7 +28,7 @@ const AddConvention = () => {
       end_date: `${e.target.enddate.value} ${e.target.endtime.value}`,
     };
 
-    fetch("http://localhost:8000/api/convention/", {
+    fetch("/api/convention/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -48,9 +48,7 @@ const AddConvention = () => {
   };
 
   useEffect(() => {
-    axios
-      .get("http://localhost:8000/api/organizations")
-      .then((res) => setOrganizers(res.data));
+    axios.get("/api/organizations").then((res) => setOrganizers(res.data));
   }, []);
 
   const handleProfileImageChange = (event) => {

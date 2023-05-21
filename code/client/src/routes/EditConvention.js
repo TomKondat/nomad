@@ -39,7 +39,7 @@ const EditConvention = () => {
 
   async function getConvention() {
     await axios
-      .get(`http://127.0.0.1:8000/api/get-convention/?q=${params.conventionId}`)
+      .get(`/api/get-convention/?q=${params.conventionId}`)
       .then((res) => {
         const conventionData = res.data;
         setConvention(conventionData);
@@ -116,7 +116,7 @@ const EditConvention = () => {
               <img
                 src={
                   convention
-                    ? `http://localhost:8000/media/${convention?.convention_img}`
+                    ? `/media/${convention?.convention_img}`
                     : "https://via.placeholder.com/250x200"
                 }
                 alt="Profile"

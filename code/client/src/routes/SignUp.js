@@ -29,7 +29,7 @@ function SignUp() {
       },
     };
 
-    fetch("http://localhost:8000/api/signup", {
+    fetch("/api/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -46,7 +46,7 @@ function SignUp() {
         return res.json();
       })
       .then(() =>
-        fetch("http://localhost:8000/api/agora/users/register_user/", {
+        fetch("/api/agora/users/register_user/", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
