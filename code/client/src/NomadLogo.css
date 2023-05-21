@@ -26,3 +26,7 @@
   color: rgb(73, 151, 172);
 }
 
+.map-container {
+  width: 100%;
+  height: 100vh;
+}
