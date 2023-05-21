@@ -15,6 +15,9 @@ import { FiEdit } from "react-icons/fi";
 import { BsFillChatTextFill } from "react-icons/bs";
 import { LinkContainer } from "react-router-bootstrap";
 import "./BigLogo.css";
+import Map from "../Map";
+import Accordion from "react-bootstrap/Accordion";
+
 export default function NewConvention() {
   const [showModal, setShowModal] = useState(false);
   const handleCloseModal = () => setShowModal(false);
@@ -137,10 +140,20 @@ export default function NewConvention() {
                       Attendees
                     </Button>
                   </div>
+                  <hr />
+                  <Accordion>
+                    <Accordion.Item>
+                      <Accordion.Header>Open Map</Accordion.Header>
+                      <Accordion.Body>
+                        <Map />
+                      </Accordion.Body>
+                    </Accordion.Item>
+                  </Accordion>
                 </div>
               </div>
             </Col>
           </Row>
+
           <Modal show={showModal} onHide={handleCloseModal}>
             <Modal.Header closeButton>
               <Modal.Title>Attendees</Modal.Title>
