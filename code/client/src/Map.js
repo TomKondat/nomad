@@ -1,7 +1,7 @@
 import React from "react";
 import { useMemo } from "react";
 import { GoogleMap, useLoadScript, MarkerF } from "@react-google-maps/api";
-import "./NomadLogo.css";
+import "./styles.css";
 
 function Map() {
   const { isLoaded } = useLoadScript({

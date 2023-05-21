@@ -9,12 +9,11 @@ import {
   Form,
 } from "react-bootstrap";
 import { BsFillArrowLeftCircleFill } from "react-icons/bs";
-import "./BigLogo.css";
+import "../styles.css";
 import WebIM from "../WebIM";
 import { useRef, useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import AuthContext from "../AuthContext";
-import "./BigLogo.css";
 
 function OutgoingMessage(props) {
   return (

@@ -7,7 +7,7 @@ import Col from "react-bootstrap/Col";
 import ListGroup from "react-bootstrap/ListGroup";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
-import "./Home.css";
+import "../styles.css";
 import {
   BsSearch,
   BsPinMapFill,
