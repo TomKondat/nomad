@@ -112,10 +112,12 @@ export default function NewConvention() {
                       <strong>Capacity:</strong> {convention?.capacity}
                     </li>
                     <li>
-                      <strong>Start Time:</strong> {convention?.start_date}
+                      <strong>Start Time:</strong>{" "}
+                      {new Date(convention.start_date).toLocaleString("en-gb")}
                     </li>
                     <li>
-                      <strong>End Time:</strong> {convention?.end_date}
+                      <strong>End Time:</strong>{" "}
+                      {new Date(convention.end_date).toLocaleString("en-gb")}
                     </li>
                   </ul>
 
@@ -143,14 +145,6 @@ export default function NewConvention() {
                       Attendees
                     </Button>
                   </div>
-                  {/* <Accordion defaultActiveKey="0">
-                    <Accordion.Header>
-                      <strong>Show Map</strong>
-                    </Accordion.Header>
-                    <Accordion.Body>
-                      <Map />
-                    </Accordion.Body>
-                  </Accordion> */}
                 </div>
               </div>
             </Col>
