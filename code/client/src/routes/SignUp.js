@@ -19,13 +19,17 @@ function SignUp() {
       username: e.target.username.value,
       password: e.target.password.value,
       email: e.target.email.value,
+      first_name: e.target.firstName.value,
+      last_name: e.target.lastName.value,
       profile: {
         birthdate: e.target.birthdate.value,
         address: e.target.address.value,
+        company: e.target.company.value,
+        position: e.target.position.value,
       },
     };
 
-    fetch("http://localhost:8000/api/signup", {
+    fetch("/api/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -41,7 +45,19 @@ function SignUp() {
 
         return res.json();
       })
-      .then((res) => console.log(res));
+      .then(() =>
+        fetch("/api/agora/users/register_user/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            uid: e.target.username.value,
+            username: e.target.username.value,
+            password: e.target.username.value,
+          }),
+        })
+      );
   };
 
   return (

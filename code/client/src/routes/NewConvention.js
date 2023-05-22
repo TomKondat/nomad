@@ -14,7 +14,9 @@ import {
 import { FiEdit } from "react-icons/fi";
 import { BsFillChatTextFill } from "react-icons/bs";
 import { LinkContainer } from "react-router-bootstrap";
-import "./BigLogo.css";
+import "../styles.css";
+import Map from "../Map";
+
 export default function NewConvention() {
   const [showModal, setShowModal] = useState(false);
   const handleCloseModal = () => setShowModal(false);
@@ -25,7 +27,7 @@ export default function NewConvention() {
 
   async function getConvention() {
     await axios
-      .get(`http://127.0.0.1:8000/api/get-convention/?q=${params.conventionId}`)
+      .get(`/api/get-convention/?q=${params.conventionId}`)
       .then((res) => {
         setConvention(res.data);
       })
@@ -50,7 +52,7 @@ export default function NewConvention() {
                 }}
               >
                 <Image
-                  src={`http://localhost:8000/media/${convention?.convention_img}`}
+                  src={`/media/${convention?.convention_img}`}
                   alt="Convention Image"
                   fluid
                   style={{ filter: "brightness(80%)" }}
@@ -62,7 +64,7 @@ export default function NewConvention() {
                 <Row className="align-items-center">
                   <Col xs={1} className="d-flx align-items-center">
                     <Image
-                      src={`http://localhost:8000/media/${convention?.organization?.organization_img}`}
+                      src={`/media/${convention?.organization?.organization_img}`}
                       alt="user profile picture"
                       roundedCircle
                       width={25}
@@ -82,6 +84,7 @@ export default function NewConvention() {
                 <p className="lead">{convention?.description}</p>
               </div>
             </Col>
+
             <Col lg={4} className="my-2">
               <div className="card border-2 shadow-sm rounded">
                 <div className="card-body">
@@ -92,7 +95,9 @@ export default function NewConvention() {
                         justifyContent: "flex-end",
                       }}
                     >
-                      <LinkContainer to="/EditConvention">
+                      <LinkContainer
+                        to={"/editnewconvention/" + params.conventionId}
+                      >
                         <FiEdit className="blue" />
                       </LinkContainer>
                     </div>
@@ -106,12 +111,16 @@ export default function NewConvention() {
                       <strong>Capacity:</strong> {convention?.capacity}
                     </li>
                     <li>
-                      <strong>Start Time:</strong> {convention?.start_date}
+                      <strong>Start Time:</strong>{" "}
+                      {new Date(convention.start_date).toLocaleString("en-gb")}
                     </li>
                     <li>
-                      <strong>End Time:</strong> {convention?.end_date}
+                      <strong>End Time:</strong>{" "}
+                      {new Date(convention.end_date).toLocaleString("en-gb")}
                     </li>
                   </ul>
+
+                  <Map />
 
                   {/* testing */}
                   <div className="d-flex justify-content-between">

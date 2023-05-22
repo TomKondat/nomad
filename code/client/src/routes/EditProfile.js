@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Container,
   Row,
@@ -10,11 +10,56 @@ import {
 } from "react-bootstrap";
 import { FaCamera } from "react-icons/fa";
 import { TfiFaceSad } from "react-icons/tfi";
+import axios from "axios";
+import AuthContext from "../AuthContext";
+import { useContext } from "react";
 
 const EditProfile = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const [profileImage, setProfileImage] = useState("");
+  const [profile, setProfile] = useState();
+  const { userProfileData } = useContext(AuthContext);
+
+  const [formValues, setFormValues] = useState({
+    name: "",
+    lastName: "",
+    address: "",
+    company: "",
+    position: "",
+    email: "",
+  });
+
+  const [hasChanges, setHasChanges] = useState(false);
+  const [isSaveDisabled, setIsSaveDisabled] = useState(true);
+
+  useEffect(() => {
+    getProfile();
+  }, []);
+
+  useEffect(() => {
+    const hasChanges = checkForChanges();
+    setHasChanges(hasChanges);
+    setIsSaveDisabled(!hasChanges || checkForEmptyFields());
+  }, [formValues]);
+
+  async function getProfile() {
+    await axios
+      .get(`/api/get-profiles?q=${userProfileData?.user}`)
+      .then((res) => {
+        const profileData = res.data;
+        setProfile(profileData);
+        setFormValues({
+          name: profileData?.user?.first_name,
+          lastName: profileData?.user?.last_name,
+          address: profileData?.address,
+          company: profileData?.company,
+          position: profileData?.position,
+          email: profileData?.user?.email,
+        });
+      })
+      .catch((error) => console.log(error));
+  }
 
   const handleDeleteAccount = () => {
     // Handle delete account logic here
@@ -22,6 +67,10 @@ const EditProfile = () => {
   };
 
   const handleSaveChanges = () => {
+    if (isSaveDisabled) {
+      return; // If save button is disabled, do nothing
+    }
+
     // Handle save changes logic here
     setShowSuccessAlert(true);
   };
@@ -41,6 +90,53 @@ const EditProfile = () => {
     }
   };
 
+  const handleInputChange = (event) => {
+    const { id, value } = event.target;
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      [id]: value,
+    }));
+  };
+
+  const checkForChanges = () => {
+    const { name, lastName, address, company, position, email } = formValues;
+
+    return (
+      name !== profile?.user?.first_name ||
+      lastName !== profile?.user?.last_name ||
+      address !== profile?.address ||
+      company !== profile?.company ||
+      position !== profile?.position ||
+      email !== profile?.user?.email
+    );
+  };
+
+  const checkForEmptyFields = () => {
+    const { name, lastName, address, company, position, email } = formValues;
+
+    return (
+      !name.trim() ||
+      !lastName.trim() ||
+      !address.trim() ||
+      !company.trim() ||
+      !position.trim() ||
+      !email.trim()
+    );
+  };
+
+  const handleResetChanges = () => {
+    setFormValues({
+      name: profile?.user?.first_name,
+      lastName: profile?.user?.last_name,
+      address: profile?.address,
+      company: profile?.company,
+      position: profile?.position,
+      email: profile?.user?.email,
+    });
+    setHasChanges(false);
+    setIsSaveDisabled(true);
+  };
+
   return (
     <Container className="py-5">
       <Row className="justify-content-center">
@@ -48,7 +144,11 @@ const EditProfile = () => {
           <div className="d-flex justify-content-center mb-4">
             <div className="position-relative">
               <img
-                src={profileImage || "https://via.placeholder.com/200x200"}
+                src={
+                  !profile
+                    ? "https://via.placeholder.com/200x200"
+                    : `/media/${profile?.profile_img}`
+                }
                 alt="Profile"
                 className="rounded-circle border border-4 border-white shadow-sm"
                 style={{ width: "200px", height: "200px" }}
@@ -71,40 +171,67 @@ const EditProfile = () => {
             </div>
           </div>
           <Form>
-            <Form.Group controlId="formName">
+            <Form.Group controlId="name">
               <Form.Label>Name</Form.Label>
-              <Form.Control type="text" placeholder="Enter your name" />
+              <Form.Control
+                type="text"
+                placeholder="Enter your new name"
+                value={formValues.name}
+                onChange={handleInputChange}
+              />
             </Form.Group>
-            <Form.Group controlId="formLastName">
+            <Form.Group controlId="lastName">
               <Form.Label>Last Name</Form.Label>
-              <Form.Control type="text" placeholder="Enter your last name" />
+              <Form.Control
+                type="text"
+                placeholder="Enter your new last name"
+                value={formValues.lastName}
+                onChange={handleInputChange}
+              />
             </Form.Group>
-            <Form.Group controlId="formAddress">
+            <Form.Group controlId="address">
               <Form.Label>Address</Form.Label>
-              <Form.Control type="text" placeholder="Enter your address" />
+              <Form.Control
+                type="text"
+                placeholder="Enter your new address"
+                value={formValues.address}
+                onChange={handleInputChange}
+              />
             </Form.Group>
-            <Form.Group controlId="formAddress">
+            <Form.Group controlId="company">
               <Form.Label>Company</Form.Label>
-              <Form.Control type="text" placeholder="Enter your company" />
+              <Form.Control
+                type="text"
+                placeholder="Enter your new company"
+                value={formValues.company}
+                onChange={handleInputChange}
+              />
             </Form.Group>
-            <Form.Group controlId="formAddress">
+            <Form.Group controlId="position">
               <Form.Label>Position</Form.Label>
-              <Form.Control type="text" placeholder="Enter your position" />
+              <Form.Control
+                type="text"
+                placeholder="Enter your new position"
+                value={formValues.position}
+                onChange={handleInputChange}
+              />
             </Form.Group>
-            <Form.Group controlId="formEmail">
+            <Form.Group controlId="email">
               <Form.Label>Email</Form.Label>
-              <Form.Control type="email" placeholder="Enter your email" />
-            </Form.Group>
-            <Form.Group controlId="formPassword">
-              <Form.Label>Password</Form.Label>
-              <Form.Control type="password" placeholder="Enter your password" />
+              <Form.Control
+                type="email"
+                placeholder="Enter your new email"
+                value={formValues.email}
+                onChange={handleInputChange}
+              />
             </Form.Group>
 
-            <br></br>
+            <br />
             <Button
               variant="primary"
               className="mb-1 rounded-pill"
               onClick={handleSaveChanges}
+              disabled={isSaveDisabled}
             >
               Save Changes
             </Button>
@@ -116,6 +243,14 @@ const EditProfile = () => {
             >
               Your changes have been saved.
             </Alert>
+            <Button
+              variant="secondary"
+              className="ms-2 rounded-pill"
+              onClick={handleResetChanges}
+              disabled={!hasChanges}
+            >
+              Reset Changes
+            </Button>
             <hr />
             <Button variant="danger" onClick={() => setShowDeleteModal(true)}>
               Delete Account

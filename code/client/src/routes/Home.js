@@ -7,7 +7,7 @@ import Col from "react-bootstrap/Col";
 import ListGroup from "react-bootstrap/ListGroup";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
-import "./Home.css";
+import "../styles.css";
 import {
   BsSearch,
   BsPinMapFill,
@@ -26,7 +26,7 @@ function Home() {
 
   async function getConvention() {
     await axios
-      .get("http://127.0.0.1:8000/api/get-conventions/")
+      .get("/api/get-conventions/")
       .then((res) => {
         setConventionsInit(res.data);
         setConventions(res.data);
@@ -72,11 +72,11 @@ function Home() {
             </InputGroup>
           </Col>
           <Col xs={1}>
-            <Button variant="light">
-              <LinkContainer to="/AddConvention">
+            <LinkContainer to="/AddConvention">
+              <Button variant="light">
                 <MdAddToPhotos />
-              </LinkContainer>
-            </Button>
+              </Button>
+            </LinkContainer>
           </Col>
         </Row>
       </Container>
@@ -99,7 +99,7 @@ function Home() {
                 >
                   <Card.Img
                     variant="top"
-                    src={`http://localhost:8000/media/${conv.convention_img}`}
+                    src={`/media/${conv.convention_img}`}
                     className="convcardimg"
                   />
                   <Card.Body>

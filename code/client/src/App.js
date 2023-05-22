@@ -8,16 +8,17 @@ import Header from "./Header";
 
 // Routes
 import Home from "./routes/Home";
-import FriendsPage from "./routes/Friends";
 import Profile from "./routes/Profile";
 import Login from "./routes/Login";
 import EditProfile from "./routes/EditProfile";
 import SignUp from "./routes/SignUp";
 import ConventionPage from "./routes/Convention";
 import EditConvention from "./routes/EditConvention";
+import EditNewConvention from "./routes/EditNewConvention";
 import ChatPage from "./routes/ChatPage";
 import NewConvention from "./routes/NewConvention";
 import AddConvention from "./routes/AddConvention";
+import Chats from "./routes/Chats";
 function App() {
   return (
     <React.Fragment>
@@ -27,7 +28,7 @@ function App() {
           <Container className="pt-2">
             <Routes>
               <Route index element={<Home />} />
-              <Route path="friendspage" element={<FriendsPage />} />
+              <Route path="chats" element={<Chats />} />
               <Route element={<PrivateRoute />}>
                 <Route path="profile" element={<Profile />} />
               </Route>
@@ -41,7 +42,9 @@ function App() {
               <Route path="conventionpage" element={<ConventionPage />}>
                 <Route path=":conventionId" element={<NewConvention />} />
               </Route>
-              <Route path="editconvention" element={<EditConvention />} />
+              <Route path="editnewconvention" element={<EditNewConvention />}>
+                <Route path=":conventionId" element={<EditConvention />} />
+              </Route>
             </Routes>
           </Container>
         </AuthProvider>

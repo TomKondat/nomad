@@ -8,7 +8,7 @@ class Conventions(models.Model):
     name = models.CharField(max_length=64)
     description = models.CharField(max_length=512, blank=True)
     address = models.CharField(max_length=64)
-    capacity = models.IntegerField(blank=True)
+    capacity = models.IntegerField()
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
     convention_img = models.ImageField(

@@ -5,17 +5,37 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { FiEdit } from "react-icons/fi";
 import { SlLogout } from "react-icons/sl";
+import AuthContext from "../AuthContext";
+import { useContext } from "react";
+import Form from "react-bootstrap/Form";
+import { MdOutlineLocationOn } from "react-icons/md";
+import { MdOutlineLocationOff } from "react-icons/md";
 
 const UserProfile = () => {
   const [profile, setProfile] = useState();
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
+
+  const [showLocation, setShowLocation] = useState(false);
+  const handleLocationSwitch = () => {
+    setShowLocation(!showLocation);
+  };
+
   const handleShow = () => setShow(true);
+  const { logoutUser, userProfileData } = useContext(AuthContext);
+
+  const handleClose = () => {
+    setShow(false);
+  };
+
+  const handleLogOut = () => {
+    logoutUser();
+  };
 
   async function getProfile() {
     await axios
-      .get(`http://127.0.0.1:8000/api/get-profiles?q=${2}`) //Instead of one sending the connected user's id
+      .get(`/api/get-profiles?q=${userProfileData?.user}`)
       .then((res) => {
+        console.log(res.data);
         setProfile(res.data);
       })
       .catch((error) => console.log(error));
@@ -38,7 +58,7 @@ const UserProfile = () => {
                 Close
               </Button>
               <LinkContainer to="/Login">
-                <Button variant="danger" onClick={handleClose}>
+                <Button variant="danger" onClick={handleLogOut}>
                   Log out
                 </Button>
               </LinkContainer>
@@ -52,19 +72,48 @@ const UserProfile = () => {
                   <Button
                     size="sm"
                     variant="outline-danger"
-                    className="float-end fw-bold"
+                    className="float-end "
                     onClick={handleShow}
                   >
                     <SlLogout />
                   </Button>
+
+                  <LinkContainer to="/EditProfile">
+                    <Button
+                      size="sm"
+                      variant="outline-secondary mx-2"
+                      className="float-end"
+                    >
+                      <FiEdit />
+                    </Button>
+                  </LinkContainer>
+                  <div className="float-start">
+                    <Form.Check
+                      type="switch"
+                      id="custom-switch"
+                      variant="info"
+                      label={
+                        showLocation ? (
+                          <MdOutlineLocationOn size={25} />
+                        ) : (
+                          <MdOutlineLocationOff size={25} />
+                        )
+                      }
+                      checked={showLocation}
+                      onChange={handleLocationSwitch}
+                      className="shadow-sm"
+                    />
+                  </div>
                 </Col>
               </Row>
+
               {profile ? (
                 <Image
-                  src={`http://localhost:8000/media/${profile?.profile_img}`}
+                  src={`/media/${profile?.profile_img}`}
                   alt="user profile picture"
                   roundedCircle
                   className="mb-3"
+                  style={{ width: "200px", height: "200px" }}
                 />
               ) : (
                 ""
@@ -76,19 +125,6 @@ const UserProfile = () => {
               <p className="text-muted mt-2">{profile?.position}</p>
 
               <hr />
-              <Row>
-                <Col>
-                  <LinkContainer to="/EditProfile">
-                    <Button
-                      size="sm"
-                      variant="outline-secondary "
-                      className="float-end"
-                    >
-                      <FiEdit />
-                    </Button>
-                  </LinkContainer>
-                </Col>
-              </Row>
               <p className="text-muted">Company:</p>
               <p> {profile?.company}</p>
               <p className="text-muted">Address:</p>

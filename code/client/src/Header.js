@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { LinkContainer } from "react-router-bootstrap";
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
-import "./NomadLogo.css";
+import "./styles.css";
 import { BsFillChatFill } from "react-icons/bs";
 import { AiFillHome } from "react-icons/ai";
 import { BsFillPersonFill } from "react-icons/bs";
@@ -60,7 +60,7 @@ function Header() {
                 <BsFillPersonFill className="orange" />
               </Button>
             </LinkContainer>
-            <LinkContainer to="/friendspage">
+            <LinkContainer to="/Chats">
               <Button size="lg" variant="navbar">
                 <BsFillChatFill className="orange" />
               </Button>

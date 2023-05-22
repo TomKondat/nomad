@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Container,
   Row,
@@ -9,11 +9,49 @@ import {
   Alert,
 } from "react-bootstrap";
 import { FaCamera } from "react-icons/fa";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
 const EditConvention = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const [profileImage, setProfileImage] = useState("");
+  let params = useParams();
+  const [convention, setConvention] = useState();
+
+  const [formValues, setFormValues] = useState({
+    name: "",
+    description: "",
+    capacity: "",
+    address: "",
+  });
+
+  const [hasChanges, setHasChanges] = useState(false);
+
+  useEffect(() => {
+    getConvention();
+  }, [params]);
+
+  useEffect(() => {
+    const hasChanges = checkForChanges();
+    setHasChanges(hasChanges);
+  }, [formValues]);
+
+  async function getConvention() {
+    await axios
+      .get(`/api/get-convention/?q=${params.conventionId}`)
+      .then((res) => {
+        const conventionData = res.data;
+        setConvention(conventionData);
+        setFormValues({
+          name: convention?.name,
+          description: convention?.description,
+          capacity: convention?.capacity,
+          address: convention?.address,
+        });
+      })
+      .catch((error) => console.log(error));
+  }
 
   const handleDeleteAccount = () => {
     // Handle delete account logic here
@@ -23,6 +61,35 @@ const EditConvention = () => {
   const handleSaveChanges = () => {
     // Handle save changes logic here
     setShowSuccessAlert(true);
+  };
+
+  const handleInputChange = (event) => {
+    const { id, value } = event.target;
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      [id]: value,
+    }));
+  };
+
+  const checkForChanges = () => {
+    const { name, description, capacity, address } = formValues;
+
+    return (
+      name !== convention?.name ||
+      description !== convention?.description ||
+      capacity !== convention?.capacity ||
+      address !== convention?.address
+    );
+  };
+
+  const handleResetChanges = () => {
+    setFormValues({
+      name: convention?.name,
+      description: convention?.description,
+      capacity: convention?.capacity,
+      address: convention?.address,
+    });
+    setHasChanges(false);
   };
 
   const handleProfileImageChange = (event) => {
@@ -47,7 +114,11 @@ const EditConvention = () => {
           <div className="d-flex justify-content-center mb-4">
             <div className="position-relative">
               <img
-                src={profileImage || "https://via.placeholder.com/250x200"}
+                src={
+                  convention
+                    ? `/media/${convention?.convention_img}`
+                    : "https://via.placeholder.com/250x200"
+                }
                 alt="Profile"
                 className=" border border-4 border-white shadow-sm"
                 style={{
@@ -74,45 +145,65 @@ const EditConvention = () => {
             </div>
           </div>
           <Form>
-            <Form.Group controlId="formTitle">
+            <Form.Group controlId="name">
               <Form.Label>Convention name</Form.Label>
-              <Form.Control type="text" placeholder="Enter convention name" />
+              <Form.Control
+                type="text"
+                value={formValues.name}
+                onChange={handleInputChange}
+                placeholder="Enter convention name"
+              />
             </Form.Group>
-            <Form.Group controlId="formLastName">
+            <Form.Group controlId="description">
               <Form.Label>Description</Form.Label>
               <Form.Control
                 as="textarea"
                 rows={2}
                 type="text"
                 placeholder="Enter convention description"
+                value={formValues.description}
+                onChange={handleInputChange}
               />
             </Form.Group>
-            <Form.Group controlId="formEmail">
+            <Form.Group controlId="capacity">
               <Form.Label>Capacity</Form.Label>
               <Form.Control
                 type="number"
                 placeholder="Enter convention capacity"
+                value={formValues.capacity}
+                onChange={handleInputChange}
               />
             </Form.Group>
-            <Form.Group controlId="formAddress">
+            <Form.Group controlId="address">
               <Form.Label>Address</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Enter convention address"
+                value={formValues.address}
+                onChange={handleInputChange}
               />
             </Form.Group>
-            <Form.Group controlId="formBirthday">
+            <Form.Group controlId="formStartTime">
               <Form.Label>Starting date</Form.Label>
-              <Form.Control type="date" name="birthday" />
+              <Form.Control
+                type="datetime-local"
+                value={convention?.end_date?.slice(0, -1)}
+                disabled
+              />
             </Form.Group>
-            <Form.Group controlId="formBirthday">
+            <Form.Group controlId="formEndTime">
               <Form.Label>Ending date</Form.Label>
-              <Form.Control type="date" name="birthday" />
+              <Form.Control
+                type="datetime-local"
+                value={convention?.end_date?.slice(0, -1)}
+                disabled
+              />
             </Form.Group>
             <br></br>
             <Button
               variant="primary"
               className="mb-1 rounded-pill"
+              disabled={!hasChanges}
               onClick={handleSaveChanges}
             >
               Save Changes
@@ -125,6 +216,15 @@ const EditConvention = () => {
             >
               Your changes have been saved.
             </Alert>
+            <Button
+              variant="secondary"
+              className="ms-2 rounded-pill"
+              onClick={handleResetChanges}
+              disabled={!hasChanges}
+            >
+              Reset Changes
+            </Button>
+
             <hr />
             <Button variant="danger" onClick={() => setShowDeleteModal(true)}>
               Delete Convention
