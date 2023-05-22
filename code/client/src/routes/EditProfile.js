@@ -147,7 +147,7 @@ const EditProfile = () => {
                 src={
                   !profile
                     ? "https://via.placeholder.com/200x200"
-                    : `/media/${profile?.profile_img}`
+                    : `/api/media/${profile?.profile_img}`
                 }
                 alt="Profile"
                 className="rounded-circle border border-4 border-white shadow-sm"

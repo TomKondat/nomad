@@ -52,7 +52,7 @@ export default function NewConvention() {
                 }}
               >
                 <Image
-                  src={`/media/${convention?.convention_img}`}
+                  src={`/api/media/${convention?.convention_img}`}
                   alt="Convention Image"
                   fluid
                   style={{ filter: "brightness(80%)" }}
@@ -64,7 +64,7 @@ export default function NewConvention() {
                 <Row className="align-items-center">
                   <Col xs={1} className="d-flx align-items-center">
                     <Image
-                      src={`/media/${convention?.organization?.organization_img}`}
+                      src={`/api/media/${convention?.organization?.organization_img}`}
                       alt="user profile picture"
                       roundedCircle
                       width={25}
