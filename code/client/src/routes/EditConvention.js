@@ -116,7 +116,7 @@ const EditConvention = () => {
               <img
                 src={
                   convention
-                    ? `/media/${convention?.convention_img}`
+                    ? `/api/media/${convention?.convention_img}`
                     : "https://via.placeholder.com/250x200"
                 }
                 alt="Profile"

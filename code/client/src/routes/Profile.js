@@ -109,7 +109,7 @@ const UserProfile = () => {
 
               {profile ? (
                 <Image
-                  src={`/media/${profile?.profile_img}`}
+                  src={`/api/media/${profile?.profile_img}`}
                   alt="user profile picture"
                   roundedCircle
                   className="mb-3"
