@@ -1,16 +1,20 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React from "react";
+import { useState, useEffect } from "react";
 
 function LoadGeoLocation() {
-  const [lat, setLat] = useState("");
-  const [lon, setLon] = useState("");
+  const [currLocationJs, setCurrLocationJs] = useState({});
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition((position) => {
-      setLat(position.coords.latitude);
-      setLon(position.coords.longitude);
-    });
+    getLocationJs();
   }, []);
 
-  return <div></div>;
+  const getLocationJs = () => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      console.log(position);
+      const { latitude, longitude } = position.coords;
+      setCurrLocationJs({ latitude, longitude });
+    });
+  };
 }
+
+export default LoadGeoLocation;
