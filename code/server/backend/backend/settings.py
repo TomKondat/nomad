@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'profiles.apps.ProfilesConfig',
     'organizations.apps.OrganizationsConfig',
     'conventions.apps.ConventionsConfig',
-    'chat_messages.apps.ChatMessagesConfig',
     'agora.apps.AgoraConfig',
     'django.contrib.admin',
     'django.contrib.auth',
