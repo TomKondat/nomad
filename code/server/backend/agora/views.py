@@ -10,15 +10,16 @@ from .models import EmptyClass
 from .serializers import EmptySerializer
 from requests.exceptions import RequestException
 import re
+import os
 
-APP_ID = '832ecb8d44cf4e0c83f3196781f68cb0'
-APP_CERTIFICATE = '9f546b511f7e49ab9f7d42e8e1f7e7e6'
-ORG_NAME = '71959135'
-APP_NAME = '1122013'
-AGORA_HOST = 'api.agora.io'
-REST_API = 'a71.chat.agora.io'
-WEB_SOCKET = 'msync-api-71.chat.agora.io'
-SERVER_URL = 'http://127.0.0.1:8000'
+APP_ID = os.environ.get('APP_ID')
+APP_CERTIFICATE = os.environ.get('APP_CERTIFICATE')
+ORG_NAME = os.environ.get('ORG_NAME')
+APP_NAME = os.environ.get('APP_NAME')
+AGORA_HOST = os.environ.get('AGORA_HOST')
+REST_API = os.environ.get('REST_API')
+WEB_SOCKET = os.environ.get('WEB_SOCKET')
+SERVER_URL = os.environ.get('SERVER_URL')
 
 HOST_URL_APP_KEY  = f"https://{REST_API}/{ORG_NAME}/{APP_NAME}"
 
@@ -26,7 +27,7 @@ def getAppToken(expireTime):
     return ChatTokenBuilder.build_app_token(APP_ID,APP_CERTIFICATE, expireTime)
 
 def getUserToken(expireTime,uid):
-    return ChatTokenBuilder.build_user_token(APP_ID,APP_CERTIFICATE, uid, expireTime) 
+    return ChatTokenBuilder.build_user_token(APP_ID,APP_CERTIFICATE, uid, expireTime)
 
 def get_auth_headers(token):
     return {
