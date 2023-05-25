@@ -40,11 +40,20 @@ function Home() {
   }, []);
 
   useEffect(() => {
-    conventionsInit.map(async (conv) => {
-      const distance = await LoadGeocoding(conv.address); // Calculate the distance using the LoadGeocoding function
-      conv.distance = distance; // Add the distance to the convention object
-      setConventions([...conventionsInit]); // Update the state with the updated conventions array
-    });
+    const calculateDistances = async () => {
+      const updatedConventions = [];
+      for (const conv of conventionsInit) {
+        const distance = await LoadGeocoding(conv.address);
+        conv.distance = distance;
+        updatedConventions.push(conv);
+      }
+      const sortedConventions = updatedConventions.sort(
+        (a, b) => a.distance - b.distance
+      );
+      setConventions(sortedConventions);
+    };
+
+    calculateDistances();
   }, [conventionsInit]);
 
   useEffect(() => {
