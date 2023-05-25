@@ -116,13 +116,11 @@ function Home() {
                   </Card.Body>
                   <ListGroup variant="flush">
                     <ListGroup.Item>
-                      {/* placeHolder here untill we have maps */}
                       <BsSignTurnRightFill />
                       &nbsp;
                       {conv.distance !== undefined
-                        ? `${conv.distance.toFixed(2)} KM`
+                        ? `${Math.round(conv.distance)} KM away from me!`
                         : "Calculating distance..."}
-                      away from me!
                     </ListGroup.Item>
                     <ListGroup.Item>
                       <BsPinMapFill />
