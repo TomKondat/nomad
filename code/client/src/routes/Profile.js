@@ -101,7 +101,7 @@ const UserProfile = () => {
                       }
                       checked={showLocation}
                       onChange={handleLocationSwitch}
-                      className="shadow-sm"
+                      className=""
                     />
                   </div>
                 </Col>

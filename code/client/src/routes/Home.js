@@ -30,7 +30,6 @@ function Home() {
       .get("/api/get-conventions/")
       .then((res) => {
         setConventionsInit(res.data);
-        setConventions(res.data);
       })
       .catch((error) => console.log(error));
   }
@@ -40,11 +39,39 @@ function Home() {
   }, []);
 
   useEffect(() => {
-    conventionsInit.map(async (conv) => {
-      const distance = await LoadGeocoding(conv.address); // Calculate the distance using the LoadGeocoding function
-      conv.distance = distance; // Add the distance to the convention object
-      setConventions([...conventionsInit]); // Update the state with the updated conventions array
-    });
+    const calculateDistances = async () => {
+      const conventionsWithDistance = [];
+      const conventionsWithoutDistance = [];
+
+      for (const conv of conventionsInit) {
+        try {
+          const distance = await LoadGeocoding(conv.address);
+          if (distance !== null) {
+            conv.distance = distance;
+            conventionsWithDistance.push(conv);
+          } else {
+            conv.distance = null; // Set distance as null for conventions without a valid location
+            conventionsWithoutDistance.push(conv);
+          }
+        } catch (error) {
+          console.log(
+            `Error calculating distance for convention: ${conv.name}`,
+            error
+          );
+          conv.distance = null; // Set distance as null for conventions with errors
+          conventionsWithoutDistance.push(conv);
+        }
+      }
+
+      const sortedConventions = [
+        ...conventionsWithDistance.sort((a, b) => a.distance - b.distance),
+        ...conventionsWithoutDistance,
+      ];
+
+      setConventions(sortedConventions);
+    };
+
+    calculateDistances();
   }, [conventionsInit]);
 
   useEffect(() => {
@@ -115,21 +142,27 @@ function Home() {
                     <Card.Title>{conv.name}</Card.Title>
                   </Card.Body>
                   <ListGroup variant="flush">
-                    <ListGroup.Item>
-                      <BsSignTurnRightFill />
-                      &nbsp;
-                      {conv.distance !== undefined
-                        ? `${Math.round(conv.distance)} KM away from me!`
-                        : "Calculating distance..."}
-                    </ListGroup.Item>
+                    {conv.distance !== null ? (
+                      <ListGroup.Item>
+                        <BsSignTurnRightFill className="blue" />
+                        &nbsp;{Math.round(conv.distance)} KM away from me!
+                      </ListGroup.Item>
+                    ) : (
+                      <ListGroup.Item>
+                        <BsSignTurnRightFill className="not-found" />
+                        &nbsp;
+                        {conv.address
+                          ? "Location not found"
+                          : "Invalid address"}
+                      </ListGroup.Item>
+                    )}
                     <ListGroup.Item>
                       <BsPinMapFill />
                       &nbsp;{conv.address}
                     </ListGroup.Item>
                     <ListGroup.Item>
                       <BsClockFill />
-                      &nbsp;
-                      {new Date(conv.start_date).toLocaleString("en-gb")}
+                      &nbsp;{new Date(conv.start_date).toLocaleString("en-gb")}
                     </ListGroup.Item>
                     <ListGroup.Item>
                       <BsClockHistory />
