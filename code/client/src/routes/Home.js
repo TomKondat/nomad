@@ -18,6 +18,7 @@ import {
 import { MdAddToPhotos } from "react-icons/md";
 import { Button, Container } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
+import { LoadGeocoding } from "../LoadGeocoding";
 
 function Home() {
   const [search, setSearch] = useState("");
@@ -37,6 +38,14 @@ function Home() {
   useEffect(() => {
     getConvention();
   }, []);
+
+  useEffect(() => {
+    conventionsInit.map(async (conv) => {
+      const distance = await LoadGeocoding(conv.address); // Calculate the distance using the LoadGeocoding function
+      conv.distance = distance; // Add the distance to the convention object
+      setConventions([...conventionsInit]); // Update the state with the updated conventions array
+    });
+  }, [conventionsInit]);
 
   useEffect(() => {
     searchFilter();
@@ -109,7 +118,11 @@ function Home() {
                     <ListGroup.Item>
                       {/* placeHolder here untill we have maps */}
                       <BsSignTurnRightFill />
-                      &nbsp;50 KM away from me!
+                      &nbsp;
+                      {conv.distance !== undefined
+                        ? `${conv.distance.toFixed(2)} KM`
+                        : "Calculating distance..."}
+                      away from me!
                     </ListGroup.Item>
                     <ListGroup.Item>
                       <BsPinMapFill />
