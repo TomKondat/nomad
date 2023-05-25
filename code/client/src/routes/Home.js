@@ -144,15 +144,15 @@ function Home() {
                   <ListGroup variant="flush">
                     {conv.distance !== null ? (
                       <ListGroup.Item>
-                        <BsSignTurnRightFill />
+                        <BsSignTurnRightFill className="blue" />
                         &nbsp;{Math.round(conv.distance)} KM away from me!
                       </ListGroup.Item>
                     ) : (
                       <ListGroup.Item>
-                        <BsSignTurnRightFill />
+                        <BsSignTurnRightFill className="not-found" />
                         &nbsp;
                         {conv.address
-                          ? "Calculating distance..."
+                          ? "Location not found"
                           : "Invalid address"}
                       </ListGroup.Item>
                     )}
