@@ -12,7 +12,7 @@ import { MdOutlineLocationOn } from "react-icons/md";
 import { MdOutlineLocationOff } from "react-icons/md";
 
 const UserProfile = () => {
-  const [profile, setProfile] = useState();
+  const [profile, setProfile] = useState({});
   const [show, setShow] = useState(false);
 
   const [showLocation, setShowLocation] = useState(false);
@@ -33,12 +33,8 @@ const UserProfile = () => {
 
   async function getProfile() {
     await axios
-      .get(`/api/get-profiles?q=${userProfileData?.user}`)
-      .then((res) => {
-        console.log(res.data);
-        setProfile(res.data);
-      })
-      .catch((error) => console.log(error));
+      .get(`/api/profile?q=${userProfileData?.user}`)
+      .then((res) => setProfile(res.data));
   }
   useEffect(() => {
     getProfile();
@@ -109,7 +105,7 @@ const UserProfile = () => {
 
               {profile ? (
                 <Image
-                  src={`/api/media/${profile?.profile_img}`}
+                  src={`/api/${profile?.user_profile_data?.profile_img}`}
                   alt="user profile picture"
                   roundedCircle
                   className="mb-3"
@@ -120,17 +116,17 @@ const UserProfile = () => {
               )}
 
               <h1 className="mb-0">
-                {profile?.user?.first_name} {profile?.user?.last_name}
+                {profile?.user_data?.first_name} {profile?.user_data?.last_name}
               </h1>
               <p className="text-muted mt-2">{profile?.position}</p>
 
               <hr />
               <p className="text-muted">Company:</p>
-              <p> {profile?.company}</p>
+              <p> {profile?.user_profile_data?.company}</p>
               <p className="text-muted">Address:</p>
-              <p> {profile?.address}</p>
+              <p> {profile?.user_profile_data?.address}</p>
               <p className="text-muted">Birthdate:</p>
-              <p>{profile?.birthdate}</p>
+              <p>{profile?.user_profile_data?.birthdate}</p>
             </Col>
           </Row>
         </>

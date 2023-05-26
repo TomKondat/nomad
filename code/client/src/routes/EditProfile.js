@@ -1,285 +1,234 @@
 import React, { useState, useEffect } from "react";
-import {
-  Container,
-  Row,
-  Col,
-  Form,
-  Button,
-  Modal,
-  Alert,
-} from "react-bootstrap";
-import { FaCamera } from "react-icons/fa";
-import { TfiFaceSad } from "react-icons/tfi";
+import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
 import axios from "axios";
 import AuthContext from "../AuthContext";
 import { useContext } from "react";
 
 const EditProfile = () => {
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
-  const [profileImage, setProfileImage] = useState("");
-  const [profile, setProfile] = useState();
   const { userProfileData } = useContext(AuthContext);
 
-  const [formValues, setFormValues] = useState({
-    name: "",
-    lastName: "",
-    address: "",
-    company: "",
-    position: "",
-    email: "",
-  });
-
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [originalProfile, setOriginalProfile] = useState({});
+  const [formValues, setFormValues] = useState({});
   const [hasChanges, setHasChanges] = useState(false);
-  const [isSaveDisabled, setIsSaveDisabled] = useState(true);
+  const [formKey, setFormKey] = useState(Date.now());
+
+  // Used to compare profile objects
+  function deepEqual(object1, object2) {
+    const keys1 = Object.keys(object1);
+    const keys2 = Object.keys(object2);
+
+    if (keys1.length !== keys2.length) {
+      return false;
+    }
+
+    for (const key of keys1) {
+      const val1 = object1[key];
+      const val2 = object2[key];
+      const areObjects = isObject(val1) && isObject(val2);
+      if (
+        (areObjects && !deepEqual(val1, val2)) ||
+        (!areObjects && val1 !== val2)
+      ) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  function isObject(object) {
+    return object != null && typeof object === "object";
+  }
+
+  function handleSunmit(e) {
+    e.preventDefault();
+
+    const data = {
+      user_data: {
+        first_name: e.target.first_name.value,
+        last_name: e.target.last_name.value,
+        email: e.target.email.value,
+      },
+      user_profile_data: {
+        address: e.target.address.value,
+        company: e.target.company.value,
+        position: e.target.position.value,
+        birthdate: e.target.birthdate.value,
+      },
+    };
+
+    axios
+      .put(`/api/profile?q=${originalProfile?.user_data?.id}`, data)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((error) => console.log(error));
+
+    setShowSuccess(true);
+  }
+
+  function handleResetChanges() {
+    setFormValues(originalProfile);
+    setFormKey(Date.now());
+  }
+
+  function handleInputChange(e, cat) {
+    const { name, value } = e.target;
+    setFormValues({
+      ...formValues,
+      [cat]: { ...formValues[cat], [name]: value },
+    });
+  }
 
   useEffect(() => {
-    getProfile();
+    axios.get(`/api/profile?q=${userProfileData?.user}`).then((res) => {
+      setOriginalProfile(res.data);
+      setFormValues(res.data);
+      console.log(res.data);
+    });
   }, []);
 
   useEffect(() => {
-    const hasChanges = checkForChanges();
-    setHasChanges(hasChanges);
-    setIsSaveDisabled(!hasChanges || checkForEmptyFields());
+    setHasChanges(!deepEqual(originalProfile, formValues));
   }, [formValues]);
 
-  async function getProfile() {
-    await axios
-      .get(`/api/get-profiles?q=${userProfileData?.user}`)
-      .then((res) => {
-        const profileData = res.data;
-        setProfile(profileData);
-        setFormValues({
-          name: profileData?.user?.first_name,
-          lastName: profileData?.user?.last_name,
-          address: profileData?.address,
-          company: profileData?.company,
-          position: profileData?.position,
-          email: profileData?.user?.email,
-        });
-      })
-      .catch((error) => console.log(error));
-  }
-
-  const handleDeleteAccount = () => {
-    // Handle delete account logic here
-    setShowDeleteModal(false);
-  };
-
-  const handleSaveChanges = () => {
-    if (isSaveDisabled) {
-      return; // If save button is disabled, do nothing
-    }
-
-    // Handle save changes logic here
-    setShowSuccessAlert(true);
-  };
-
-  const handleProfileImageChange = (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-
-    reader.onloadend = () => {
-      setProfileImage(reader.result);
-    };
-
-    if (file) {
-      reader.readAsDataURL(file);
-    } else {
-      setProfileImage("");
-    }
-  };
-
-  const handleInputChange = (event) => {
-    const { id, value } = event.target;
-    setFormValues((prevValues) => ({
-      ...prevValues,
-      [id]: value,
-    }));
-  };
-
-  const checkForChanges = () => {
-    const { name, lastName, address, company, position, email } = formValues;
-
-    return (
-      name !== profile?.user?.first_name ||
-      lastName !== profile?.user?.last_name ||
-      address !== profile?.address ||
-      company !== profile?.company ||
-      position !== profile?.position ||
-      email !== profile?.user?.email
-    );
-  };
-
-  const checkForEmptyFields = () => {
-    const { name, lastName, address, company, position, email } = formValues;
-
-    return (
-      !name.trim() ||
-      !lastName.trim() ||
-      !address.trim() ||
-      !company.trim() ||
-      !position.trim() ||
-      !email.trim()
-    );
-  };
-
-  const handleResetChanges = () => {
-    setFormValues({
-      name: profile?.user?.first_name,
-      lastName: profile?.user?.last_name,
-      address: profile?.address,
-      company: profile?.company,
-      position: profile?.position,
-      email: profile?.user?.email,
-    });
-    setHasChanges(false);
-    setIsSaveDisabled(true);
-  };
-
   return (
-    <Container className="py-5">
-      <Row className="justify-content-center">
-        <Col md={8} lg={6}>
-          <div className="d-flex justify-content-center mb-4">
-            <div className="position-relative">
-              <img
-                src={
-                  !profile
-                    ? "https://via.placeholder.com/200x200"
-                    : `/api/media/${profile?.profile_img}`
-                }
-                alt="Profile"
-                className="rounded-circle border border-4 border-white shadow-sm"
-                style={{ width: "200px", height: "200px" }}
-              />
-              <div
-                className="position-absolute top-0 end-0"
-                style={{ transform: "translate(50%, -50%)" }}
-              >
-                <label htmlFor="profile-image" className="btn btn-light">
-                  <FaCamera size={18} />
-                </label>
-                <input
-                  id="profile-image"
-                  type="file"
-                  accept="image/*"
-                  className="d-none"
-                  onChange={handleProfileImageChange}
-                />
-              </div>
-            </div>
-          </div>
-          <Form>
-            <Form.Group controlId="name">
-              <Form.Label>Name</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter your new name"
-                value={formValues.name}
-                onChange={handleInputChange}
-              />
-            </Form.Group>
-            <Form.Group controlId="lastName">
-              <Form.Label>Last Name</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter your new last name"
-                value={formValues.lastName}
-                onChange={handleInputChange}
-              />
-            </Form.Group>
-            <Form.Group controlId="address">
-              <Form.Label>Address</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter your new address"
-                value={formValues.address}
-                onChange={handleInputChange}
-              />
-            </Form.Group>
-            <Form.Group controlId="company">
-              <Form.Label>Company</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter your new company"
-                value={formValues.company}
-                onChange={handleInputChange}
-              />
-            </Form.Group>
-            <Form.Group controlId="position">
-              <Form.Label>Position</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter your new position"
-                value={formValues.position}
-                onChange={handleInputChange}
-              />
-            </Form.Group>
-            <Form.Group controlId="email">
-              <Form.Label>Email</Form.Label>
-              <Form.Control
-                type="email"
-                placeholder="Enter your new email"
-                value={formValues.email}
-                onChange={handleInputChange}
-              />
-            </Form.Group>
+    <React.Fragment>
+      <Container className="my-5">
+        <header className="text-center mb-5">
+          <h1 className="display-4">Edit Profile</h1>
+        </header>
 
-            <br />
-            <Button
-              variant="primary"
-              className="mb-1 rounded-pill"
-              onClick={handleSaveChanges}
-              disabled={isSaveDisabled}
-            >
+        {showSuccess ? (
+          <Alert
+            variant="success"
+            onClose={() => setShowSuccess(false)}
+            dismissible
+          >
+            Profile edited successfully!
+          </Alert>
+        ) : null}
+
+        <Form key={formKey} onSubmit={handleSunmit}>
+          <Row>
+            <Col lg={3}>
+              <Form.Group className="mb-3" controlId="formFirstName">
+                <Form.Label>First Name</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="first_name"
+                  placeholder="Enter your first name"
+                  defaultValue={formValues?.user_data?.first_name}
+                  onChange={(e) => handleInputChange(e, "user_data")}
+                  required
+                />
+              </Form.Group>
+            </Col>
+
+            <Col lg={3}>
+              <Form.Group className="mb-3" controlId="formLastName">
+                <Form.Label>Last Name</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="last_name"
+                  placeholder="Enter your last name"
+                  defaultValue={formValues?.user_data?.last_name}
+                  onChange={(e) => handleInputChange(e, "user_data")}
+                  required
+                />
+              </Form.Group>
+            </Col>
+
+            <Col lg={6}>
+              <Form.Group className="mb-3" controlId="formAddress">
+                <Form.Label>Address</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="address"
+                  placeholder="Enter your address"
+                  defaultValue={formValues?.user_profile_data?.address}
+                  onChange={(e) => handleInputChange(e, "user_profile_data")}
+                  required
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col lg={6}>
+              <Form.Group className="mb-3" controlId="formCompany">
+                <Form.Label>Company</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="company"
+                  placeholder="Enter your company"
+                  defaultValue={formValues?.user_profile_data?.company}
+                  onChange={(e) => handleInputChange(e, "user_profile_data")}
+                  required
+                />
+              </Form.Group>
+            </Col>
+
+            <Col lg={6}>
+              <Form.Group className="mb-3" controlId="formPosition">
+                <Form.Label>Position</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="position"
+                  placeholder="Enter your position"
+                  defaultValue={formValues?.user_profile_data?.position}
+                  onChange={(e) => handleInputChange(e, "user_profile_data")}
+                  required
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col lg={9}>
+              <Form.Group className="mb-3" controlId="formEmail">
+                <Form.Label>Email address</Form.Label>
+                <Form.Control
+                  type="email"
+                  name="email"
+                  placeholder="Enter your email address"
+                  defaultValue={formValues?.user_data?.email}
+                  onChange={(e) => handleInputChange(e, "user_data")}
+                  required
+                />
+              </Form.Group>
+            </Col>
+
+            <Col lg={3}>
+              <Form.Group className="mb-3" controlId="formBirthdate">
+                <Form.Label>Birthdate</Form.Label>
+                <Form.Control
+                  type="date"
+                  name="birthdate"
+                  defaultValue={formValues?.user_profile_data?.birthdate}
+                  onChange={(e) => handleInputChange(e, "user_profile_data")}
+                  required
+                />
+              </Form.Group>
+            </Col>
+          </Row>
+
+          <Container className="p-0 mt-3">
+            <Button variant="primary" type="submit" disabled={!hasChanges}>
               Save Changes
-            </Button>
-            <Alert
-              variant="success"
-              show={showSuccessAlert}
-              onClose={() => setShowSuccessAlert(false)}
-              dismissible
-            >
-              Your changes have been saved.
-            </Alert>
+            </Button>{" "}
             <Button
               variant="secondary"
-              className="ms-2 rounded-pill"
               onClick={handleResetChanges}
               disabled={!hasChanges}
             >
               Reset Changes
             </Button>
-            <hr />
-            <Button variant="danger" onClick={() => setShowDeleteModal(true)}>
-              Delete Account
-            </Button>
-          </Form>
-        </Col>
-      </Row>
-
-      <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>
-            Confirm Delete Account&nbsp;
-            <TfiFaceSad color="red" />
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          Are you sure you want to delete your account? This action cannot be
-          undone.
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>
-            Cancel
-          </Button>
-          <Button variant="danger" onClick={handleDeleteAccount}>
-            Delete Account
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </Container>
+          </Container>
+        </Form>
+      </Container>
+    </React.Fragment>
   );
 };
 
