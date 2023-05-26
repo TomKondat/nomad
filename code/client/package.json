@@ -10,6 +10,7 @@
     "agora-chat-uikit": "^1.1.0",
     "axios": "^1.3.5",
     "bootstrap": "^5.2.3",
+    "http-proxy-middleware": "^2.0.6",
     "jwt-decode": "^3.1.2",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",
@@ -47,6 +48,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "proxy": "http://localhost:8000"
+  }
 }
