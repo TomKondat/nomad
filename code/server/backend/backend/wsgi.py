@@ -17,7 +17,6 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
 
 sys.path.append(SERVER_BASE)
 sys.path.append(f'{SERVER_BASE}/backend')
-sys.path.append(f'{SERVER_BASE}/chat_messages')
 sys.path.append(f'{SERVER_BASE}/conventions')
 sys.path.append(f'{SERVER_BASE}/organizations')
 sys.path.append(f'{SERVER_BASE}/profiles')

@@ -13,10 +13,10 @@ import os
 from os.path import dirname, abspath
 from pathlib import Path
 
-from dotenv import load_dotenv
+import dotenv
 
 ENV_FILE_DIR = dirname(dirname(abspath(__file__)))
-load_dotenv(os.path.join(ENV_FILE_DIR, '.env'))
+dotenv.load_dotenv(os.path.join(ENV_FILE_DIR, '.env'))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,10 +25,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-dk9-3=i)6wmp8^nv50o1(oe$alttrk^e@eg)j2f!5ma_9$z20h'
+SECRET_KEY = os.environ.get("SECRET_KEY", 'django-insecure-dk9-3=i)6wmp8^nv50o1(oe$alttrk^e@eg)j2f!5ma_9$z20h')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = str(os.environ.get("DEBUG")) == "1"     # 1 == True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'profiles.apps.ProfilesConfig',
     'organizations.apps.OrganizationsConfig',
     'conventions.apps.ConventionsConfig',
-    'chat_messages.apps.ChatMessagesConfig',
     'agora.apps.AgoraConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -90,9 +89,9 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'nomad_schema',
-        'USER': 'nomad_app',
-        'PASSWORD': 'Aa123456'
+        'NAME': os.environ.get('DB_NAME', 'nomad_schema'),
+        'USER': os.environ.get('DB_USER', 'nomad_app'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', 'Aa123456')
     }
 }
 
@@ -121,7 +120,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'Asia/Jerusalem'
+TIME_ZONE = os.environ.get('TIME_ZONE', 'Asia/Jerusalem')
 
 USE_I18N = True
 
