@@ -18,6 +18,7 @@ import {
 import { MdAddToPhotos } from "react-icons/md";
 import { Button, Container } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
+import { LoadGeocoding } from "../LoadGeocoding";
 
 function Home() {
   const [search, setSearch] = useState("");
@@ -29,7 +30,6 @@ function Home() {
       .get("/api/get-conventions/")
       .then((res) => {
         setConventionsInit(res.data);
-        setConventions(res.data);
       })
       .catch((error) => console.log(error));
   }
@@ -37,6 +37,42 @@ function Home() {
   useEffect(() => {
     getConvention();
   }, []);
+
+  useEffect(() => {
+    const calculateDistances = async () => {
+      const conventionsWithDistance = [];
+      const conventionsWithoutDistance = [];
+
+      for (const conv of conventionsInit) {
+        try {
+          const distance = await LoadGeocoding(conv.address);
+          if (distance !== null) {
+            conv.distance = distance;
+            conventionsWithDistance.push(conv);
+          } else {
+            conv.distance = null; // Set distance as null for conventions without a valid location
+            conventionsWithoutDistance.push(conv);
+          }
+        } catch (error) {
+          console.log(
+            `Error calculating distance for convention: ${conv.name}`,
+            error
+          );
+          conv.distance = null; // Set distance as null for conventions with errors
+          conventionsWithoutDistance.push(conv);
+        }
+      }
+
+      const sortedConventions = [
+        ...conventionsWithDistance.sort((a, b) => a.distance - b.distance),
+        ...conventionsWithoutDistance,
+      ];
+
+      setConventions(sortedConventions);
+    };
+
+    calculateDistances();
+  }, [conventionsInit]);
 
   useEffect(() => {
     searchFilter();
@@ -106,19 +142,27 @@ function Home() {
                     <Card.Title>{conv.name}</Card.Title>
                   </Card.Body>
                   <ListGroup variant="flush">
-                    <ListGroup.Item>
-                      {/* placeHolder here untill we have maps */}
-                      <BsSignTurnRightFill />
-                      &nbsp;50 KM away from me!
-                    </ListGroup.Item>
+                    {conv.distance !== null ? (
+                      <ListGroup.Item>
+                        <BsSignTurnRightFill className="blue" />
+                        &nbsp;{Math.round(conv.distance)} KM away from me!
+                      </ListGroup.Item>
+                    ) : (
+                      <ListGroup.Item>
+                        <BsSignTurnRightFill className="not-found" />
+                        &nbsp;
+                        {conv.address
+                          ? "Location not found"
+                          : "Invalid address"}
+                      </ListGroup.Item>
+                    )}
                     <ListGroup.Item>
                       <BsPinMapFill />
                       &nbsp;{conv.address}
                     </ListGroup.Item>
                     <ListGroup.Item>
                       <BsClockFill />
-                      &nbsp;
-                      {new Date(conv.start_date).toLocaleString("en-gb")}
+                      &nbsp;{new Date(conv.start_date).toLocaleString("en-gb")}
                     </ListGroup.Item>
                     <ListGroup.Item>
                       <BsClockHistory />

@@ -27,6 +27,9 @@
 .orange {
   color: #f56500;
 }
+.not-found {
+  color: rgb(201, 79, 79);
+}
 
 .purple {
   background-color: #4b4ba3;
