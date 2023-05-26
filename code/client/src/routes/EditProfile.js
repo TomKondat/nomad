@@ -43,7 +43,28 @@ const EditProfile = () => {
 
   function handleSunmit(e) {
     e.preventDefault();
-    console.log("Handle submit here!", e.target);
+
+    const data = {
+      user_data: {
+        first_name: e.target.first_name.value,
+        last_name: e.target.last_name.value,
+        email: e.target.email.value,
+      },
+      user_profile_data: {
+        address: e.target.address.value,
+        company: e.target.company.value,
+        position: e.target.position.value,
+        birthdate: e.target.birthdate.value,
+      },
+    };
+
+    axios
+      .put(`/api/profile?q=${originalProfile?.user_data?.id}`, data)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((error) => console.log(error));
+
     setShowSuccess(true);
   }
 
@@ -64,6 +85,7 @@ const EditProfile = () => {
     axios.get(`/api/profile?q=${userProfileData?.user}`).then((res) => {
       setOriginalProfile(res.data);
       setFormValues(res.data);
+      console.log(res.data);
     });
   }, []);
 
