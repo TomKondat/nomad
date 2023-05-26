@@ -17,6 +17,7 @@
 
 # misc
 /code/client/**/.DS_Store
+/code/client/**/.env
 /code/client/**/.env.local
 /code/client/**/.env.development.local
 /code/client/**/.env.test.local
