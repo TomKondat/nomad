@@ -1,15 +1,6 @@
 import React, { useState, useEffect } from "react";
-import {
-  Container,
-  Row,
-  Col,
-  Form,
-  Button,
-  Modal,
-  Alert,
-} from "react-bootstrap";
+import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
 import { FaCamera } from "react-icons/fa";
-import { TfiFaceSad } from "react-icons/tfi";
 import axios from "axios";
 import AuthContext from "../AuthContext";
 import { useContext } from "react";
