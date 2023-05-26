@@ -28,7 +28,7 @@ class WhoamiView(APIView):
 
         return Response({'auth': str(request.user), 'user_data': user_data, 'user_profile_data': user_profile_data})
 
-class getProfiles(APIView):
+class ProfileView(APIView):
     def get(self, request):
         reqUser = request.GET.get('q', None)
         user = User.objects.get(id=reqUser)
