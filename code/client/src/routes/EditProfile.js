@@ -15,7 +15,6 @@ import AuthContext from "../AuthContext";
 import { useContext } from "react";
 
 const EditProfile = () => {
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const [profileImage, setProfileImage] = useState("");
   const [profile, setProfile] = useState();
@@ -60,11 +59,6 @@ const EditProfile = () => {
       })
       .catch((error) => console.log(error));
   }
-
-  const handleDeleteAccount = () => {
-    // Handle delete account logic here
-    setShowDeleteModal(false);
-  };
 
   const handleSaveChanges = () => {
     if (isSaveDisabled) {
@@ -251,34 +245,9 @@ const EditProfile = () => {
             >
               Reset Changes
             </Button>
-            <hr />
-            <Button variant="danger" onClick={() => setShowDeleteModal(true)}>
-              Delete Account
-            </Button>
           </Form>
         </Col>
       </Row>
-
-      <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>
-            Confirm Delete Account&nbsp;
-            <TfiFaceSad color="red" />
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          Are you sure you want to delete your account? This action cannot be
-          undone.
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>
-            Cancel
-          </Button>
-          <Button variant="danger" onClick={handleDeleteAccount}>
-            Delete Account
-          </Button>
-        </Modal.Footer>
-      </Modal>
     </Container>
   );
 };
