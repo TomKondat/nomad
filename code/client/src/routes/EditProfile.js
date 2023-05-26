@@ -61,7 +61,7 @@ const EditProfile = () => {
   }
 
   useEffect(() => {
-    axios.get(`/api/get-profiles?q=${userProfileData?.user}`).then((res) => {
+    axios.get(`/api/profile?q=${userProfileData?.user}`).then((res) => {
       setOriginalProfile(res.data);
       setFormValues(res.data);
     });
