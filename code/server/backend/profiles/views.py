@@ -31,10 +31,8 @@ class WhoamiView(APIView):
 class getProfiles(APIView):
     def get(self, request):
         reqUser = request.GET.get('q', None)
+        user = User.objects.get(id=reqUser)
+        user_data = UserInfoSerializer(user).data
+        user_profile_data = UserProfileInfoSerializer(UserProfile.objects.get(user=user)).data
 
-        profile = UserProfile.objects.all().values()
-        if profile is not None:
-            user = User.objects.all().values().filter(id=reqUser)[0]
-            profile = profile.filter(user_id=reqUser)[0]
-            profile['user'] = user
-        return Response(profile)
+        return Response({'user_data': user_data, 'user_profile_data': user_profile_data})
