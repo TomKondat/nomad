@@ -1,7 +1,13 @@
-export async function LoadGeoLocation() {
-  let coords = navigator.geolocation.getCurrentPosition((position) => {
-    const { latitude, longitude } = position.coords;
-    return { lat: latitude, lng: longitude };
+export function LoadGeoLocation() {
+  return new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        resolve({ lat: latitude, lng: longitude });
+      },
+      (error) => {
+        reject(error);
+      }
+    );
   });
-  return coords;
 }

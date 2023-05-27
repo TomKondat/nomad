@@ -17,8 +17,10 @@ import { SiGooglemaps } from "react-icons/si";
 import { LinkContainer } from "react-router-bootstrap";
 import "../styles.css";
 import Map from "../Map";
+import { LoadGeoLocation } from "../LoadGeoLocation";
 
 export default function NewConvention() {
+  const [currentLocation, setCurrentLocation] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const handleCloseModal = () => setShowModal(false);
   const handleShowModal = () => setShowModal(true);
@@ -38,10 +40,17 @@ export default function NewConvention() {
     getConvention();
   }, [params]);
 
+  useEffect(() => {
+    LoadGeoLocation().then((coords) => {
+      setCurrentLocation(coords);
+    });
+  }, []);
+
   const openGoogleMaps = () => {
     const address = convention?.address;
-    if (address) {
-      const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+    if (address && currentLocation) {
+      const { lat, lng } = currentLocation;
+      const mapUrl = `https://www.google.com/maps/dir/?api=1&origin=${lat},${lng}&destination=${encodeURIComponent(
         address
       )}`;
       window.open(mapUrl, "_blank");
@@ -145,7 +154,13 @@ export default function NewConvention() {
                       className="btn-block my-4 shadow fw-bold blue"
                       onClick={openGoogleMaps} // Call the function to open Google Maps
                     >
-                      Navigate <SiGooglemaps />
+                      Navigate&nbsp;
+                      <Image
+                        src="https://cdn.worldvectorlogo.com/logos/google-maps-2020-icon.svg"
+                        width={20}
+                        height={20}
+                        className=""
+                      />
                     </Button>
                     <Button
                       variant="outline-light"
