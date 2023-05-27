@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import {
@@ -36,6 +36,16 @@ export default function NewConvention() {
   useEffect(() => {
     getConvention();
   }, [params]);
+
+  const openGoogleMaps = () => {
+    const address = convention?.address;
+    if (address) {
+      const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+        address
+      )}`;
+      window.open(mapUrl, "_blank");
+    }
+  };
 
   return (
     <Container>
@@ -142,6 +152,13 @@ export default function NewConvention() {
                       onClick={handleShowModal}
                     >
                       Attendees
+                    </Button>
+                    <Button
+                      variant="outline-light"
+                      className="btn-block my-4 shadow fw-bold blue"
+                      onClick={openGoogleMaps} // Call the function to open Google Maps
+                    >
+                      Open in Google Maps
                     </Button>
                   </div>
                 </div>
