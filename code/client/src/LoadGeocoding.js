@@ -16,7 +16,7 @@ export async function LoadGeocoding(address) {
       const lon1 = longitude; // Longitude of current location
       const distance = calculateDistance(lat, lng, lat1, lon1);
 
-      resolve(distance);
+      resolve(distance, lat, lng);
     }, reject);
   });
 }

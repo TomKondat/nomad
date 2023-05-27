@@ -120,7 +120,7 @@ export default function NewConvention() {
                     </li>
                   </ul>
 
-                  <Map />
+                  <Map address={convention?.address} />
 
                   {/* testing */}
                   <div className="d-flex justify-content-between">
