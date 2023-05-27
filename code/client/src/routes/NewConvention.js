@@ -13,6 +13,7 @@ import {
 } from "react-bootstrap";
 import { FiEdit } from "react-icons/fi";
 import { BsFillChatTextFill } from "react-icons/bs";
+import { SiGooglemaps } from "react-icons/si";
 import { LinkContainer } from "react-router-bootstrap";
 import "../styles.css";
 import Map from "../Map";
@@ -129,7 +130,6 @@ export default function NewConvention() {
                       {new Date(convention.end_date).toLocaleString("en-gb")}
                     </li>
                   </ul>
-
                   <Map address={convention?.address} />
 
                   {/* testing */}
@@ -143,8 +143,9 @@ export default function NewConvention() {
                     <Button
                       variant="outline-light"
                       className="btn-block my-4 shadow fw-bold blue"
+                      onClick={openGoogleMaps} // Call the function to open Google Maps
                     >
-                      Leave
+                      Navigate <SiGooglemaps />
                     </Button>
                     <Button
                       variant="outline-light"
@@ -152,13 +153,6 @@ export default function NewConvention() {
                       onClick={handleShowModal}
                     >
                       Attendees
-                    </Button>
-                    <Button
-                      variant="outline-light"
-                      className="btn-block my-4 shadow fw-bold blue"
-                      onClick={openGoogleMaps} // Call the function to open Google Maps
-                    >
-                      Open in Google Maps
                     </Button>
                   </div>
                 </div>
