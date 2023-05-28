@@ -17,4 +17,3 @@ class UserProfile(models.Model):
     profile_img = models.ImageField(
         upload_to='profiles', default='conventions/no-profile-picture.svg')
 
-    # TODO: Find a way to add profile picture to this model
