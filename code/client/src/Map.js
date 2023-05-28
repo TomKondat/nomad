@@ -20,7 +20,7 @@ function Map(props) {
   if (!isLoaded) return <div>Loading...</div>;
 
   async function LoadGeocoding(address) {
-    Geocode.setApiKey("AIzaSyCSG8dtnlKzB8JprbHIMtIUUZAL6F4X2Yc");
+    Geocode.setApiKey(process.env.REACT_APP_GOOGLE_API_KEY);
     Geocode.setLanguage("en");
     Geocode.setRegion("il");
 
