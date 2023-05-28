@@ -35,7 +35,7 @@ function Chats() {
   }
   useEffect(() => {
     getProfiles();
-    console.log(profiles);
+    console.log("aaaaaaaaaaaaa", profiles);
   }, []);
 
   return (
@@ -63,7 +63,7 @@ function Chats() {
         <Card key={profile.id} className="mb-3 mt-2">
           <Card.Body className="d-flex align-items-center">
             <Image
-              src={`/api/${profile?.user?.profile_img}`}
+              src={`/api/${profile?.profile_img}`}
               width={60}
               height={60}
               roundedCircle
@@ -76,7 +76,7 @@ function Chats() {
               </Card.Title>
               <Card.Text className="text-muted">{profile?.position}</Card.Text>
             </div>
-            <LinkContainer to="/chatpage/ronvak">
+            <LinkContainer to={`/chatpage/${profile?.user?.username}`}>
               <Button variant="outline-light" className="ms-auto">
                 <BsFillChatTextFill className="orange" />
               </Button>
