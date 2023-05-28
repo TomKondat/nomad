@@ -118,7 +118,9 @@ const UserProfile = () => {
               <h1 className="mb-0">
                 {profile?.user_data?.first_name} {profile?.user_data?.last_name}
               </h1>
-              <p className="text-muted mt-2">{profile?.position}</p>
+              <p className="text-muted mt-2">
+                {profile?.user_profile_data?.position}
+              </p>
 
               <hr />
               <p className="text-muted">Company:</p>
