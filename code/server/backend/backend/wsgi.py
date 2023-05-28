@@ -12,7 +12,7 @@ import sys
 
 from django.core.wsgi import get_wsgi_application
 
-SERVER_BASE = 'c:/Apache24/_projects/nomad/server'
+SERVER_BASE = '/var/www/nomad/server'
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
 
 sys.path.append(SERVER_BASE)
