@@ -35,7 +35,6 @@ function Chats() {
   }
   useEffect(() => {
     getProfiles();
-    console.log("aaaaaaaaaaaaa", profiles);
   }, []);
 
   return (
@@ -51,6 +50,7 @@ function Chats() {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
+
           <div className="d-flex justify-content-end">
             {/* <Button variant="light" onClick={handleShowFriendList}>
               <TfiViewList />
@@ -58,14 +58,19 @@ function Chats() {
           </div>
         </Container>
       </Navbar>
+      <header className="text-center my-3">
+        <h1 className="display-4 blue ">
+          <strong>Chats</strong>
+        </h1>
+      </header>
 
       {profiles.map((profile) => (
-        <Card key={profile.id} className="mb-3 mt-2">
+        <Card key={profile.id} className="mb-3 mt-2 shadow-sm">
           <Card.Body className="d-flex align-items-center">
             <Image
               src={`/api/${profile?.profile_img}`}
-              width={60}
-              height={60}
+              width={70}
+              height={70}
               roundedCircle
               className="me-3"
             />
@@ -74,10 +79,13 @@ function Chats() {
                 {profile.user?.first_name}&nbsp;
                 {profile.user?.last_name}
               </Card.Title>
-              <Card.Text className="text-muted">{profile?.position}</Card.Text>
+              <Card.Text className="text-muted">
+                {profile?.position}
+                <br /> <strong>{profile?.company}</strong>
+              </Card.Text>
             </div>
             <LinkContainer to={`/chatpage/${profile?.user?.username}`}>
-              <Button variant="outline-light" className="ms-auto">
+              <Button variant="outline-light" className="ms-auto" size="lg">
                 <BsFillChatTextFill className="orange" />
               </Button>
             </LinkContainer>
