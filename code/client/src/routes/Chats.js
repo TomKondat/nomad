@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Card,
   Image,
@@ -11,17 +11,32 @@ import {
 import { TfiViewList } from "react-icons/tfi";
 import { BsFillChatTextFill } from "react-icons/bs";
 import { LinkContainer } from "react-router-bootstrap";
-
+import axios from "axios";
+import { useContext } from "react";
+import AuthContext from "../AuthContext";
 function Chats() {
   const [showFriendList, setShowFriendList] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [friendListQuery, setFriendListQuery] = useState("");
-
+  const [profiles, setProfiles] = useState([]);
   const handleClose = () => {
     setShowFriendList(false);
   };
 
   const handleShowFriendList = () => setShowFriendList(true);
+  const { userProfileData } = useContext(AuthContext);
+  async function getProfiles() {
+    await axios
+      .get(`/api/get-profiles/?q=${userProfileData?.user}`)
+      .then((res) => {
+        setProfiles(res.data);
+      })
+      .catch((error) => console.log(error));
+  }
+  useEffect(() => {
+    getProfiles();
+    console.log(profiles);
+  }, []);
 
   return (
     <div>
@@ -37,36 +52,40 @@ function Chats() {
             />
           </div>
           <div className="d-flex justify-content-end">
-            <Button variant="light" onClick={handleShowFriendList}>
+            {/* <Button variant="light" onClick={handleShowFriendList}>
               <TfiViewList />
-            </Button>
+            </Button> */}
           </div>
         </Container>
       </Navbar>
 
-      <Card className="mb-3 mt-2">
-        <Card.Body className="d-flex align-items-center">
-          <Image
-            src="https://scontent.ftlv20-1.fna.fbcdn.net/v/t1.6435-9/96850622_3305316466145067_5235646729612689408_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=W9PTVgqSyb0AX-UEsW-&_nc_ht=scontent.ftlv20-1.fna&oh=00_AfCknNeRXKjBsDKp8ggVpRuQvF9PP68DK-iXgizE3OvaWA&oe=6475F7F6"
-            width={60}
-            height={60}
-            roundedCircle
-            className="me-3"
-          />
-          <div>
-            <Card.Title className="mb-0">Ron Vak</Card.Title>
-            <Card.Text className="text-muted">Amdocs</Card.Text>
-          </div>
-          <LinkContainer to="/chatpage/ronvak">
-            <Button variant="outline-light" className="ms-auto">
-              <BsFillChatTextFill className="orange" />
-            </Button>
-          </LinkContainer>
-        </Card.Body>
-      </Card>
-
+      {profiles.map((profile) => (
+        <Card key={profile.id} className="mb-3 mt-2">
+          <Card.Body className="d-flex align-items-center">
+            <Image
+              src={`/api/${profile?.user?.profile_img}`}
+              width={60}
+              height={60}
+              roundedCircle
+              className="me-3"
+            />
+            <div>
+              <Card.Title className="mb-0">
+                {profile.user?.first_name}&nbsp;
+                {profile.user?.last_name}
+              </Card.Title>
+              <Card.Text className="text-muted">{profile?.position}</Card.Text>
+            </div>
+            <LinkContainer to="/chatpage/ronvak">
+              <Button variant="outline-light" className="ms-auto">
+                <BsFillChatTextFill className="orange" />
+              </Button>
+            </LinkContainer>
+          </Card.Body>
+        </Card>
+      ))}
       {/* search users */}
-      <Offcanvas show={showFriendList} onHide={handleClose} placement="start">
+      {/* <Offcanvas show={showFriendList} onHide={handleClose} placement="start">
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>Search Users</Offcanvas.Title>
         </Offcanvas.Header>
@@ -97,7 +116,7 @@ function Chats() {
             </Card.Body>
           </Card>
         </Offcanvas.Body>
-      </Offcanvas>
+      </Offcanvas> */}
     </div>
   );
 }
