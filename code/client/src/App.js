@@ -28,7 +28,9 @@ function App() {
           <Container className="pt-2">
             <Routes>
               <Route index element={<Home />} />
-              <Route path="chats" element={<Chats />} />
+              <Route element={<PrivateRoute />}>
+                <Route path="chats" element={<Chats />} />
+              </Route>
               <Route element={<PrivateRoute />}>
                 <Route path="profile" element={<Profile />} />
               </Route>
