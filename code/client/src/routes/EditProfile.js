@@ -82,7 +82,7 @@ const EditProfile = () => {
   }
 
   useEffect(() => {
-    axios.get(`/api/profile?q=${userProfileData?.user}`).then((res) => {
+    axios.get(`/api/profile?q=${userProfileData?.user?.id}`).then((res) => {
       setOriginalProfile(res.data);
       setFormValues(res.data);
       console.log(res.data);

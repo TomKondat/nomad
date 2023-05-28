@@ -27,7 +27,7 @@ function Chats() {
   const { userProfileData } = useContext(AuthContext);
   async function getProfiles() {
     await axios
-      .get(`/api/get-profiles/?q=${userProfileData?.user}`)
+      .get(`/api/get-profiles/?q=${userProfileData?.user?.id}`)
       .then((res) => {
         setProfiles(res.data);
       })
