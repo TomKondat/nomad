@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import {
@@ -13,11 +13,14 @@ import {
 } from "react-bootstrap";
 import { FiEdit } from "react-icons/fi";
 import { BsFillChatTextFill } from "react-icons/bs";
+import { SiGooglemaps } from "react-icons/si";
 import { LinkContainer } from "react-router-bootstrap";
 import "../styles.css";
 import Map from "../Map";
+import { LoadGeoLocation } from "../LoadGeoLocation";
 
 export default function NewConvention() {
+  const [currentLocation, setCurrentLocation] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const handleCloseModal = () => setShowModal(false);
   const handleShowModal = () => setShowModal(true);
@@ -37,6 +40,23 @@ export default function NewConvention() {
     getConvention();
   }, [params]);
 
+  useEffect(() => {
+    LoadGeoLocation().then((coords) => {
+      setCurrentLocation(coords);
+    });
+  }, []);
+
+  const openGoogleMaps = () => {
+    const address = convention?.address;
+    if (address && currentLocation) {
+      const { lat, lng } = currentLocation;
+      const mapUrl = `https://www.google.com/maps/dir/?api=1&origin=${lat},${lng}&destination=${encodeURIComponent(
+        address
+      )}`;
+      window.open(mapUrl, "_blank");
+    }
+  };
+
   return (
     <Container>
       {convention ? (
@@ -52,7 +72,7 @@ export default function NewConvention() {
                 }}
               >
                 <Image
-                  src={`/media/${convention?.convention_img}`}
+                  src={`/api/media/${convention?.convention_img}`}
                   alt="Convention Image"
                   fluid
                   style={{ filter: "brightness(80%)" }}
@@ -64,7 +84,7 @@ export default function NewConvention() {
                 <Row className="align-items-center">
                   <Col xs={1} className="d-flx align-items-center">
                     <Image
-                      src={`/media/${convention?.organization?.organization_img}`}
+                      src={`/api/media/${convention?.organization?.organization_img}`}
                       alt="user profile picture"
                       roundedCircle
                       width={25}
@@ -119,8 +139,7 @@ export default function NewConvention() {
                       {new Date(convention.end_date).toLocaleString("en-gb")}
                     </li>
                   </ul>
-
-                  <Map />
+                  <Map address={convention?.address} />
 
                   {/* testing */}
                   <div className="d-flex justify-content-between">
@@ -133,8 +152,15 @@ export default function NewConvention() {
                     <Button
                       variant="outline-light"
                       className="btn-block my-4 shadow fw-bold blue"
+                      onClick={openGoogleMaps} // Call the function to open Google Maps
                     >
-                      Leave
+                      Navigate&nbsp;
+                      <Image
+                        src="https://cdn.worldvectorlogo.com/logos/google-maps-2020-icon.svg"
+                        width={20}
+                        height={20}
+                        className=""
+                      />
                     </Button>
                     <Button
                       variant="outline-light"
