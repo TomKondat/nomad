@@ -6,7 +6,7 @@ import Geocode from "react-geocode";
 function Map(props) {
   const { address } = props;
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: "AIzaSyCSG8dtnlKzB8JprbHIMtIUUZAL6F4X2Yc",
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_API_KEY,
   });
   const [coordinates, setCoordinates] = useState({
     lat: 31.5090643,
