@@ -14,28 +14,46 @@ import { LinkContainer } from "react-router-bootstrap";
 import axios from "axios";
 import { useContext } from "react";
 import AuthContext from "../AuthContext";
+
 function Chats() {
   const [showFriendList, setShowFriendList] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [friendListQuery, setFriendListQuery] = useState("");
   const [profiles, setProfiles] = useState([]);
+  const [filteredProfiles, setFilteredProfiles] = useState([]);
   const handleClose = () => {
     setShowFriendList(false);
   };
 
   const handleShowFriendList = () => setShowFriendList(true);
   const { userProfileData } = useContext(AuthContext);
+
   async function getProfiles() {
     await axios
       .get(`/api/get-profiles/?q=${userProfileData?.user?.id}`)
       .then((res) => {
         setProfiles(res.data);
+        filterProfiles(res.data);
       })
       .catch((error) => console.log(error));
   }
+
+  function filterProfiles(profiles) {
+    const filtered = profiles.filter((profile) =>
+      `${profile.user?.first_name} ${profile.user?.last_name}${profile?.company}`
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase())
+    );
+    setFilteredProfiles(filtered);
+  }
+
   useEffect(() => {
     getProfiles();
   }, []);
+
+  useEffect(() => {
+    filterProfiles(profiles);
+  }, [searchQuery, profiles]);
 
   return (
     <div>
@@ -64,7 +82,7 @@ function Chats() {
         </h1>
       </header>
 
-      {profiles.map((profile) => (
+      {filteredProfiles.map((profile) => (
         <Card key={profile.id} className="mb-3 mt-2 shadow-sm">
           <Card.Body className="d-flex align-items-center">
             <Image
