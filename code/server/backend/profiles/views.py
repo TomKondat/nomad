@@ -8,15 +8,13 @@ from .models import UserProfile
 from rest_framework.views import APIView
 # Create your views here.
 
-# get all the profiles except the one of the user that is logged in
-@api_view(['GET'])
-def getProfiles(request):
-    user = request.GET.get('q', None)
-    profiles = UserProfile.objects.all().exclude(user=user)
-    serializer = UserProfileInfoTomSerializer(profiles, many=True)
-    return Response(serializer.data)
-
-
+# Get all the profiles except the one of the user that is logged in
+class ProfileViewTom(APIView):
+    def get(self, request):
+        user = request.GET.get('q', None)
+        profiles = UserProfile.objects.all().exclude(user=user)
+        serializer = UserProfileInfoTomSerializer(profiles, many=True)
+        return Response(serializer.data)
 
 class SignUpView(APIView):
     def post(self, request):
