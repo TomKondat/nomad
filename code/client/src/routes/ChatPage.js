@@ -131,10 +131,10 @@ function ChatPage() {
   };
   return (
     <>
-      <Container className="h-100 mt-4">
-        <Row className="h-100">
-          <Col md={9} sm={12}>
-            <div className="card blue shadow" style={{ height: "700px" }}>
+      <Container className=" mt-2 mb-2">
+        <Row>
+          <Col>
+            <div className="card blue shadow">
               <div className="card-header  ">
                 <div className="d-flex align-items-center ">
                   <img
@@ -149,7 +149,10 @@ function ChatPage() {
                   </h3>
                 </div>
               </div>
-              <div className="card-body overflow-auto">
+              <div
+                className="card-body overflow-auto"
+                style={{ height: "600px" }}
+              >
                 {messages.map((message) =>
                   message.from === userData.username ? (
                     <OutgoingMessage
@@ -189,7 +192,7 @@ function ChatPage() {
                       style={{
                         resize: "none",
                         overflow: "auto",
-                        maxHeight: "10px",
+                        maxHeight: "80px",
                       }}
                     />
                     <Button
