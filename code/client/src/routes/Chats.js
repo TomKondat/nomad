@@ -59,7 +59,7 @@ function Chats() {
     <div>
       <Navbar bg="light" variant="light" className=" my-2">
         <Container>
-          <div className="d-flex align-items-center gap-3">
+          <div className="d-flex align-items-center gap-3 flex-grow-1">
             <FormControl
               type="text"
               placeholder="Search Chats"
