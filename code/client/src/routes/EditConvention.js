@@ -96,7 +96,7 @@ const EditConvention = () => {
     <React.Fragment>
       <Container className="my-5">
         <header className="text-center mb-5">
-          <h1 className="display-4">Edit Profile</h1>
+          <h1 className="display-4">Edit Convention</h1>
         </header>
 
         {showSuccess ? (
