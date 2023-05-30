@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
 import axios from "axios";
 
 const EditConvention = () => {
+  const params = useParams();
+
   const [showSuccess, setShowSuccess] = useState(false);
   const [originalConvention, setOriginalConvention] = useState({});
   const [formValues, setFormValues] = useState({});
@@ -39,7 +42,9 @@ const EditConvention = () => {
 
   function handleSunmit(e) {
     e.preventDefault();
+    console.log(e);
 
+    /*
     const data = {
       // Fill this with submit data
     };
@@ -53,6 +58,7 @@ const EditConvention = () => {
       .catch((error) => console.log(error));
 
     setShowSuccess(true);
+    */
   }
 
   function handleResetChanges() {
@@ -60,18 +66,25 @@ const EditConvention = () => {
     setFormKey(Date.now());
   }
 
-  function handleInputChange(e, cat) {
+  function handleInputChange(e) {
     const { name, value } = e.target;
     setFormValues({
       ...formValues,
-      [cat]: { ...formValues[cat], [name]: value },
+      [name]: value,
     });
   }
 
   useEffect(() => {
     axios.get(`/api/get-convention/?q=${params.conventionId}`).then((res) => {
-      setOriginalConvention(res.data);
-      setFormValues(res.data);
+      const data = res.data;
+      data["start_date"] = new Date(Date.parse(data["start_date"]))
+        .toISOString()
+        .match(/(.*)\:\d{2}\.\d{3}Z/)[1];
+      data["end_date"] = new Date(Date.parse(data["end_date"]))
+        .toISOString()
+        .match(/(.*)\:\d{2}\.\d{3}Z/)[1];
+      setOriginalConvention(data);
+      setFormValues(data);
     });
   }, []);
 
@@ -106,6 +119,7 @@ const EditConvention = () => {
                   name="name"
                   placeholder="Enter convention name"
                   defaultValue={formValues?.name}
+                  onChange={handleInputChange}
                   required
                 />
               </Form.Group>
@@ -118,6 +132,7 @@ const EditConvention = () => {
                   type="datetime-local"
                   name="start_date"
                   defaultValue={formValues?.start_date}
+                  onChange={handleInputChange}
                   required
                 />
               </Form.Group>
@@ -130,6 +145,7 @@ const EditConvention = () => {
                   type="datetime-local"
                   name="end_date"
                   defaultValue={formValues?.end_date}
+                  onChange={handleInputChange}
                   required
                 />
               </Form.Group>
@@ -146,6 +162,7 @@ const EditConvention = () => {
                   name="description"
                   placeholder="Enter convention description"
                   defaultValue={formValues?.description}
+                  onChange={handleInputChange}
                   required
                 />
               </Form.Group>
@@ -159,6 +176,7 @@ const EditConvention = () => {
                   name="capacity"
                   placeholder="Enter convention capacity"
                   defaultValue={formValues?.capacity}
+                  onChange={handleInputChange}
                   required
                 />
               </Form.Group>
@@ -172,6 +190,7 @@ const EditConvention = () => {
                   name="address"
                   placeholder="Enter convention address"
                   defaultValue={formValues?.address}
+                  onChange={handleInputChange}
                   required
                 />
               </Form.Group>
