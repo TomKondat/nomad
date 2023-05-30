@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.models import User
 from rest_framework.decorators import api_view
-from .serializers import UserSignupSerializer, UserInfoSerializer, UserProfileInfoSerializer
+from .serializers import UserSignupSerializer, UserInfoSerializer, UserProfileInfoSerializer, UserProfileInfoTomSerializer
 from .models import UserProfile
 from rest_framework.views import APIView
 # Create your views here.
@@ -13,7 +13,7 @@ from rest_framework.views import APIView
 def getProfiles(request):
     user = request.GET.get('q', None)
     profiles = UserProfile.objects.all().exclude(user=user)
-    serializer = UserProfileInfoSerializer(profiles, many=True)
+    serializer = UserProfileInfoTomSerializer(profiles, many=True)
     return Response(serializer.data)
 
 
@@ -69,7 +69,3 @@ class ProfileView(APIView):
         user_serializer.save()
         user_profile_serializer.save()
         return Response({'message': 'Profile edited successfully'}, status=status.HTTP_200_OK)
-
-
-
-
