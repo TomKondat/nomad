@@ -2,7 +2,10 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 from .models import UserProfile
 
-
+class UserProfileInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = '__all__'
 
 class UserProfileSignupSerializer(serializers.ModelSerializer):
     class Meta:
@@ -13,12 +16,6 @@ class UserInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         exclude = ('password',)
-
-class UserProfileInfoSerializer(serializers.ModelSerializer):
-    user = UserInfoSerializer()
-    class Meta:
-        model = UserProfile
-        fields = '__all__'
 
 class UserSignupSerializer(serializers.ModelSerializer):
     profile = UserProfileSignupSerializer(required=True)
@@ -37,3 +34,9 @@ class UserSignupSerializer(serializers.ModelSerializer):
         user = User.objects.create_user(username, email, password, **validated_data)
         UserProfile.objects.create(user=user, **profile_data)
         return user
+
+class UserProfileInfoTomSerializer(serializers.ModelSerializer):
+    user = UserInfoSerializer()
+    class Meta:
+        model = UserProfile
+        fields = '__all__'
