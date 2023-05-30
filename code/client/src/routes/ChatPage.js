@@ -16,11 +16,12 @@ import { useParams } from "react-router-dom";
 import AuthContext from "../AuthContext";
 
 function OutgoingMessage(props) {
+  const { userProfileData } = props;
   return (
     <div className="d-flex flex-column mb-2">
       <div className="d-flex  mb-2 ">
         <img
-          src="https://via.placeholder.com/35x35"
+          src={`/api/${userProfileData.profile_img}`}
           className="rounded-circle me-2"
           alt="User Avatar"
           height={35}
@@ -65,7 +66,7 @@ function IncomingMessage(props) {
 
 function ChatPage() {
   const [messages, setMessages] = useState([]);
-  const { userData } = useContext(AuthContext);
+  const { userData, userProfileData } = useContext(AuthContext);
   const params = useParams();
   const wasRenderd = useRef(false);
   const messageEndRef = useRef(null);
@@ -156,6 +157,7 @@ function ChatPage() {
                 {messages.map((message) =>
                   message.from === userData.username ? (
                     <OutgoingMessage
+                      userProfileData={userProfileData}
                       key={message.id}
                       msg={message.msg}
                       time={new Date(parseInt(message.time))
