@@ -1,7 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Form,
+  Button,
+  Alert,
+  Image,
+} from "react-bootstrap";
 import axios from "axios";
+import { FaCamera } from "react-icons/fa";
 
 const EditConvention = () => {
   const params = useParams();
@@ -9,6 +18,7 @@ const EditConvention = () => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [originalConvention, setOriginalConvention] = useState({});
   const [formValues, setFormValues] = useState({});
+  const [profileImage, setProfileImage] = useState("");
   const [hasChanges, setHasChanges] = useState(false);
   const [formKey, setFormKey] = useState(Date.now());
 
@@ -74,6 +84,21 @@ const EditConvention = () => {
     });
   }
 
+  const handleProfileImageChange = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      setProfileImage(reader.result);
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    } else {
+      setProfileImage("");
+    }
+  };
+
   useEffect(() => {
     axios.get(`/api/get-convention/?q=${params.conventionId}`).then((res) => {
       const data = res.data;
@@ -108,6 +133,44 @@ const EditConvention = () => {
             Convention edited successfully!
           </Alert>
         ) : null}
+
+        <Row className="justify-content-center">
+          <Col md={8} lg={6}>
+            <div className="d-flex justify-content-center mb-4">
+              <div className="position-relative">
+                <Image
+                  src={
+                    formValues
+                      ? `/api/media/${formValues?.convention_img}`
+                      : "https://via.placeholder.com/250x200"
+                  }
+                  alt="Profile"
+                  className=" border border-4 border-white shadow-sm"
+                  style={{
+                    width: "250px",
+                    height: "200px",
+                    borderRadius: "10px",
+                  }}
+                />
+                <div
+                  className="position-absolute top-0 end-0"
+                  style={{ transform: "translate(100%, -100%)" }}
+                >
+                  <label htmlFor="profile-image" className="btn btn-light">
+                    <FaCamera size={18} />
+                  </label>
+                  <input
+                    id="profile-image"
+                    type="file"
+                    accept="image/*"
+                    className="d-none"
+                    onChange={handleProfileImageChange}
+                  />
+                </div>
+              </div>
+            </div>
+          </Col>
+        </Row>
 
         <Form key={formKey} onSubmit={handleSunmit}>
           <Row>
