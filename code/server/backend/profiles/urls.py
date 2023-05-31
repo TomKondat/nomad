@@ -9,4 +9,5 @@ urlpatterns = [
     path('signup', SignUpView.as_view()),
     path('whoami', WhoamiView.as_view()),
     path('get-profiles/', views.getProfiles),
+    path('get-receiver-profile-image/', views.getReceiverProfileImage),
 ]
