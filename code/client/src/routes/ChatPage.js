@@ -14,6 +14,7 @@ import WebIM from "../WebIM";
 import { useRef, useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import AuthContext from "../AuthContext";
+import axios from "axios";
 
 function OutgoingMessage(props) {
   const { userProfileData } = props;
@@ -42,6 +43,21 @@ function OutgoingMessage(props) {
 }
 
 function IncomingMessage(props) {
+  const [profileImg, setProfileImg] = useState(""); // Add state for the profile image
+  const params = useParams();
+  async function getImage() {
+    await axios
+      .get(`/api/get-receiver-profile-image/?q=${params.username}`)
+      .then((res) => {
+        setProfileImg(res.data.profile_img);
+      })
+      .catch((error) => console.log(error));
+  }
+
+  useEffect(() => {
+    getImage();
+  }, []);
+
   return (
     <div className="d-flex flex-column mb-2">
       <div className="d-flex justify-content-end mb-2">
@@ -52,7 +68,7 @@ function IncomingMessage(props) {
           {props.msg}
         </div>
         <img
-          src="https://via.placeholder.com/35x35"
+          src={`/api/${profileImg}` || "https://via.placeholder.com/35x35"}
           className="rounded-circle ms-2"
           alt="User Avatar"
           height={35}
