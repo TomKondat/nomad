@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import {
   Container,
   Row,
@@ -14,6 +14,7 @@ import { FaCamera } from "react-icons/fa";
 
 const EditConvention = () => {
   const params = useParams();
+  const navigate = useNavigate();
 
   const [showSuccess, setShowSuccess] = useState(false);
   const [originalConvention, setOriginalConvention] = useState({});
@@ -71,6 +72,9 @@ const EditConvention = () => {
       .catch((error) => console.log(error));
 
     setShowSuccess(true);
+    setTimeout(() => {
+      navigate(`/conventionpage/${params.conventionId}`);
+    }, 2000);
   }
 
   function handleResetChanges() {
@@ -125,16 +129,6 @@ const EditConvention = () => {
         <header className="text-center mb-5">
           <h1 className="display-4">Edit Convention</h1>
         </header>
-
-        {showSuccess ? (
-          <Alert
-            variant="success"
-            onClose={() => setShowSuccess(false)}
-            dismissible
-          >
-            Convention edited successfully!
-          </Alert>
-        ) : null}
 
         <Row className="justify-content-center">
           <Col md={8} lg={6}>
@@ -275,6 +269,17 @@ const EditConvention = () => {
             </Button>
           </Container>
         </Form>
+
+        {showSuccess ? (
+          <Alert
+            className="mt-3"
+            variant="success"
+            onClose={() => setShowSuccess(false)}
+            dismissible
+          >
+            Convention edited successfully! Redirecting to convention page
+          </Alert>
+        ) : null}
       </Container>
     </React.Fragment>
   );
