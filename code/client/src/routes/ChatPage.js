@@ -43,21 +43,6 @@ function OutgoingMessage(props) {
 }
 
 function IncomingMessage(props) {
-  const [profileImg, setProfileImg] = useState(""); // Add state for the profile image
-  const params = useParams();
-  async function getImage() {
-    await axios
-      .get(`/api/get-receiver-profile-image/?q=${params.username}`)
-      .then((res) => {
-        setProfileImg(res.data.profile_img);
-      })
-      .catch((error) => console.log(error));
-  }
-
-  useEffect(() => {
-    getImage();
-  }, []);
-
   return (
     <div className="d-flex flex-column mb-2">
       <div className="d-flex justify-content-end mb-2">
@@ -68,7 +53,9 @@ function IncomingMessage(props) {
           {props.msg}
         </div>
         <img
-          src={`/api/${profileImg}` || "https://via.placeholder.com/35x35"}
+          src={
+            `/api/${props.profileImg}` || "https://via.placeholder.com/35x35"
+          }
           className="rounded-circle ms-2"
           alt="User Avatar"
           height={35}
@@ -99,6 +86,20 @@ function ChatPage() {
       });
     WebIM.conn.addEventHandler(userData.username, {});
   }, []);
+
+  const [profileImg, setProfileImg] = useState(""); // Add state for the profile image
+  async function getImage() {
+    await axios
+      .get(`/api/get-receiver-profile-image/?q=${params.username}`)
+      .then((res) => {
+        setProfileImg(res.data.profile_img);
+      })
+      .catch((error) => console.log(error));
+  }
+
+  useEffect(() => {
+    getImage();
+  }, [params]);
 
   const connect = (agoraToken) => {
     WebIM.conn.open({
@@ -155,7 +156,10 @@ function ChatPage() {
               <div className="card-header  ">
                 <div className="d-flex align-items-center ">
                   <img
-                    src="https://via.placeholder.com/45x45"
+                    src={
+                      `/api/${profileImg}` ||
+                      "https://via.placeholder.com/35x35"
+                    }
                     height={45}
                     width={45}
                     className="rounded-circle me-2"
@@ -183,6 +187,7 @@ function ChatPage() {
                     />
                   ) : (
                     <IncomingMessage
+                      profileImg={profileImg}
                       key={message.id}
                       msg={message.sourceMsg}
                       time={new Date(parseInt(message.time))

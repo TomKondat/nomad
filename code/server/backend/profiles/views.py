@@ -20,7 +20,8 @@ def getProfiles(request):
 @api_view(['GET'])
 def getReceiverProfileImage(request):
     user = request.GET.get('q', None)
-    profile = UserProfile.objects.get(user=user)
+    profile = User.objects.get(username=user)
+    profile = UserProfile.objects.get(user=profile)
     serializer = UserProfileInfoSerializer(profile)
     return Response(serializer.data)
 
