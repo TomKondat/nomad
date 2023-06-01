@@ -74,6 +74,7 @@ function ChatPage() {
   const wasRenderd = useRef(false);
   const messageEndRef = useRef(null);
   const [text, setText] = useState("");
+  const [name, setName] = useState("");
   useEffect(() => {
     if (wasRenderd.current) return;
     console.log();
@@ -93,6 +94,7 @@ function ChatPage() {
       .get(`/api/get-receiver-profile-image/?q=${params.username}`)
       .then((res) => {
         setProfileImg(res.data.profile_img);
+        setName(res.data.user?.first_name + " " + res.data.user?.last_name);
       })
       .catch((error) => console.log(error));
   }
@@ -166,7 +168,7 @@ function ChatPage() {
                     alt="User Avatar"
                   />
                   <h3 className="mb-0">
-                    <strong>{params.username}</strong>
+                    <strong>{name}</strong>
                   </h3>
                 </div>
               </div>
