@@ -52,23 +52,25 @@ const EditConvention = () => {
 
   function handleSunmit(e) {
     e.preventDefault();
-    console.log(e);
 
-    /*
     const data = {
-      // Fill this with submit data
+      id: formValues?.id,
+      name: e.target.name.value,
+      start_date: e.target.start_date.value,
+      end_date: e.target.end_date.value,
+      description: e.target.description.value,
+      capacity: e.target.capacity.value,
+      address: e.target.address.value,
     };
 
     axios
-      // This doesn't exist yet
-      .put(`/api/convention?q=${originalConvention?.user_data?.id}`, data)
+      .put("/api/update-convention/", data)
       .then((res) => {
         console.log(res.data);
       })
       .catch((error) => console.log(error));
 
     setShowSuccess(true);
-    */
   }
 
   function handleResetChanges() {
