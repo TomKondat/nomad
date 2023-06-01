@@ -30,7 +30,7 @@ function Chats() {
 
   async function getProfiles() {
     await axios
-      .get(`/api/get-profiles/?q=${userProfileData?.user?.id}`)
+      .get(`/api/profile-tom?q=${userProfileData?.user}`)
       .then((res) => {
         setProfiles(res.data);
         filterProfiles(res.data);

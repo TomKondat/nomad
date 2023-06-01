@@ -33,7 +33,7 @@ const UserProfile = () => {
 
   async function getProfile() {
     await axios
-      .get(`/api/profile?q=${userProfileData?.user?.id}`)
+      .get(`/api/profile?q=${userProfileData?.user}`)
       .then((res) => setProfile(res.data));
   }
   useEffect(() => {
