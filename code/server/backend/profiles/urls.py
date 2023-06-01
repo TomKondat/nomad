@@ -1,6 +1,6 @@
 from django.urls import path
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from .views import SignUpView, WhoamiView, ProfileView, ProfileViewTom
+from .views import SignUpView, WhoamiView, ProfileView, ProfileViewTom, getReceiverProfileImage
 
 urlpatterns = [
     path('profile', ProfileView.as_view()),
@@ -9,4 +9,5 @@ urlpatterns = [
     path('signup', SignUpView.as_view()),
     path('whoami', WhoamiView.as_view()),
     path('profile-tom', ProfileViewTom.as_view()),
+    path('get-receiver-profile-image/', getReceiverProfileImage),
 ]

@@ -16,6 +16,15 @@ class ProfileViewTom(APIView):
         serializer = UserProfileInfoTomSerializer(profiles, many=True)
         return Response(serializer.data)
 
+# get the image of the profile of the user that you send message to
+@api_view(['GET'])
+def getReceiverProfileImage(request):
+    user = request.GET.get('q', None)
+    profile = User.objects.get(username=user)
+    profile = UserProfile.objects.get(user=profile)
+    serializer = UserProfileInfoTomSerializer(profile)
+    return Response(serializer.data)
+
 class SignUpView(APIView):
     def post(self, request):
         serializer = UserSignupSerializer(data=request.data)
