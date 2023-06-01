@@ -1,3 +1,5 @@
+import datetime
+
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
@@ -38,7 +40,10 @@ def getConvention(request):
 # send a user and convention id to register a user for a convention
 @api_view(['POST'])
 def register(request):
-    serializer = RegistrationSerializer(data=request.data)
+    data = request.data
+    data["convention"] = request.GET.get('q', None)
+    data["registration_date"] = datetime.datetime.now()
+    serializer = RegistrationSerializer(data=data)
 
     if serializer.is_valid():
         serializer.save()

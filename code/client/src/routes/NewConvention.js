@@ -18,8 +18,11 @@ import { LinkContainer } from "react-router-bootstrap";
 import "../styles.css";
 import Map from "../Map";
 import { LoadGeoLocation } from "../LoadGeoLocation";
+import AuthContext from "../AuthContext";
+import { useContext } from "react";
 
 export default function NewConvention() {
+  const { userData } = useContext(AuthContext);
   const [currentLocation, setCurrentLocation] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const handleCloseModal = () => setShowModal(false);
@@ -56,6 +59,21 @@ export default function NewConvention() {
       window.open(mapUrl, "_blank");
     }
   };
+
+  async function registerToConvention() {
+    await axios
+      .post(`/api/register/?q=${params.conventionId}`, {
+        user: userData.id,
+      })
+      .then((res) => {
+        // Handle successful registration
+        console.log("User registered successfully");
+      })
+      .catch((error) => {
+        // Handle error
+        console.log(error);
+      });
+  }
 
   return (
     <Container>
@@ -144,6 +162,7 @@ export default function NewConvention() {
                   {/* testing */}
                   <div className="d-flex justify-content-between">
                     <Button
+                      onClick={registerToConvention}
                       variant="outline-light"
                       className="btn-block my-4 shadow fw-bold blue"
                     >
