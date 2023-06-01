@@ -22,7 +22,7 @@ def getReceiverProfileImage(request):
     user = request.GET.get('q', None)
     profile = User.objects.get(username=user)
     profile = UserProfile.objects.get(user=profile)
-    serializer = UserProfileInfoSerializer(profile)
+    serializer = UserProfileInfoTomSerializer(profile)
     return Response(serializer.data)
 
 class SignUpView(APIView):
