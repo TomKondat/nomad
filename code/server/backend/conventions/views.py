@@ -43,6 +43,11 @@ def register(request):
     data = request.data
     data["convention"] = request.GET.get('q', None)
     data["registration_date"] = datetime.datetime.now()
+
+    # Check if user is already registered for this convention
+    if Registration.objects.filter(user=data["user"], convention=data["convention"]).exists():
+        return Response({'message': 'User already registered for this convention'}, status=status.HTTP_400_BAD_REQUEST)
+
     serializer = RegistrationSerializer(data=data)
 
     if serializer.is_valid():
