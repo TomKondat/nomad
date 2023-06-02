@@ -11,21 +11,14 @@ const AddConvention = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log(
-      e.target.startdate.value,
-      e.target.starttime.value,
-      e.target.enddate.value,
-      e.target.endtime.value
-    );
-
     const data = {
       organization_id: e.target.orgId.value,
       name: e.target.name.value,
       description: e.target.description.value,
       address: e.target.address.value,
       capacity: e.target.capacity.value,
-      start_date: `${e.target.startdate.value} ${e.target.starttime.value}`,
-      end_date: `${e.target.enddate.value} ${e.target.endtime.value}`,
+      start_date: e.target.startdate.value.replace("T", " "),
+      end_date: e.target.enddate.value.replace("T", " "),
     };
 
     fetch("/api/convention/", {
@@ -111,20 +104,6 @@ const AddConvention = () => {
             ) : null}
           </Container>
           <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="formImage">
-              <Form.Label>Image</Form.Label>
-              <Form.Control type="file" name="image" />
-            </Form.Group>
-            <Form.Group controlId="formOrganizer">
-              <Form.Label>Organizer</Form.Label>
-              <Form.Select name="orgId" required>
-                {organizers.map((organizer) => (
-                  <option key={organizer.id} value={organizer.id}>
-                    {organizer.name}
-                  </option>
-                ))}
-              </Form.Select>
-            </Form.Group>
             <Form.Group controlId="formConventionName">
               <Form.Label>Convention name</Form.Label>
               <Form.Control
@@ -163,30 +142,22 @@ const AddConvention = () => {
               />
             </Form.Group>
             <Row>
-              <Col xs={8}>
+              <Col>
                 <Form.Group controlId="formStartDate">
                   <Form.Label>Starting date</Form.Label>
-                  <Form.Control type="date" name="startdate" required />
-                </Form.Group>
-              </Col>
-              <Col xs={4}>
-                <Form.Group controlId="formStartTime">
-                  <Form.Label>Starting time</Form.Label>
-                  <Form.Control type="time" name="starttime" required />
+                  <Form.Control
+                    type="datetime-local"
+                    name="startdate"
+                    required
+                  />
                 </Form.Group>
               </Col>
             </Row>
             <Row>
-              <Col xs={8}>
+              <Col>
                 <Form.Group controlId="formEndDate">
                   <Form.Label>Ending date</Form.Label>
-                  <Form.Control type="date" name="enddate" required />
-                </Form.Group>
-              </Col>
-              <Col xs={4}>
-                <Form.Group controlId="formEndTime">
-                  <Form.Label>Ending time</Form.Label>
-                  <Form.Control type="time" name="endtime" required />
+                  <Form.Control type="datetime-local" name="enddate" required />
                 </Form.Group>
               </Col>
             </Row>
