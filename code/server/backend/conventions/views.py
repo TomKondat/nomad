@@ -69,3 +69,11 @@ def register(request):
         return Response({'message': 'Registration created successfully'}, status=status.HTTP_201_CREATED)
     else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+# get the users registered for a convention
+@api_view(['GET'])
+def getRegisteredUsers(request):
+    convention = request.GET.get('q', None)
+    registrations = Registration.objects.all().values().filter(convention=convention)
+    return Response(registrations)
+
