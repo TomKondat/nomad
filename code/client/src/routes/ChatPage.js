@@ -182,20 +182,20 @@ function ChatPage() {
                       userProfileData={userProfileData}
                       key={message.id}
                       msg={message.msg}
-                      time={new Date(parseInt(message.time))
-                        .toISOString()
-                        .split("T")[1]
-                        .substring(0, 5)}
+                      time={new Date(parseInt(message.time)).toLocaleTimeString(
+                        "en-gb",
+                        { hour: "2-digit", minute: "2-digit" }
+                      )}
                     />
                   ) : (
                     <IncomingMessage
                       profileImg={profileImg}
                       key={message.id}
                       msg={message.sourceMsg}
-                      time={new Date(parseInt(message.time))
-                        .toISOString()
-                        .split("T")[1]
-                        .substring(0, 5)}
+                      time={new Date(parseInt(message.time)).toLocaleTimeString(
+                        "en-gb",
+                        { hour: "2-digit", minute: "2-digit" }
+                      )}
                     />
                   )
                 )}
