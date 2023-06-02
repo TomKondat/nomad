@@ -5,5 +5,6 @@ urlpatterns = [
     path('get-conventions/', views.getConventions),
     path('get-convention/', views.getConvention),
     path('convention/', views.create_convention),
+    path('update-convention/', views.update_convention),
     path('register/', views.register),
 ]

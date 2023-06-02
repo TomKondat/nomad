@@ -19,6 +19,20 @@ def create_convention(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+@api_view(['PUT'])
+def update_convention(request):
+    data = request.data
+    convention = Conventions.objects.get(id=data['id'])
+    data['organization_id'] = convention.organization_id.id
+    serializer = ConventionSerializer(instance=convention, data=data)
+
+    if serializer.is_valid():
+        serializer.save()
+        return Response({'message': 'Convention updated successfully'}, status=status.HTTP_200_OK)
+
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 @api_view(['GET'])
 def getConventions(request):
     convention = Conventions.objects.all().values()
