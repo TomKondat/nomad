@@ -13,7 +13,6 @@ import {
 } from "react-bootstrap";
 import { FiEdit } from "react-icons/fi";
 import { BsFillChatTextFill } from "react-icons/bs";
-import { SiGooglemaps } from "react-icons/si";
 import { LinkContainer } from "react-router-bootstrap";
 import "../styles.css";
 import Map from "../Map";
@@ -29,6 +28,8 @@ export default function NewConvention() {
   const handleShowModal = () => setShowModal(true);
   const [attendees, setAttendees] = useState([]);
   const [convention, setConvention] = useState();
+  const [filteredAttendees, setFilteredAttendees] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
   let params = useParams();
 
   async function getConvention() {
@@ -90,6 +91,20 @@ export default function NewConvention() {
   useEffect(() => {
     viewRegisteredUsers();
   }, []);
+
+  // Filter attendees by search query
+  function filterAttendees(attendees) {
+    const filtered = attendees.filter((attendee) =>
+      `${attendee?.user_data?.first_name} ${attendee?.user_data?.last_name}`
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase())
+    );
+    setFilteredAttendees(filtered);
+  }
+
+  useEffect(() => {
+    filterAttendees(attendees);
+  }, [searchQuery, attendees]);
 
   return (
     <Container>
@@ -175,7 +190,6 @@ export default function NewConvention() {
                   </ul>
                   <Map address={convention?.address} />
 
-                  {/* testing */}
                   <div className="d-flex justify-content-between">
                     <Button
                       onClick={registerToConvention}
@@ -211,7 +225,9 @@ export default function NewConvention() {
           </Row>
           <Modal show={showModal} onHide={handleCloseModal}>
             <Modal.Header closeButton>
-              <Modal.Title>Attendees</Modal.Title>
+              <Modal.Title className="display-6 text-center ">
+                <strong>Attendees</strong>
+              </Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <Form className="mb-3">
@@ -219,11 +235,13 @@ export default function NewConvention() {
                   <Form.Control
                     type="text"
                     placeholder="Search for attendees"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
                   />
                 </Form.Group>
               </Form>
               <div>
-                {attendees.map((attendee, index) => (
+                {filteredAttendees.map((attendee, index) => (
                   <Card key={index} className="mb-3">
                     <Card.Body className="d-flex align-items-center">
                       <Image
