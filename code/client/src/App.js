@@ -46,9 +46,13 @@ function App() {
               <Route path="chatpage">
                 <Route path=":username" element={<ChatPage />} />
               </Route>
-              <Route path="conventionpage" element={<ConventionPage />}>
-                <Route path=":conventionId" element={<NewConvention />} />
+
+              <Route element={<PrivateRoute />}>
+                <Route path="conventionpage" element={<ConventionPage />}>
+                  <Route path=":conventionId" element={<NewConvention />} />
+                </Route>
               </Route>
+
               <Route path="editnewconvention" element={<EditNewConvention />}>
                 <Route path=":conventionId" element={<EditConvention />} />
               </Route>
