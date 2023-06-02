@@ -27,7 +27,7 @@ export default function NewConvention() {
   const [showModal, setShowModal] = useState(false);
   const handleCloseModal = () => setShowModal(false);
   const handleShowModal = () => setShowModal(true);
-
+  const [attendees, setAttendees] = useState([]);
   const [convention, setConvention] = useState();
   let params = useParams();
 
@@ -74,6 +74,22 @@ export default function NewConvention() {
         console.log(error);
       });
   }
+
+  async function viewRegisteredUsers() {
+    await axios
+      .get(`/api/registered-users/?q=${params.conventionId}`)
+      .then((res) => {
+        // Handle successful registration
+        setAttendees(res.data);
+      })
+      .catch((error) => {
+        // Handle error
+        console.log(error);
+      });
+  }
+  useEffect(() => {
+    viewRegisteredUsers();
+  }, []);
 
   return (
     <Container>
@@ -207,7 +223,7 @@ export default function NewConvention() {
                 </Form.Group>
               </Form>
               <div>
-                {[...Array(20)].map((_, index) => (
+                {attendees.map((attendee, index) => (
                   <Card key={index} className="mb-3">
                     <Card.Body className="d-flex align-items-center">
                       <Image
@@ -218,12 +234,25 @@ export default function NewConvention() {
                         className="me-3"
                       />
                       <div>
-                        <Card.Title className="mb-0">Noam Ezrot</Card.Title>
-                        <Card.Text className="text-muted">Attendee</Card.Text>
+                        <Card.Title className="mb-0">
+                          {attendee?.user_data?.first_name}{" "}
+                          {attendee?.user_data?.last_name}
+                        </Card.Title>
+                        <Card.Text className="text-muted"></Card.Text>
                       </div>
-                      <Button variant="outline-light" className="ms-auto">
-                        <BsFillChatTextFill className="orange" />
-                      </Button>
+                      <LinkContainer
+                        to={`/chatpage/${attendee?.user_data?.username}`}
+                      >
+                        <Button
+                          variant="outline-light"
+                          className="ms-auto"
+                          hidden={
+                            userData.username === attendee?.user_data?.username
+                          }
+                        >
+                          <BsFillChatTextFill className="orange" />
+                        </Button>
+                      </LinkContainer>
                     </Card.Body>
                   </Card>
                 ))}

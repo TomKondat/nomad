@@ -5,7 +5,9 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from .models import Conventions, Organization, Registration
-from .serializers import ConventionSerializer,RegistrationSerializer
+from .serializers import ConventionSerializer, RegistrationSerializer, UserInfoSerializer
+
+from django.contrib.auth.models import User
 
 
 @api_view(['POST'])
@@ -69,3 +71,17 @@ def register(request):
         return Response({'message': 'Registration created successfully'}, status=status.HTTP_201_CREATED)
     else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+# get the users registered for a convention
+@api_view(['GET'])
+def getRegisteredUsers(request):
+    convention = request.GET.get('q', None)
+    registrations = Registration.objects.all().values().filter(convention=convention)
+    
+    for r in registrations:
+        user = User.objects.get(id=r["user_id"])
+        user_data = UserInfoSerializer(user).data
+
+        r["user_data"] = user_data
+
+    return Response(registrations)

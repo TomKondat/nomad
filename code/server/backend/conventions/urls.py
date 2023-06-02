@@ -7,4 +7,5 @@ urlpatterns = [
     path('convention/', views.create_convention),
     path('update-convention/', views.update_convention),
     path('register/', views.register),
+    path('registered-users/', views.getRegisteredUsers),
 ]
