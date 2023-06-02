@@ -16,7 +16,7 @@ class Conventions(models.Model):
 
 
 class Registration(models.Model):
-    user = models.ForeignKey(Conventions, on_delete=models.CASCADE)
-    convention = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    convention = models.ForeignKey(Conventions, on_delete=models.CASCADE)
     registration_date = models.DateTimeField()
     location_public = models.BooleanField(default=False)
