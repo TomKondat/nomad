@@ -34,10 +34,15 @@ function App() {
               <Route element={<PrivateRoute />}>
                 <Route path="profile" element={<Profile />} />
               </Route>
+
+              <Route element={<PrivateRoute />}>
+                <Route path="addconvention" element={<AddConvention />} />
+              </Route>
+
               <Route path="editprofile" element={<EditProfile />} />
               <Route path="login" element={<Login />} />
               <Route path="signup" element={<SignUp />} />
-              <Route path="addconvention" element={<AddConvention />} />
+
               <Route path="chatpage">
                 <Route path=":username" element={<ChatPage />} />
               </Route>
