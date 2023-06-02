@@ -245,7 +245,7 @@ export default function NewConvention() {
                   <Card key={index} className="mb-3">
                     <Card.Body className="d-flex align-items-center">
                       <Image
-                        src="https://scontent.ftlv19-1.fna.fbcdn.net/v/t1.6435-9/187676540_4191046497582597_4147289563785806834_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=CYDM_dbnO98AX-JdaHe&_nc_ht=scontent.ftlv19-1.fna&oh=00_AfBzc9Zb80VKwqufIESNRJxCd5jdZcfKfQqe0G8w7A7FHQ&oe=646E41E4"
+                        src=""
                         width={60}
                         height={60}
                         roundedCircle
