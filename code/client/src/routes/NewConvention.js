@@ -225,7 +225,9 @@ export default function NewConvention() {
           </Row>
           <Modal show={showModal} onHide={handleCloseModal}>
             <Modal.Header closeButton>
-              <Modal.Title>Attendees</Modal.Title>
+              <Modal.Title className="display-6 text-center ">
+                <strong>Attendees</strong>
+              </Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <Form className="mb-3">
