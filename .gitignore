@@ -29,9 +29,6 @@
 
 # ==================== Backend ====================
 
-# Django media
-/code/server/backend/media
-
 # Byte-compiled / optimized / DLL files
 /code/server/**/__pycache__/
 /code/server/**/*.py[cod]
