@@ -124,7 +124,7 @@ export default function NewConvention() {
                   src={`/api/media/${convention?.convention_img}`}
                   alt="Convention Image"
                   fluid
-                  style={{ filter: "brightness(80%)" }}
+                  style={{ filter: "brightness(100%)" }}
                   width="350px"
                   height="200px"
                 />
