@@ -172,11 +172,7 @@ const AddConvention = () => {
               </Col>
             </Row>
             <br></br>
-            <Button
-              variant="primary"
-              className="mb-1 rounded-pill"
-              type="submit"
-            >
+            <Button variant="primary" className="mb-1" type="submit">
               Create Convention
             </Button>
           </Form>
