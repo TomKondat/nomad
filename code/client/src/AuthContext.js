@@ -17,6 +17,8 @@ export const AuthProvider = ({ children }) => {
       ? JSON.parse(localStorage.getItem("authTokens"))
       : null
   );
+
+  const [loading, setLoading] = useState(true);
   const [auth, setAuth] = useState(
     localStorage.getItem("user")
       ? JSON.parse(localStorage.getItem("user"))
@@ -87,21 +89,19 @@ export const AuthProvider = ({ children }) => {
   };
 
   const updateToken = async () => {
-    const currentTokens = localStorage.getItem("authTokens");
-
-    if (currentTokens) {
-      const response = await fetch("/api/token", {
+    if (userData) {
+      const response = await fetch("/api/token/refresh", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ refresh: currentTokens.refresh }),
+        body: JSON.stringify({ refresh: authTokens.refresh }),
       });
       const tokens = await response.json();
 
       if (response?.status == 200 && tokens) {
         const newTokens = {
-          refresh: currentTokens.refresh,
+          refresh: tokens.refresh,
           access: tokens.access,
         };
         localStorage.setItem("authTokens", JSON.stringify(newTokens));
@@ -111,9 +111,11 @@ export const AuthProvider = ({ children }) => {
       } else if (response?.status == 401) {
         console.log("Unauthorized!");
         logoutUser();
-      } else {
+      } else if (loading) setLoading(false);
+      else {
         console.log("Something went wrong while logging in the user!");
         console.log(response);
+
         logoutUser();
       }
     }
@@ -121,13 +123,14 @@ export const AuthProvider = ({ children }) => {
 
   // Do every hour
   useEffect(() => {
+    if (loading) updateToken();
+
     const interval = setInterval(() => {
-      console.log("Refreshing access token");
       updateToken();
-    }, 3600000);
+    }, 1000 * 60 * 60);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [loading]);
 
   let contextData = {
     user: user,
