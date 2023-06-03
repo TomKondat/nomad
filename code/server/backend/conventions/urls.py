@@ -8,5 +8,6 @@ urlpatterns = [
     path('update-convention/', views.update_convention),
     path('register/', views.register),
     path('unregister/', views.unregister),
+    path('is-registered/', views.isRegistered),
     path('registered-users/', views.getRegisteredUsers),
 ]

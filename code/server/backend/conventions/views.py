@@ -84,6 +84,17 @@ def unregister(request):
     else:
         return Response({'message': 'User not registered for this convention'}, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['GET'])
+def isRegistered(request):
+    data = request.data
+    data["convention"] = request.GET.get('q', None)
+
+    # Check if user is already registered for this convention
+    if Registration.objects.filter(user=data["user"], convention=data["convention"]).exists():
+        return Response({'message': 'User is registered for this convention', 'registered': True}, status=status.HTTP_200_OK)
+    else:
+        return Response({'message': 'User is not registered for this convention', 'registered': False}, status=status.HTTP_200_OK)
+
 # get the users registered for a convention
 @api_view(['GET'])
 def getRegisteredUsers(request):
