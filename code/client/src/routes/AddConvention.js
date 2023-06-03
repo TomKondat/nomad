@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
 import { FaCamera } from "react-icons/fa";
 import axios from "axios";
 
 const AddConvention = () => {
+  const navigate = useNavigate();
+
   const [showSuccess, setShowSuccess] = useState(false);
   const [profileImage, setProfileImage] = useState("");
   const [organizers, setOrganizers] = useState([]);
@@ -27,17 +30,16 @@ const AddConvention = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
-    })
-      .then((res) => {
-        if (res.status === 201) {
-          setShowSuccess(true);
-        } else {
-          console.log(res);
-        }
-
-        return res.json();
-      })
-      .then((res) => console.log(res));
+    }).then((res) => {
+      if (res.status === 201) {
+        setShowSuccess(true);
+        setTimeout(() => {
+          navigate("/");
+        }, 2000);
+      } else {
+        console.log(res);
+      }
+    });
   };
 
   useEffect(() => {
@@ -92,17 +94,6 @@ const AddConvention = () => {
               </div>
             </div>
           </div>
-          <Container>
-            {showSuccess ? (
-              <Alert
-                variant="success"
-                onClose={() => setShowSuccess(false)}
-                dismissible
-              >
-                Convention created successfully!
-              </Alert>
-            ) : null}
-          </Container>
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="formOrganizer">
               <Form.Label>Organizer</Form.Label>
@@ -176,6 +167,17 @@ const AddConvention = () => {
               Create Convention
             </Button>
           </Form>
+          <Container className="p-0">
+            {showSuccess ? (
+              <Alert
+                variant="success"
+                onClose={() => setShowSuccess(false)}
+                dismissible
+              >
+                Convention created successfully!
+              </Alert>
+            ) : null}
+          </Container>
         </Col>
       </Row>
     </Container>
