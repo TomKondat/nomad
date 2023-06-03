@@ -95,7 +95,7 @@ export default function NewConvention() {
   // Filter attendees by search query
   function filterAttendees(attendees) {
     const filtered = attendees.filter((attendee) =>
-      `${attendee?.user_data?.first_name} ${attendee?.user_data?.last_name}`
+      `${attendee?.user_data?.first_name} ${attendee?.user_data?.last_name} ${attendee?.profile_data?.company}`
         .toLowerCase()
         .includes(searchQuery.toLowerCase())
     );
@@ -245,9 +245,9 @@ export default function NewConvention() {
                   <Card key={index} className="mb-3">
                     <Card.Body className="d-flex align-items-center">
                       <Image
-                        src=""
-                        width={60}
-                        height={60}
+                        src={`/api/${attendee?.profile_data?.profile_img}`}
+                        width={70}
+                        height={70}
                         roundedCircle
                         className="me-3"
                       />
@@ -256,7 +256,12 @@ export default function NewConvention() {
                           {attendee?.user_data?.first_name}{" "}
                           {attendee?.user_data?.last_name}
                         </Card.Title>
-                        <Card.Text className="text-muted"></Card.Text>
+                        <Card.Text className="text-muted">
+                          {" "}
+                          {attendee?.profile_data?.position}
+                          <br />{" "}
+                          <strong>{attendee?.profile_data?.company}</strong>
+                        </Card.Text>
                       </div>
                       <LinkContainer
                         to={`/chatpage/${attendee?.user_data?.username}`}
