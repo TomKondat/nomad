@@ -104,6 +104,16 @@ const AddConvention = () => {
             ) : null}
           </Container>
           <Form onSubmit={handleSubmit}>
+            <Form.Group controlId="formOrganizer">
+              <Form.Label>Organizer</Form.Label>
+              <Form.Select name="orgId" required>
+                {organizers.map((organizer) => (
+                  <option key={organizer.id} value={organizer.id}>
+                    {organizer.name}
+                  </option>
+                ))}
+              </Form.Select>
+            </Form.Group>
             <Form.Group controlId="formConventionName">
               <Form.Label>Convention name</Form.Label>
               <Form.Control
@@ -162,11 +172,7 @@ const AddConvention = () => {
               </Col>
             </Row>
             <br></br>
-            <Button
-              variant="primary"
-              className="mb-1 rounded-pill"
-              type="submit"
-            >
+            <Button variant="primary" className="mb-1" type="submit">
               Create Convention
             </Button>
           </Form>
