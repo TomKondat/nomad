@@ -16,7 +16,7 @@ import {
   BsSignTurnRightFill,
 } from "react-icons/bs";
 import { MdAddToPhotos } from "react-icons/md";
-import { Button, Container } from "react-bootstrap";
+import { Button, Container, Spinner } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { LoadGeocoding } from "../LoadGeocoding";
 
@@ -24,12 +24,14 @@ function Home() {
   const [search, setSearch] = useState("");
   const [conventions, setConventions] = useState([]);
   const [conventionsInit, setConventionsInit] = useState([]);
-
+  const [loading, setLoading] = useState(true);
   async function getConvention() {
     await axios
       .get("/api/get-conventions/")
       .then((res) => {
         setConventionsInit(res.data);
+        setConventions(res.data);
+        setLoading(false);
       })
       .catch((error) => console.log(error));
   }
@@ -116,7 +118,21 @@ function Home() {
           </Col>
         </Row>
       </Container>
-      {conventions.length === 0 ? (
+      {loading ? (
+        // make this div in the center of the page and in the middle of the page
+        <div
+          className="d-flex justify-content-center align-items-center purpleSpinner"
+          style={{ marginTop: "150px" }}
+        >
+          <Spinner
+            animation="border"
+            role="status"
+            style={{ width: "4rem", height: "4rem", borderWidth: "0.4em" }}
+          >
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+        </div>
+      ) : conventions.length === 0 ? (
         <Container>
           <Alert variant="danger">
             <Alert.Heading>Oh no!</Alert.Heading>
