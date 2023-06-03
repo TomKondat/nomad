@@ -76,6 +76,7 @@ def register(request):
 def unregister(request):
     data = request.data
     data["convention"] = request.GET.get('q', None)
+    data["user"] = request.GET.get('u', None)
 
     # Check if user is already registered for this convention
     if Registration.objects.filter(user=data["user"], convention=data["convention"]).exists():
@@ -88,6 +89,7 @@ def unregister(request):
 def isRegistered(request):
     data = request.data
     data["convention"] = request.GET.get('q', None)
+    data["user"] = request.GET.get('u', None)
 
     # Check if user is already registered for this convention
     if Registration.objects.filter(user=data["user"], convention=data["convention"]).exists():
