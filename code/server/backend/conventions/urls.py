@@ -6,6 +6,7 @@ urlpatterns = [
     path('get-convention/', views.getConvention),
     path('convention/', views.create_convention),
     path('update-convention/', views.update_convention),
+    path('delete-convention/', views.delete_convention),
     path('register/', views.register),
     path('unregister/', views.unregister),
     path('is-registered/', views.isRegistered),
