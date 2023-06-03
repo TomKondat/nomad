@@ -104,6 +104,16 @@ const AddConvention = () => {
             ) : null}
           </Container>
           <Form onSubmit={handleSubmit}>
+            <Form.Group controlId="formOrganizer">
+              <Form.Label>Organizer</Form.Label>
+              <Form.Select name="orgId" required>
+                {organizers.map((organizer) => (
+                  <option key={organizer.id} value={organizer.id}>
+                    {organizer.name}
+                  </option>
+                ))}
+              </Form.Select>
+            </Form.Group>
             <Form.Group controlId="formConventionName">
               <Form.Label>Convention name</Form.Label>
               <Form.Control
