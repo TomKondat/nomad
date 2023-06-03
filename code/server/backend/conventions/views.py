@@ -71,13 +71,25 @@ def register(request):
         return Response({'message': 'Registration created successfully'}, status=status.HTTP_201_CREATED)
     else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+
+@api_view(['DELETE'])
+def unregister(request):
+    data = request.data
+    data["convention"] = request.GET.get('q', None)
+
+    # Check if user is already registered for this convention
+    if Registration.objects.filter(user=data["user"], convention=data["convention"]).exists():
+        Registration.objects.filter(user=data["user"], convention=data["convention"]).delete()
+        return Response({'message': 'User unregistered successfully'}, status=status.HTTP_200_OK)
+    else:
+        return Response({'message': 'User not registered for this convention'}, status=status.HTTP_400_BAD_REQUEST)
+
 # get the users registered for a convention
 @api_view(['GET'])
 def getRegisteredUsers(request):
     convention = request.GET.get('q', None)
     registrations = Registration.objects.all().values().filter(convention=convention)
-    
+
     for r in registrations:
         user = User.objects.get(id=r["user_id"])
         user_data = UserInfoSerializer(user).data
