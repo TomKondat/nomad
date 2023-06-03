@@ -17,6 +17,7 @@ const EditConvention = () => {
   const navigate = useNavigate();
 
   const [showSuccess, setShowSuccess] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
   const [originalConvention, setOriginalConvention] = useState({});
   const [formValues, setFormValues] = useState({});
   const [profileImage, setProfileImage] = useState("");
@@ -80,6 +81,20 @@ const EditConvention = () => {
   function handleResetChanges() {
     setFormValues(originalConvention);
     setFormKey(Date.now());
+  }
+
+  function handleDeleteConvention() {
+    axios
+      .delete(`/api/delete-convention/?q=${params.conventionId}`)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((error) => console.log(error));
+
+    setShowDelete(true);
+    setTimeout(() => {
+      navigate("/");
+    }, 2000);
   }
 
   function handleInputChange(e) {
@@ -268,6 +283,12 @@ const EditConvention = () => {
               Reset Changes
             </Button>
           </Container>
+
+          <Container className="p-0 mt-1">
+            <Button variant="danger" onClick={handleDeleteConvention}>
+              Delete Convention
+            </Button>
+          </Container>
         </Form>
 
         {showSuccess ? (
@@ -278,6 +299,17 @@ const EditConvention = () => {
             dismissible
           >
             Convention edited successfully! Redirecting to convention page
+          </Alert>
+        ) : null}
+
+        {showDelete ? (
+          <Alert
+            className="mt-3"
+            variant="danger"
+            onClose={() => setShowSuccess(false)}
+            dismissible
+          >
+            Convention deleted successfully! Redirecting to home
           </Alert>
         ) : null}
       </Container>

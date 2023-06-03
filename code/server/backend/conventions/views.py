@@ -9,7 +9,6 @@ from .serializers import ConventionSerializer, RegistrationSerializer, UserInfoS
 
 from django.contrib.auth.models import User
 
-
 @api_view(['POST'])
 def create_convention(request):
     serializer = ConventionSerializer(data=request.data)
@@ -19,7 +18,6 @@ def create_convention(request):
         return Response({'message': 'Convention created successfully'}, status=status.HTTP_201_CREATED)
     else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 @api_view(['PUT'])
 def update_convention(request):
@@ -34,12 +32,16 @@ def update_convention(request):
 
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['DELETE'])
+def delete_convention(request):
+    convention = Conventions.objects.get(id=request.GET.get('q', None))
+    convention.delete()
+    return Response({'message': 'Convention deleted successfully'}, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 def getConventions(request):
     convention = Conventions.objects.all().values()
     return Response(convention)
-
 
 @api_view(['GET'])
 def getConvention(request):
