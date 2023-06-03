@@ -161,7 +161,10 @@ function Home() {
                     {conv.distance !== null ? (
                       <ListGroup.Item>
                         <BsSignTurnRightFill className="blue" />
-                        &nbsp;{Math.round(conv.distance)} KM away from me!
+                        &nbsp;
+                        {isNaN(conv.distance)
+                          ? "Calculating distance..."
+                          : Math.round(conv.distance) + " KM away from me!"}
                       </ListGroup.Item>
                     ) : (
                       <ListGroup.Item>
