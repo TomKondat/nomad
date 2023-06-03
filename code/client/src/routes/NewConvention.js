@@ -121,7 +121,7 @@ export default function NewConvention() {
   // Filter attendees by search query
   function filterAttendees(attendees) {
     const filtered = attendees.filter((attendee) =>
-      `${attendee?.user_data?.first_name} ${attendee?.user_data?.last_name}`
+      `${attendee?.user_data?.first_name} ${attendee?.user_data?.last_name} ${attendee?.profile_data?.company}`
         .toLowerCase()
         .includes(searchQuery.toLowerCase())
     );
@@ -150,7 +150,7 @@ export default function NewConvention() {
                   src={`/api/media/${convention?.convention_img}`}
                   alt="Convention Image"
                   fluid
-                  style={{ filter: "brightness(80%)" }}
+                  style={{ filter: "brightness(100%)" }}
                   width="350px"
                   height="200px"
                 />
@@ -281,9 +281,9 @@ export default function NewConvention() {
                   <Card key={index} className="mb-3">
                     <Card.Body className="d-flex align-items-center">
                       <Image
-                        src="https://scontent.ftlv19-1.fna.fbcdn.net/v/t1.6435-9/187676540_4191046497582597_4147289563785806834_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=CYDM_dbnO98AX-JdaHe&_nc_ht=scontent.ftlv19-1.fna&oh=00_AfBzc9Zb80VKwqufIESNRJxCd5jdZcfKfQqe0G8w7A7FHQ&oe=646E41E4"
-                        width={60}
-                        height={60}
+                        src={`/api/${attendee?.profile_data?.profile_img}`}
+                        width={70}
+                        height={70}
                         roundedCircle
                         className="me-3"
                       />
@@ -292,7 +292,12 @@ export default function NewConvention() {
                           {attendee?.user_data?.first_name}{" "}
                           {attendee?.user_data?.last_name}
                         </Card.Title>
-                        <Card.Text className="text-muted"></Card.Text>
+                        <Card.Text className="text-muted">
+                          {" "}
+                          {attendee?.profile_data?.position}
+                          <br />{" "}
+                          <strong>{attendee?.profile_data?.company}</strong>
+                        </Card.Text>
                       </div>
                       <LinkContainer
                         to={`/chatpage/${attendee?.user_data?.username}`}

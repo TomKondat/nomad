@@ -6,7 +6,8 @@ from rest_framework import status
 
 from .models import Conventions, Organization, Registration
 from .serializers import ConventionSerializer, RegistrationSerializer, UserInfoSerializer
-
+from profiles.serializers import UserProfileInfoSerializer 
+from profiles.models import UserProfile
 from django.contrib.auth.models import User
 
 @api_view(['POST'])
@@ -108,7 +109,9 @@ def getRegisteredUsers(request):
     for r in registrations:
         user = User.objects.get(id=r["user_id"])
         user_data = UserInfoSerializer(user).data
-
+        profile = UserProfile.objects.get(user=user)
+        profile_data = UserProfileInfoSerializer(profile).data
         r["user_data"] = user_data
+        r["profile_data"] = profile_data
 
     return Response(registrations)
