@@ -30,6 +30,7 @@ export default function NewConvention() {
   const [convention, setConvention] = useState();
   const [filteredAttendees, setFilteredAttendees] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isRegistered, setIsRegistered] = useState(false);
   let params = useParams();
 
   async function getConvention() {
@@ -40,8 +41,22 @@ export default function NewConvention() {
       })
       .catch((error) => console.log(error));
   }
+
+  async function checkIfRegistered() {
+    await axios
+      .get(`/api/is-registered/?q=${params.conventionId}&u=${userData.id}`)
+      .then((res) => {
+        console.log(res.data);
+        setIsRegistered(res.data.registered);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   useEffect(() => {
     getConvention();
+    checkIfRegistered();
   }, [params]);
 
   useEffect(() => {
@@ -67,13 +82,24 @@ export default function NewConvention() {
         user: userData.id,
       })
       .then((res) => {
-        // Handle successful registration
         console.log("User registered successfully");
       })
       .catch((error) => {
-        // Handle error
         console.log(error);
       });
+    checkIfRegistered();
+  }
+
+  async function unregisterFromConvention() {
+    await axios
+      .delete(`/api/unregister/?q=${params.conventionId}&u=${userData.id}`)
+      .then((res) => {
+        console.log("User unregistered successfully");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    checkIfRegistered();
   }
 
   async function viewRegisteredUsers() {
@@ -191,13 +217,23 @@ export default function NewConvention() {
                   <Map address={convention?.address} />
 
                   <div className="d-flex justify-content-between">
-                    <Button
-                      onClick={registerToConvention}
-                      variant="outline-light"
-                      className="btn-block my-4 shadow fw-bold blue"
-                    >
-                      Join
-                    </Button>
+                    {isRegistered ? (
+                      <Button
+                        onClick={unregisterFromConvention}
+                        variant="outline-light"
+                        className="btn-block my-4 shadow fw-bold blue"
+                      >
+                        Leave
+                      </Button>
+                    ) : (
+                      <Button
+                        onClick={registerToConvention}
+                        variant="outline-light"
+                        className="btn-block my-4 shadow fw-bold blue"
+                      >
+                        Join
+                      </Button>
+                    )}
                     <Button
                       variant="outline-light"
                       className="btn-block my-4 shadow fw-bold blue"
