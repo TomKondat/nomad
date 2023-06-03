@@ -65,17 +65,16 @@ const EditConvention = () => {
       address: e.target.address.value,
     };
 
-    axios
-      .put("/api/update-convention/", data)
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((error) => console.log(error));
-
-    setShowSuccess(true);
-    setTimeout(() => {
-      navigate(`/conventionpage/${params.conventionId}`);
-    }, 2000);
+    axios.put("/api/update-convention/", data).then((res) => {
+      if (res.status === 200) {
+        setShowSuccess(true);
+        setTimeout(() => {
+          navigate(`/conventionpage/${params.conventionId}`);
+        }, 2000);
+      } else {
+        console.log(res);
+      }
+    });
   }
 
   function handleResetChanges() {

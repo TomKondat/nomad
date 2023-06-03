@@ -1,7 +1,10 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Container, Form, Button, Row, Col, Alert } from "react-bootstrap";
 
 function SignUp() {
+  const navigate = useNavigate();
+
   const [passwordError, setPasswordError] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
@@ -35,17 +38,9 @@ function SignUp() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
-    })
-      .then((res) => {
-        if (res.status === 201) {
-          setShowSuccess(true);
-        } else {
-          console.log(res);
-        }
-
-        return res.json();
-      })
-      .then(() =>
+    }).then((res) => {
+      if (res.status === 201) {
+        setShowSuccess(true);
         fetch("/api/agora/users/register_user/", {
           method: "POST",
           headers: {
@@ -56,8 +51,15 @@ function SignUp() {
             username: e.target.username.value,
             password: e.target.username.value,
           }),
-        })
-      );
+        }).then(() => {
+          setTimeout(() => {
+            navigate("/Login");
+          }, 2000);
+        });
+      } else {
+        console.log(res);
+      }
+    });
   };
 
   return (
@@ -66,16 +68,6 @@ function SignUp() {
         <h1 className="display-4">Sign Up</h1>
         <p className="lead">Create an account and start using Nomad</p>
       </header>
-
-      {showSuccess ? (
-        <Alert
-          variant="success"
-          onClose={() => setShowSuccess(false)}
-          dismissible
-        >
-          User created successfully!
-        </Alert>
-      ) : null}
 
       <Form onSubmit={handleSubmit}>
         <Row>
@@ -209,6 +201,17 @@ function SignUp() {
           Sign Up
         </Button>
       </Form>
+
+      {showSuccess ? (
+        <Alert
+          className="mt-3"
+          variant="success"
+          onClose={() => setShowSuccess(false)}
+          dismissible
+        >
+          User created successfully!
+        </Alert>
+      ) : null}
     </Container>
   );
 }
