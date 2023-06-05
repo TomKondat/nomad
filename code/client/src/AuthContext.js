@@ -126,7 +126,8 @@ export const AuthProvider = ({ children }) => {
 
   // Do every hour
   useEffect(() => {
-    if (loading) updateToken();
+    // This line causes an infinite loop! Need to understand what is does and fix it
+    //if (loading) updateToken();
 
     const interval = setInterval(() => {
       updateToken();
