@@ -4,7 +4,6 @@ import "./styles.css";
 import Geocode from "react-geocode";
 
 function Map(props) {
-  const { address } = props;
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_API_KEY,
   });
@@ -14,8 +13,8 @@ function Map(props) {
   });
 
   useEffect(() => {
-    LoadGeocoding(address);
-  }, []);
+    LoadGeocoding(props.address);
+  }, [props.address]);
 
   if (!isLoaded) return <div>Loading...</div>;
 
