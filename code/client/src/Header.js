@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
 import { LinkContainer } from "react-router-bootstrap";
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
@@ -7,18 +7,8 @@ import { BsFillChatFill } from "react-icons/bs";
 import { AiFillHome } from "react-icons/ai";
 import { BsFillPersonFill } from "react-icons/bs";
 import { Button } from "react-bootstrap";
-import AuthContext from "./AuthContext";
 
 function Header() {
-  const { user } = useContext(AuthContext);
-  const [userData, setUserData] = useState({});
-
-  useEffect(() => {
-    if (localStorage.getItem("userData")) {
-      setUserData(JSON.parse(localStorage.getItem("userData")));
-    }
-  }, [localStorage.getItem("userData")]);
-
   return (
     <React.Fragment>
       <Navbar
