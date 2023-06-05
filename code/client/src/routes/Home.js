@@ -25,6 +25,7 @@ function Home() {
   const [conventions, setConventions] = useState([]);
   const [conventionsInit, setConventionsInit] = useState([]);
   const [loading, setLoading] = useState(true);
+
   async function getConvention() {
     await axios
       .get("/api/get-conventions/")
@@ -77,19 +78,17 @@ function Home() {
   }, [conventionsInit]);
 
   useEffect(() => {
-    searchFilter();
-  }, [search]);
-
-  function searchFilter() {
     const conventionList = conventionsInit.filter((convention) => {
-      if (search === "") {
-        return convention;
-      } else if (convention.name.toLowerCase().includes(search.toLowerCase())) {
+      if (
+        search === "" ||
+        convention.name.toLowerCase().includes(search.toLowerCase())
+      ) {
         return convention;
       }
+      return null;
     });
     setConventions(conventionList);
-  }
+  }, [search, conventionsInit]);
 
   return (
     <React.Fragment>
