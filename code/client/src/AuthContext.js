@@ -122,7 +122,7 @@ export const AuthProvider = ({ children }) => {
         logoutUser();
       }
     }
-  }, [authTokens.refresh, loading, logoutUser, userData]);
+  }, [authTokens, loading, logoutUser, userData]);
 
   // Do every hour
   useEffect(() => {
