@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
 import { FaCamera } from "react-icons/fa";
 import axios from "axios";
 
 const AddConvention = () => {
+  const navigate = useNavigate();
+
   const [showSuccess, setShowSuccess] = useState(false);
   const [profileImage, setProfileImage] = useState("");
   const [organizers, setOrganizers] = useState([]);
@@ -11,21 +14,14 @@ const AddConvention = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log(
-      e.target.startdate.value,
-      e.target.starttime.value,
-      e.target.enddate.value,
-      e.target.endtime.value
-    );
-
     const data = {
       organization_id: e.target.orgId.value,
       name: e.target.name.value,
       description: e.target.description.value,
       address: e.target.address.value,
       capacity: e.target.capacity.value,
-      start_date: `${e.target.startdate.value} ${e.target.starttime.value}`,
-      end_date: `${e.target.enddate.value} ${e.target.endtime.value}`,
+      start_date: e.target.startdate.value.replace("T", " "),
+      end_date: e.target.enddate.value.replace("T", " "),
     };
 
     fetch("/api/convention/", {
@@ -34,17 +30,16 @@ const AddConvention = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
-    })
-      .then((res) => {
-        if (res.status === 201) {
-          setShowSuccess(true);
-        } else {
-          console.log(res);
-        }
-
-        return res.json();
-      })
-      .then((res) => console.log(res));
+    }).then((res) => {
+      if (res.status === 201) {
+        setShowSuccess(true);
+        setTimeout(() => {
+          navigate("/");
+        }, 2000);
+      } else {
+        console.log(res);
+      }
+    });
   };
 
   useEffect(() => {
@@ -99,22 +94,7 @@ const AddConvention = () => {
               </div>
             </div>
           </div>
-          <Container>
-            {showSuccess ? (
-              <Alert
-                variant="success"
-                onClose={() => setShowSuccess(false)}
-                dismissible
-              >
-                Convention created successfully!
-              </Alert>
-            ) : null}
-          </Container>
           <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="formImage">
-              <Form.Label>Image</Form.Label>
-              <Form.Control type="file" name="image" />
-            </Form.Group>
             <Form.Group controlId="formOrganizer">
               <Form.Label>Organizer</Form.Label>
               <Form.Select name="orgId" required>
@@ -163,42 +143,41 @@ const AddConvention = () => {
               />
             </Form.Group>
             <Row>
-              <Col xs={8}>
+              <Col>
                 <Form.Group controlId="formStartDate">
                   <Form.Label>Starting date</Form.Label>
-                  <Form.Control type="date" name="startdate" required />
-                </Form.Group>
-              </Col>
-              <Col xs={4}>
-                <Form.Group controlId="formStartTime">
-                  <Form.Label>Starting time</Form.Label>
-                  <Form.Control type="time" name="starttime" required />
+                  <Form.Control
+                    type="datetime-local"
+                    name="startdate"
+                    required
+                  />
                 </Form.Group>
               </Col>
             </Row>
             <Row>
-              <Col xs={8}>
+              <Col>
                 <Form.Group controlId="formEndDate">
                   <Form.Label>Ending date</Form.Label>
-                  <Form.Control type="date" name="enddate" required />
-                </Form.Group>
-              </Col>
-              <Col xs={4}>
-                <Form.Group controlId="formEndTime">
-                  <Form.Label>Ending time</Form.Label>
-                  <Form.Control type="time" name="endtime" required />
+                  <Form.Control type="datetime-local" name="enddate" required />
                 </Form.Group>
               </Col>
             </Row>
             <br></br>
-            <Button
-              variant="primary"
-              className="mb-1 rounded-pill"
-              type="submit"
-            >
+            <Button variant="primary" className="mb-1" type="submit">
               Create Convention
             </Button>
           </Form>
+          <Container className="p-0">
+            {showSuccess ? (
+              <Alert
+                variant="success"
+                onClose={() => setShowSuccess(false)}
+                dismissible
+              >
+                Convention created successfully!
+              </Alert>
+            ) : null}
+          </Container>
         </Col>
       </Row>
     </Container>

@@ -14,13 +14,15 @@ import WebIM from "../WebIM";
 import { useRef, useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import AuthContext from "../AuthContext";
+import axios from "axios";
 
 function OutgoingMessage(props) {
+  const { userProfileData } = props;
   return (
     <div className="d-flex flex-column mb-2">
       <div className="d-flex  mb-2 ">
         <img
-          src="https://via.placeholder.com/35x35"
+          src={`/api/${userProfileData.profile_img}`}
           className="rounded-circle me-2"
           alt="User Avatar"
           height={35}
@@ -51,7 +53,9 @@ function IncomingMessage(props) {
           {props.msg}
         </div>
         <img
-          src="https://via.placeholder.com/35x35"
+          src={
+            `/api/${props.profileImg}` || "https://via.placeholder.com/35x35"
+          }
           className="rounded-circle ms-2"
           alt="User Avatar"
           height={35}
@@ -65,11 +69,12 @@ function IncomingMessage(props) {
 
 function ChatPage() {
   const [messages, setMessages] = useState([]);
-  const { userData } = useContext(AuthContext);
+  const { userData, userProfileData } = useContext(AuthContext);
   const params = useParams();
   const wasRenderd = useRef(false);
   const messageEndRef = useRef(null);
   const [text, setText] = useState("");
+  const [name, setName] = useState("");
   useEffect(() => {
     if (wasRenderd.current) return;
     console.log();
@@ -82,6 +87,21 @@ function ChatPage() {
       });
     WebIM.conn.addEventHandler(userData.username, {});
   }, []);
+
+  const [profileImg, setProfileImg] = useState(""); // Add state for the profile image
+  async function getImage() {
+    await axios
+      .get(`/api/get-receiver-profile-image/?q=${params.username}`)
+      .then((res) => {
+        setProfileImg(res.data.profile_img);
+        setName(res.data.user?.first_name + " " + res.data.user?.last_name);
+      })
+      .catch((error) => console.log(error));
+  }
+
+  useEffect(() => {
+    getImage();
+  }, [params]);
 
   const connect = (agoraToken) => {
     WebIM.conn.open({
@@ -131,43 +151,51 @@ function ChatPage() {
   };
   return (
     <>
-      <Container className="h-100 mt-4">
-        <Row className="h-100">
-          <Col md={9} sm={12}>
-            <div className="card blue shadow" style={{ height: "700px" }}>
+      <Container className=" mt-2 mb-2">
+        <Row>
+          <Col>
+            <div className="card blue shadow">
               <div className="card-header  ">
                 <div className="d-flex align-items-center ">
                   <img
-                    src="https://via.placeholder.com/45x45"
+                    src={
+                      `/api/${profileImg}` ||
+                      "https://via.placeholder.com/35x35"
+                    }
                     height={45}
                     width={45}
                     className="rounded-circle me-2"
                     alt="User Avatar"
                   />
                   <h3 className="mb-0">
-                    <strong>{params.username}</strong>
+                    <strong>{name}</strong>
                   </h3>
                 </div>
               </div>
-              <div className="card-body overflow-auto">
+              <div
+                className="card-body overflow-auto"
+                style={{ height: "600px" }}
+              >
                 {messages.map((message) =>
                   message.from === userData.username ? (
                     <OutgoingMessage
+                      userProfileData={userProfileData}
                       key={message.id}
                       msg={message.msg}
-                      time={new Date(parseInt(message.time))
-                        .toISOString()
-                        .split("T")[1]
-                        .substring(0, 5)}
+                      time={new Date(parseInt(message.time)).toLocaleTimeString(
+                        "en-gb",
+                        { hour: "2-digit", minute: "2-digit" }
+                      )}
                     />
                   ) : (
                     <IncomingMessage
+                      profileImg={profileImg}
                       key={message.id}
                       msg={message.sourceMsg}
-                      time={new Date(parseInt(message.time))
-                        .toISOString()
-                        .split("T")[1]
-                        .substring(0, 5)}
+                      time={new Date(parseInt(message.time)).toLocaleTimeString(
+                        "en-gb",
+                        { hour: "2-digit", minute: "2-digit" }
+                      )}
                     />
                   )
                 )}
@@ -189,7 +217,7 @@ function ChatPage() {
                       style={{
                         resize: "none",
                         overflow: "auto",
-                        maxHeight: "10px",
+                        maxHeight: "80px",
                       }}
                     />
                     <Button

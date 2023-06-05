@@ -1,13 +1,29 @@
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth.models import User
-
-from .serializers import UserSignupSerializer, UserInfoSerializer, UserProfileInfoSerializer
+from rest_framework.decorators import api_view
+from .serializers import UserSignupSerializer, UserInfoSerializer, UserProfileInfoSerializer, UserProfileInfoTomSerializer
 from .models import UserProfile
-
+from rest_framework.views import APIView
 # Create your views here.
+
+# Get all the profiles except the one of the user that is logged in
+class ProfileViewTom(APIView):
+    def get(self, request):
+        user = request.GET.get('q', None)
+        profiles = UserProfile.objects.all().exclude(user=user)
+        serializer = UserProfileInfoTomSerializer(profiles, many=True)
+        return Response(serializer.data)
+
+# get the image of the profile of the user that you send message to
+@api_view(['GET'])
+def getReceiverProfileImage(request):
+    user = request.GET.get('q', None)
+    profile = User.objects.get(username=user)
+    profile = UserProfile.objects.get(user=profile)
+    serializer = UserProfileInfoTomSerializer(profile)
+    return Response(serializer.data)
 
 class SignUpView(APIView):
     def post(self, request):

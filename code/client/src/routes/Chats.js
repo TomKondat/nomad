@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Card,
   Image,
@@ -11,23 +11,55 @@ import {
 import { TfiViewList } from "react-icons/tfi";
 import { BsFillChatTextFill } from "react-icons/bs";
 import { LinkContainer } from "react-router-bootstrap";
+import axios from "axios";
+import { useContext } from "react";
+import AuthContext from "../AuthContext";
 
 function Chats() {
   const [showFriendList, setShowFriendList] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [friendListQuery, setFriendListQuery] = useState("");
-
+  const [profiles, setProfiles] = useState([]);
+  const [filteredProfiles, setFilteredProfiles] = useState([]);
   const handleClose = () => {
     setShowFriendList(false);
   };
 
   const handleShowFriendList = () => setShowFriendList(true);
+  const { userProfileData } = useContext(AuthContext);
+
+  async function getProfiles() {
+    await axios
+      .get(`/api/profile-tom?q=${userProfileData?.user}`)
+      .then((res) => {
+        setProfiles(res.data);
+        filterProfiles(res.data);
+      })
+      .catch((error) => console.log(error));
+  }
+
+  function filterProfiles(profiles) {
+    const filtered = profiles.filter((profile) =>
+      `${profile.user?.first_name} ${profile.user?.last_name}${profile?.company}`
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase())
+    );
+    setFilteredProfiles(filtered);
+  }
+
+  useEffect(() => {
+    getProfiles();
+  }, []);
+
+  useEffect(() => {
+    filterProfiles(profiles);
+  }, [searchQuery, profiles]);
 
   return (
     <div>
       <Navbar bg="light" variant="light" className=" my-2">
         <Container>
-          <div className="d-flex align-items-center gap-3">
+          <div className="d-flex align-items-center gap-3 flex-grow-1">
             <FormControl
               type="text"
               placeholder="Search Chats"
@@ -36,37 +68,50 @@ function Chats() {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
+
           <div className="d-flex justify-content-end">
-            <Button variant="light" onClick={handleShowFriendList}>
+            {/* <Button variant="light" onClick={handleShowFriendList}>
               <TfiViewList />
-            </Button>
+            </Button> */}
           </div>
         </Container>
       </Navbar>
+      <header className="text-center my-3">
+        <h1 className="display-4 blue ">
+          <strong>Chats</strong>
+        </h1>
+      </header>
 
-      <Card className="mb-3 mt-2">
-        <Card.Body className="d-flex align-items-center">
-          <Image
-            src="https://scontent.ftlv20-1.fna.fbcdn.net/v/t1.6435-9/96850622_3305316466145067_5235646729612689408_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=W9PTVgqSyb0AX-UEsW-&_nc_ht=scontent.ftlv20-1.fna&oh=00_AfCknNeRXKjBsDKp8ggVpRuQvF9PP68DK-iXgizE3OvaWA&oe=6475F7F6"
-            width={60}
-            height={60}
-            roundedCircle
-            className="me-3"
-          />
-          <div>
-            <Card.Title className="mb-0">Ron Vak</Card.Title>
-            <Card.Text className="text-muted">Amdocs</Card.Text>
-          </div>
-          <LinkContainer to="/chatpage/ronvak">
-            <Button variant="outline-light" className="ms-auto">
-              <BsFillChatTextFill className="orange" />
-            </Button>
-          </LinkContainer>
-        </Card.Body>
-      </Card>
-
+      {filteredProfiles.map((profile) => (
+        <Card key={profile.id} className="mb-3 mt-2 shadow-sm">
+          <Card.Body className="d-flex align-items-center">
+            <Image
+              src={`/api/${profile?.profile_img}`}
+              width={70}
+              height={70}
+              roundedCircle
+              className="me-3"
+            />
+            <div>
+              <Card.Title className="mb-0">
+                {profile.user?.first_name}&nbsp;
+                {profile.user?.last_name}
+              </Card.Title>
+              <Card.Text className="text-muted">
+                {profile?.position}
+                <br /> <strong>{profile?.company}</strong>
+              </Card.Text>
+            </div>
+            <LinkContainer to={`/chatpage/${profile?.user?.username}`}>
+              <Button variant="outline-light" className="ms-auto" size="lg">
+                <BsFillChatTextFill className="orange" />
+              </Button>
+            </LinkContainer>
+          </Card.Body>
+        </Card>
+      ))}
       {/* search users */}
-      <Offcanvas show={showFriendList} onHide={handleClose} placement="start">
+      {/* <Offcanvas show={showFriendList} onHide={handleClose} placement="start">
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>Search Users</Offcanvas.Title>
         </Offcanvas.Header>
@@ -97,7 +142,7 @@ function Chats() {
             </Card.Body>
           </Card>
         </Offcanvas.Body>
-      </Offcanvas>
+      </Offcanvas> */}
     </div>
   );
 }

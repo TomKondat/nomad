@@ -34,6 +34,9 @@
 .purple {
   background-color: #4b4ba3;
 }
+.purpleSpinner {
+  color: #4b4ba3;
+}
 
 .btn-navbar.active {
   background-color: #383878;

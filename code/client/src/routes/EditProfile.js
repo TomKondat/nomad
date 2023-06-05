@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
 import axios from "axios";
 import AuthContext from "../AuthContext";
@@ -6,6 +7,7 @@ import { useContext } from "react";
 
 const EditProfile = () => {
   const { userProfileData } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const [showSuccess, setShowSuccess] = useState(false);
   const [originalProfile, setOriginalProfile] = useState({});
@@ -61,11 +63,15 @@ const EditProfile = () => {
     axios
       .put(`/api/profile?q=${originalProfile?.user_data?.id}`, data)
       .then((res) => {
-        console.log(res.data);
-      })
-      .catch((error) => console.log(error));
-
-    setShowSuccess(true);
+        if (res.status === 200) {
+          setShowSuccess(true);
+          setTimeout(() => {
+            navigate("/profile");
+          }, 2000);
+        } else {
+          console.log(res);
+        }
+      });
   }
 
   function handleResetChanges() {
@@ -99,16 +105,6 @@ const EditProfile = () => {
         <header className="text-center mb-5">
           <h1 className="display-4">Edit Profile</h1>
         </header>
-
-        {showSuccess ? (
-          <Alert
-            variant="success"
-            onClose={() => setShowSuccess(false)}
-            dismissible
-          >
-            Profile edited successfully!
-          </Alert>
-        ) : null}
 
         <Form key={formKey} onSubmit={handleSunmit}>
           <Row>
@@ -227,6 +223,17 @@ const EditProfile = () => {
             </Button>
           </Container>
         </Form>
+
+        {showSuccess ? (
+          <Alert
+            className="mt-3"
+            variant="success"
+            onClose={() => setShowSuccess(false)}
+            dismissible
+          >
+            Profile edited successfully!
+          </Alert>
+        ) : null}
       </Container>
     </React.Fragment>
   );
