@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import {
   Container,
   Row,
@@ -68,61 +68,26 @@ function IncomingMessage(props) {
 }
 
 function ChatPage() {
-  const [messages, setMessages] = useState([]);
   const { userData, userProfileData } = useContext(AuthContext);
+
   const params = useParams();
   const wasRenderd = useRef(false);
   const messageEndRef = useRef(null);
+
+  const [messages, setMessages] = useState([]);
   const [text, setText] = useState("");
   const [name, setName] = useState("");
-  useEffect(() => {
-    if (wasRenderd.current) return;
-    console.log();
-    wasRenderd.current = true;
-
-    fetch(`/api/agora/get_token/user?uid=${userData.username}`)
-      .then((res) => res.json())
-      .then((res) => {
-        connect(res.userToken);
-      });
-    WebIM.conn.addEventHandler(userData.username, {});
-  }, []);
-
   const [profileImg, setProfileImg] = useState(""); // Add state for the profile image
-  async function getImage() {
-    await axios
-      .get(`/api/get-receiver-profile-image/?q=${params.username}`)
-      .then((res) => {
-        setProfileImg(res.data.profile_img);
-        setName(res.data.user?.first_name + " " + res.data.user?.last_name);
-      })
-      .catch((error) => console.log(error));
-  }
 
-  useEffect(() => {
-    getImage();
-  }, [params]);
-
-  const connect = (agoraToken) => {
-    WebIM.conn.open({
-      user: userData.username,
-      agoraToken: agoraToken,
-    });
-  };
-
-  useEffect(() => {
-    messageEndRef.current?.scrollIntoView();
-  }, [messages]);
-
-  WebIM.conn.listen({
-    onTextMessage: (msg) => {
-      setMessages((m) => [...m, msg]);
+  const connect = useCallback(
+    (agoraToken) => {
+      WebIM.conn.open({
+        user: userData.username,
+        agoraToken: agoraToken,
+      });
     },
-  });
-
-  // WebIM.conn.close() //to
-  // window.addEventListener('popstate',handleDisconnect) //refresh
-  // window.addEventListener('beforeunload',handleDisconnect) //back
+    [userData.username]
+  );
 
   const handleSendMessage = (e) => {
     e.preventDefault();
@@ -149,6 +114,44 @@ function ChatPage() {
     setMessages((m) => [...m, message]);
     setText("");
   };
+
+  useEffect(() => {
+    if (wasRenderd.current) return;
+    console.log();
+    wasRenderd.current = true;
+
+    fetch(`/api/agora/get_token/user?uid=${userData.username}`)
+      .then((res) => res.json())
+      .then((res) => {
+        connect(res.userToken);
+      });
+    WebIM.conn.addEventHandler(userData.username, {});
+  }, [connect, userData.username]);
+
+  useEffect(() => {
+    axios
+      .get(`/api/get-receiver-profile-image/?q=${params.username}`)
+      .then((res) => {
+        setProfileImg(res.data.profile_img);
+        setName(res.data.user?.first_name + " " + res.data.user?.last_name);
+      })
+      .catch((error) => console.log(error));
+  }, [params.username]);
+
+  useEffect(() => {
+    messageEndRef.current?.scrollIntoView();
+  }, [messages]);
+
+  WebIM.conn.listen({
+    onTextMessage: (msg) => {
+      setMessages((m) => [...m, msg]);
+    },
+  });
+
+  // WebIM.conn.close() //to
+  // window.addEventListener('popstate',handleDisconnect) //refresh
+  // window.addEventListener('beforeunload',handleDisconnect) //back
+
   return (
     <>
       <Container className=" mt-2 mb-2">
