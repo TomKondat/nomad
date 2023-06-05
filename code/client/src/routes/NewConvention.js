@@ -1,5 +1,5 @@
-import { Link, useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import {
   Container,
@@ -22,10 +22,9 @@ import { useContext } from "react";
 
 export default function NewConvention() {
   const { userData } = useContext(AuthContext);
+
   const [currentLocation, setCurrentLocation] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const handleCloseModal = () => setShowModal(false);
-  const handleShowModal = () => setShowModal(true);
   const [attendees, setAttendees] = useState([]);
   const [convention, setConvention] = useState();
   const [filteredAttendees, setFilteredAttendees] = useState([]);
@@ -33,16 +32,19 @@ export default function NewConvention() {
   const [isRegistered, setIsRegistered] = useState(false);
   let params = useParams();
 
-  async function getConvention() {
+  const handleCloseModal = () => setShowModal(false);
+  const handleShowModal = () => setShowModal(true);
+
+  const getConvention = useCallback(async () => {
     await axios
       .get(`/api/get-convention/?q=${params.conventionId}`)
       .then((res) => {
         setConvention(res.data);
       })
       .catch((error) => console.log(error));
-  }
+  }, [params.conventionId]);
 
-  async function checkIfRegistered() {
+  const checkIfRegistered = useCallback(async () => {
     await axios
       .get(`/api/is-registered/?q=${params.conventionId}&u=${userData.id}`)
       .then((res) => {
@@ -52,12 +54,12 @@ export default function NewConvention() {
       .catch((error) => {
         console.log(error);
       });
-  }
+  }, [params.conventionId, userData.id]);
 
   useEffect(() => {
     getConvention();
     checkIfRegistered();
-  }, [params]);
+  }, [getConvention, checkIfRegistered]);
 
   useEffect(() => {
     LoadGeoLocation().then((coords) => {
@@ -102,8 +104,8 @@ export default function NewConvention() {
     checkIfRegistered();
   }
 
-  async function viewRegisteredUsers() {
-    await axios
+  useEffect(() => {
+    axios
       .get(`/api/registered-users/?q=${params.conventionId}`)
       .then((res) => {
         // Handle successful registration
@@ -113,23 +115,16 @@ export default function NewConvention() {
         // Handle error
         console.log(error);
       });
-  }
-  useEffect(() => {
-    viewRegisteredUsers();
-  }, []);
+  }, [params.conventionId]);
 
-  // Filter attendees by search query
-  function filterAttendees(attendees) {
+  useEffect(() => {
+    // Filter attendees by search query
     const filtered = attendees.filter((attendee) =>
       `${attendee?.user_data?.first_name} ${attendee?.user_data?.last_name} ${attendee?.profile_data?.company}`
         .toLowerCase()
         .includes(searchQuery.toLowerCase())
     );
     setFilteredAttendees(filtered);
-  }
-
-  useEffect(() => {
-    filterAttendees(attendees);
   }, [searchQuery, attendees]);
 
   return (

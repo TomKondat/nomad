@@ -1,14 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import {
   Card,
   Image,
   Button,
-  Offcanvas,
   Navbar,
   Container,
   FormControl,
 } from "react-bootstrap";
-import { TfiViewList } from "react-icons/tfi";
 import { BsFillChatTextFill } from "react-icons/bs";
 import { LinkContainer } from "react-router-bootstrap";
 import axios from "axios";
@@ -16,44 +14,37 @@ import { useContext } from "react";
 import AuthContext from "../AuthContext";
 
 function Chats() {
-  const [showFriendList, setShowFriendList] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [friendListQuery, setFriendListQuery] = useState("");
-  const [profiles, setProfiles] = useState([]);
-  const [filteredProfiles, setFilteredProfiles] = useState([]);
-  const handleClose = () => {
-    setShowFriendList(false);
-  };
-
-  const handleShowFriendList = () => setShowFriendList(true);
   const { userProfileData } = useContext(AuthContext);
 
-  async function getProfiles() {
-    await axios
+  const [searchQuery, setSearchQuery] = useState("");
+  const [profiles, setProfiles] = useState([]);
+  const [filteredProfiles, setFilteredProfiles] = useState([]);
+
+  const filterProfiles = useCallback(
+    (profiles) => {
+      const filtered = profiles.filter((profile) =>
+        `${profile.user?.first_name} ${profile.user?.last_name}${profile?.company}`
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase())
+      );
+      setFilteredProfiles(filtered);
+    },
+    [searchQuery]
+  );
+
+  useEffect(() => {
+    axios
       .get(`/api/profile-tom?q=${userProfileData?.user}`)
       .then((res) => {
         setProfiles(res.data);
         filterProfiles(res.data);
       })
       .catch((error) => console.log(error));
-  }
-
-  function filterProfiles(profiles) {
-    const filtered = profiles.filter((profile) =>
-      `${profile.user?.first_name} ${profile.user?.last_name}${profile?.company}`
-        .toLowerCase()
-        .includes(searchQuery.toLowerCase())
-    );
-    setFilteredProfiles(filtered);
-  }
-
-  useEffect(() => {
-    getProfiles();
-  }, []);
+  }, [filterProfiles, userProfileData?.user]);
 
   useEffect(() => {
     filterProfiles(profiles);
-  }, [searchQuery, profiles]);
+  }, [searchQuery, profiles, filterProfiles]);
 
   return (
     <div>

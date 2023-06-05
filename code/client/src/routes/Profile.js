@@ -31,14 +31,11 @@ const UserProfile = () => {
     logoutUser();
   };
 
-  async function getProfile() {
-    await axios
+  useEffect(() => {
+    axios
       .get(`/api/profile?q=${userProfileData?.user}`)
       .then((res) => setProfile(res.data));
-  }
-  useEffect(() => {
-    getProfile();
-  }, []);
+  }, [userProfileData?.user]);
 
   return (
     <Container className="py-5">
