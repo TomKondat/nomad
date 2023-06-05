@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState, useCallback } from "react";
 import jwtDecode from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 
@@ -62,13 +62,13 @@ export const AuthProvider = ({ children }) => {
     });
     const tokens = await response.json();
 
-    if (response?.status == 200 && tokens) {
+    if (response?.status === 200 && tokens) {
       localStorage.setItem("authTokens", JSON.stringify(tokens));
       setAuthTokens(tokens);
       setUser(jwtDecode(tokens.access));
       await fetchUserData(tokens);
       navigate("/");
-    } else if (response?.status == 401) {
+    } else if (response?.status === 401) {
       console.log("Unauthorized!");
     } else {
       console.log("Something went wrong while logging in the user!");
@@ -76,19 +76,22 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const logoutUser = (e) => {
-    localStorage.removeItem("authTokens");
-    localStorage.removeItem("user");
-    localStorage.removeItem("userData");
-    localStorage.removeItem("userProfileData");
-    setAuthTokens(null);
-    setUser(null);
-    setUserData(null);
-    setUserProfileData(null);
-    navigate("/");
-  };
+  const logoutUser = useCallback(
+    (e) => {
+      localStorage.removeItem("authTokens");
+      localStorage.removeItem("user");
+      localStorage.removeItem("userData");
+      localStorage.removeItem("userProfileData");
+      setAuthTokens(null);
+      setUser(null);
+      setUserData(null);
+      setUserProfileData(null);
+      navigate("/");
+    },
+    [navigate]
+  );
 
-  const updateToken = async () => {
+  const updateToken = useCallback(async () => {
     if (userData) {
       const response = await fetch("/api/token/refresh", {
         method: "POST",
@@ -99,7 +102,7 @@ export const AuthProvider = ({ children }) => {
       });
       const tokens = await response.json();
 
-      if (response?.status == 200 && tokens) {
+      if (response?.status === 200 && tokens) {
         const newTokens = {
           refresh: tokens.refresh,
           access: tokens.access,
@@ -108,7 +111,7 @@ export const AuthProvider = ({ children }) => {
         setAuthTokens(tokens);
         setUser(jwtDecode(tokens.access));
         await fetchUserData(tokens);
-      } else if (response?.status == 401) {
+      } else if (response?.status === 401) {
         console.log("Unauthorized!");
         logoutUser();
       } else if (loading) setLoading(false);
@@ -119,7 +122,7 @@ export const AuthProvider = ({ children }) => {
         logoutUser();
       }
     }
-  };
+  }, [authTokens.refresh, loading, logoutUser, userData]);
 
   // Do every hour
   useEffect(() => {
@@ -130,7 +133,7 @@ export const AuthProvider = ({ children }) => {
     }, 1000 * 60 * 60);
 
     return () => clearInterval(interval);
-  }, [loading]);
+  }, [loading, updateToken]);
 
   let contextData = {
     user: user,
