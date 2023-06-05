@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
 import axios from "axios";
@@ -16,7 +16,7 @@ const EditProfile = () => {
   const [formKey, setFormKey] = useState(Date.now());
 
   // Used to compare profile objects
-  function deepEqual(object1, object2) {
+  const deepEqual = useCallback((object1, object2) => {
     const keys1 = Object.keys(object1);
     const keys2 = Object.keys(object2);
 
@@ -37,7 +37,7 @@ const EditProfile = () => {
     }
 
     return true;
-  }
+  }, []);
 
   function isObject(object) {
     return object != null && typeof object === "object";
@@ -93,11 +93,11 @@ const EditProfile = () => {
       setFormValues(res.data);
       console.log(res.data);
     });
-  }, []);
+  }, [userProfileData?.user]);
 
   useEffect(() => {
     setHasChanges(!deepEqual(originalProfile, formValues));
-  }, [formValues]);
+  }, [formValues, originalProfile, deepEqual]);
 
   return (
     <React.Fragment>
