@@ -10,6 +10,7 @@ class UserProfile(models.Model):
     address = models.CharField(max_length=64)
     company = models.CharField(max_length=64)
     position = models.CharField(max_length=64)
+    is_organizer = models.BooleanField(default=False)
     lat = models.DecimalField('last known latitude',
                               max_digits=9, decimal_places=6, null=True)
     lon = models.DecimalField('last known longitude',
