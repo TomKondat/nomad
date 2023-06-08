@@ -8,6 +8,7 @@ import {
   Button,
   Alert,
   Image,
+  Modal,
 } from "react-bootstrap";
 import axios from "axios";
 import { FaCamera } from "react-icons/fa";
@@ -15,7 +16,9 @@ import { FaCamera } from "react-icons/fa";
 const EditConvention = () => {
   const params = useParams();
   const navigate = useNavigate();
-
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
   const [originalConvention, setOriginalConvention] = useState({});
@@ -102,7 +105,6 @@ const EditConvention = () => {
       [name]: value,
     });
   }
-
   useEffect(() => {
     axios.get(`/api/get-convention/?q=${params.conventionId}`).then((res) => {
       const data = res.data;
@@ -253,6 +255,24 @@ const EditConvention = () => {
             </Col>
           </Row>
 
+          <Modal show={show} onHide={handleClose} centered>
+            <Modal.Header closeButton>
+              <Modal.Title>Delete Convention</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              Are you sure you want to delete this convention? This action is
+              not reversible!
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                Close
+              </Button>
+              <Button variant="danger" onClick={handleDeleteConvention}>
+                Delete Convention
+              </Button>
+            </Modal.Footer>
+          </Modal>
+
           <Container className="p-0 mt-3">
             <Button variant="primary" type="submit" disabled={!hasChanges}>
               Save Changes
@@ -267,7 +287,7 @@ const EditConvention = () => {
           </Container>
           <hr />
           <Container className="p-0 mt-1">
-            <Button variant="danger" onClick={handleDeleteConvention}>
+            <Button variant="danger" onClick={handleShow}>
               Delete Convention
             </Button>
           </Container>
