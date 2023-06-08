@@ -19,8 +19,11 @@ import { MdAddToPhotos } from "react-icons/md";
 import { Button, Container, Spinner } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { LoadGeocoding } from "../LoadGeocoding";
+import { useContext } from "react";
+import AuthContext from "../AuthContext";
 
 function Home() {
+  const { userProfileData } = useContext(AuthContext);
   const [search, setSearch] = useState("");
   const [conventions, setConventions] = useState([]);
   const [conventionsInit, setConventionsInit] = useState([]);
@@ -110,7 +113,10 @@ function Home() {
           </Col>
           <Col xs={1}>
             <LinkContainer to="/AddConvention">
-              <Button variant="light">
+              <Button
+                variant="light"
+                hidden={userProfileData?.is_organizer === false}
+              >
                 <MdAddToPhotos />
               </Button>
             </LinkContainer>
