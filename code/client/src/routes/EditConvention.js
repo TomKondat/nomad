@@ -265,7 +265,7 @@ const EditConvention = () => {
               Reset Changes
             </Button>
           </Container>
-
+          <hr />
           <Container className="p-0 mt-1">
             <Button variant="danger" onClick={handleDeleteConvention}>
               Delete Convention
