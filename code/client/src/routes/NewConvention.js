@@ -22,7 +22,7 @@ import { useContext } from "react";
 
 export default function NewConvention() {
   const { userData } = useContext(AuthContext);
-
+  const { userProfileData } = useContext(AuthContext);
   const [currentLocation, setCurrentLocation] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [attendees, setAttendees] = useState([]);
@@ -188,7 +188,13 @@ export default function NewConvention() {
                       <LinkContainer
                         to={"/editnewconvention/" + params.conventionId}
                       >
-                        <FiEdit className="blue" />
+                        <Button
+                          size="sm"
+                          variant="outline-light"
+                          hidden={userProfileData?.is_organizer === false}
+                        >
+                          <FiEdit className="blue" />
+                        </Button>
                       </LinkContainer>
                     </div>
                     <h3 className="card-title mb-3">Details</h3>
