@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   Container,
@@ -8,6 +8,7 @@ import {
   Button,
   Alert,
   Image,
+  Modal,
 } from "react-bootstrap";
 import axios from "axios";
 import { FaCamera } from "react-icons/fa";
@@ -15,17 +16,18 @@ import { FaCamera } from "react-icons/fa";
 const EditConvention = () => {
   const params = useParams();
   const navigate = useNavigate();
-
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
   const [originalConvention, setOriginalConvention] = useState({});
   const [formValues, setFormValues] = useState({});
-  const [profileImage, setProfileImage] = useState("");
   const [hasChanges, setHasChanges] = useState(false);
   const [formKey, setFormKey] = useState(Date.now());
 
   // Used to compare profile objects
-  function deepEqual(object1, object2) {
+  const deepEqual = useCallback((object1, object2) => {
     const keys1 = Object.keys(object1);
     const keys2 = Object.keys(object2);
 
@@ -46,7 +48,7 @@ const EditConvention = () => {
     }
 
     return true;
-  }
+  }, []);
 
   function isObject(object) {
     return object != null && typeof object === "object";
@@ -103,39 +105,23 @@ const EditConvention = () => {
       [name]: value,
     });
   }
-
-  const handleProfileImageChange = (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-
-    reader.onloadend = () => {
-      setProfileImage(reader.result);
-    };
-
-    if (file) {
-      reader.readAsDataURL(file);
-    } else {
-      setProfileImage("");
-    }
-  };
-
   useEffect(() => {
     axios.get(`/api/get-convention/?q=${params.conventionId}`).then((res) => {
       const data = res.data;
       data["start_date"] = new Date(Date.parse(data["start_date"]))
         .toISOString()
-        .match(/(.*)\:\d{2}\.\d{3}Z/)[1];
+        .match(/(.*):\d{2}\.\d{3}Z/)[1];
       data["end_date"] = new Date(Date.parse(data["end_date"]))
         .toISOString()
-        .match(/(.*)\:\d{2}\.\d{3}Z/)[1];
+        .match(/(.*):\d{2}\.\d{3}Z/)[1];
       setOriginalConvention(data);
       setFormValues(data);
     });
-  }, []);
+  }, [params.conventionId]);
 
   useEffect(() => {
     setHasChanges(!deepEqual(originalConvention, formValues));
-  }, [formValues]);
+  }, [formValues, originalConvention, deepEqual]);
 
   return (
     <React.Fragment>
@@ -174,7 +160,6 @@ const EditConvention = () => {
                     type="file"
                     accept="image/*"
                     className="d-none"
-                    onChange={handleProfileImageChange}
                   />
                 </div>
               </div>
@@ -270,6 +255,24 @@ const EditConvention = () => {
             </Col>
           </Row>
 
+          <Modal show={show} onHide={handleClose} centered>
+            <Modal.Header closeButton>
+              <Modal.Title>Delete Convention</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              Are you sure you want to delete this convention? This action is
+              not reversible!
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                Close
+              </Button>
+              <Button variant="danger" onClick={handleDeleteConvention}>
+                Delete Convention
+              </Button>
+            </Modal.Footer>
+          </Modal>
+
           <Container className="p-0 mt-3">
             <Button variant="primary" type="submit" disabled={!hasChanges}>
               Save Changes
@@ -282,9 +285,9 @@ const EditConvention = () => {
               Reset Changes
             </Button>
           </Container>
-
+          <hr />
           <Container className="p-0 mt-1">
-            <Button variant="danger" onClick={handleDeleteConvention}>
+            <Button variant="danger" onClick={handleShow}>
               Delete Convention
             </Button>
           </Container>

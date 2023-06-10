@@ -19,12 +19,16 @@ import { MdAddToPhotos } from "react-icons/md";
 import { Button, Container, Spinner } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { LoadGeocoding } from "../LoadGeocoding";
+import { useContext } from "react";
+import AuthContext from "../AuthContext";
 
 function Home() {
+  const { userProfileData } = useContext(AuthContext);
   const [search, setSearch] = useState("");
   const [conventions, setConventions] = useState([]);
   const [conventionsInit, setConventionsInit] = useState([]);
   const [loading, setLoading] = useState(true);
+
   async function getConvention() {
     await axios
       .get("/api/get-conventions/")
@@ -77,19 +81,17 @@ function Home() {
   }, [conventionsInit]);
 
   useEffect(() => {
-    searchFilter();
-  }, [search]);
-
-  function searchFilter() {
     const conventionList = conventionsInit.filter((convention) => {
-      if (search === "") {
-        return convention;
-      } else if (convention.name.toLowerCase().includes(search.toLowerCase())) {
+      if (
+        search === "" ||
+        convention.name.toLowerCase().includes(search.toLowerCase())
+      ) {
         return convention;
       }
+      return null;
     });
     setConventions(conventionList);
-  }
+  }, [search, conventionsInit]);
 
   return (
     <React.Fragment>
@@ -111,7 +113,10 @@ function Home() {
           </Col>
           <Col xs={1}>
             <LinkContainer to="/AddConvention">
-              <Button variant="light">
+              <Button
+                variant="light"
+                hidden={userProfileData?.is_organizer === false}
+              >
                 <MdAddToPhotos />
               </Button>
             </LinkContainer>
