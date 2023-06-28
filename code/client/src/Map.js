@@ -5,7 +5,7 @@ import Geocode from "react-geocode";
 
 function Map(props) {
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: process.env.REACT_APP_GOOGLE_API_KEY,
+    googleMapsApiKey: "AIzaSyCSG8dtnlKzB8JprbHIMtIUUZAL6F4X2Yc",
   });
   const [coordinates, setCoordinates] = useState({
     lat: 31.5090643,
@@ -19,7 +19,7 @@ function Map(props) {
   if (!isLoaded) return <div>Loading...</div>;
 
   async function LoadGeocoding(address) {
-    Geocode.setApiKey(process.env.REACT_APP_GOOGLE_API_KEY);
+    Geocode.setApiKey("AIzaSyCSG8dtnlKzB8JprbHIMtIUUZAL6F4X2Yc");
     Geocode.setLanguage("en");
     Geocode.setRegion("il");
 
