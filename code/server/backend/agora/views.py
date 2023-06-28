@@ -19,7 +19,6 @@ APP_NAME = os.environ.get('APP_NAME')
 AGORA_HOST = os.environ.get('AGORA_HOST')
 REST_API = os.environ.get('REST_API')
 WEB_SOCKET = os.environ.get('WEB_SOCKET')
-SERVER_URL = os.environ.get('SERVER_URL')
 
 HOST_URL_APP_KEY  = f"https://{REST_API}/{ORG_NAME}/{APP_NAME}"
 
