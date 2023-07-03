@@ -28,4 +28,4 @@ urlpatterns = [
     path('api/', include('organizations.urls')),
     path('api/agora/', include('agora.urls')),
 
-] + static('/api' + settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] 
