@@ -1,6 +1,6 @@
 import React from "react";
 import Container from "react-bootstrap/esm/Container";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 
 import { AuthProvider } from "./AuthContext";
 import PrivateRoute from "./PrivateRoute";
@@ -22,7 +22,7 @@ import Chats from "./routes/Chats";
 function App() {
   return (
     <React.Fragment>
-      <BrowserRouter>
+      <HashRouter>
         <AuthProvider>
           <Header></Header>
           <Container className="pt-2">
@@ -59,7 +59,7 @@ function App() {
             </Routes>
           </Container>
         </AuthProvider>
-      </BrowserRouter>
+      </HashRouter>
     </React.Fragment>
   );
 }
