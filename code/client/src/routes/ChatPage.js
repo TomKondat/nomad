@@ -209,7 +209,6 @@ function ChatPage() {
                 <Form onSubmit={handleSendMessage}>
                   <InputGroup className="mb-3">
                     <FormControl
-                      as="textarea"
                       rows={1}
                       value={text}
                       placeholder="Message"
