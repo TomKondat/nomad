@@ -2,13 +2,11 @@
 
 ## Description
 
-The professional convention scene is very large and constantly growing - with 90 million participants and 284,000 conventions every year in the US alone.
+Nomad is a mobile web app designed to simplify your convention and conference experience.
 
-The participants usually look for networking opportunities with other colleagues from their field of work.
+With Nomad, you can effortlessly search and filter events by distance, easily register and unregister, navigate to your chosen conventions, explore attendee lists, and unlock countless networking opportunities through our built-in chat feature.
 
-The goal for the Nomad project is to assist those participants with finding the people they’re looking for - quickly and easily. It allows convention organizers to publish and manage conventions, and potential participants to search conventions (by name or location), register and build their network for the conventions.
-
-Participants can then look at the list of other convention participants, message them, and even see their live location at the event (if enabled).
+An example of the running app can be found [here](https://exlab-sapir.com:8083/).
 
 ### Technologies
 
@@ -18,6 +16,8 @@ Participants can then look at the list of other convention participants, message
 - React-Bootstrap
 - Django
 - MySQL
+- Agoar.io
+- Google Maps API
 
 ---
 
